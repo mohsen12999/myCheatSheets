@@ -408,3 +408,18 @@ angularCli generate pipe mypipe
 ```
 ng g c mypipe
 ```
+send variable to Pipe ` {{ bigString | summary:40 }}`
+```
+export class SummaryPipe implements PipeTransform {
+
+  transform(value: string, limit?: number): any {
+    if(!value)
+      return null;
+    let actualLimit = (limit)?limit:50;
+    if(value.length <= actualLimit)
+      return value;
+    return value.substr(0,actualLimit)+'...';
+  }
+}
+```
+
