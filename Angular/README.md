@@ -423,3 +423,27 @@ export class SummaryPipe implements PipeTransform {
 }
 ```
 
+### Input Properties
+for send information to component
+```
+<othercomponent [isFavorite]="post.isfavorite"></othercomponent>
+```
+2 way for send
+* first way
+```
+import {... , input}
+...
+export class mycomponent{
+    @input() course = false;
+}
+```
+* second way
+```
+@component{(
+    ...
+    input:['course']
+)}
+export class mycomponent{
+    course = false;
+}
+```
