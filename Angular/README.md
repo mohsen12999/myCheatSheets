@@ -423,27 +423,73 @@ export class SummaryPipe implements PipeTransform {
 }
 ```
 
+### Component Api
+send recieve information from component
+state for input & event for output
+
 ### Input Properties
 for send information to component
 ```
-<othercomponent [isFavorite]="post.isfavorite"></othercomponent>
+<mycomponent [isFavorite]="post.isfavorite"></mycomponent>
 ```
 2 way for send
 * first way
 ```
-import {... , input}
+import {... , Input} from '@angular/core'
 ...
 export class mycomponent{
-    @input() course = false;
+    @input() isFavorite = false;
 }
 ```
 * second way
 ```
 @component{(
     ...
-    input:['course']
+    input:['isFavorite']
 )}
 export class mycomponent{
-    course = false;
+    isFavorite = false;
 }
+```
+* Aliasing input
+```
+<mycomponent [is-favorite]="post.isfavorite"></mycomponent>
+```
+can not define or use `is-favorite` as variable in typescript or javascript
+```
+export class mycomponent{
+    @input('is-favorite') isFavorite = false;
+}
+```
+### Output Properties
+for recieve
+```
+<mycomponent (change)="onFavoriteChange()"></mycomponent>
+```
+```
+import {... , Output,EventEmitter} from '@angular/core'
+...
+export class mycomponent{
+    @output()  change = new EventEmitter();
+
+    onClick(){
+        ...
+        this.change.emit();//raise event
+    }
+}
+```
+### Passing Event Data
+```
+export class mycomponent{
+    ...
+    onClick(){
+        ...
+        this.change.emit(this.count);//a variable
+        //or
+        this.change.emit({count:this.count });//an object
+    }
+}
+```
+```
+<mycomponent (change)="onFavoriteChange($event)"></mycomponent>
 ```
