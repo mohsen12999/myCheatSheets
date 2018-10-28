@@ -192,7 +192,7 @@ console.log(`Username is ${user.name}, email is ${user.email}`);
     * add element to html markup
 
 ### Creat Component 
-angular generate component course
+angularCli generate component course
 ```
 ng g c course
 ```
@@ -219,7 +219,7 @@ export class mycomponent{
 ```
 
 ### Creat Service 
-angular generate service readlist
+angularCli generate service readlist
 ```
 ng g s readlist
 ```
@@ -404,3 +404,7 @@ export class mycomponent{
 ```
 
 ### Custome Pipe
+angularCli generate pipe mypipe
+```
+ng g c mypipe
+```
