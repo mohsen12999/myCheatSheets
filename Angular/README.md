@@ -503,4 +503,90 @@ export class mycomponent{
 }
 ```
 
-### Shadow Dom
+### view Encapsulation
+* `Shadow Dom` Allows us to apply scoped styles to elements without bleeding out to the outer world.
+```
+@Component({
+  ...
+  encapsulation: ViewEncapsulation.Emulated // angular try to emulate shadow dom
+  //or
+  encapsulation: ViewEncapsulation.Native // use directly shadow dom [not support by all browser] and not use other css from outside of shadow dom
+})
+```
+
+### ngContent
+sending information to component
+mypanel.component.html
+```
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <ngContent select=".headercontent"></ngContent> //element with class headercontent come hear
+    </div>
+    <div class="panel-body">
+        <ngContent select=".bodycontent"></ngContent> //element with class bodycontent come hear
+    </div>
+</div>
+```
+* `select` like css selector & can be class or id or element.
+```
+<mypanel>
+    <div class="headercontent"> header title </div>
+    <div class="bodycontent">
+        <h1>body</h1>
+        <p>some thing ...</p>
+    </div>
+</mypanel>
+```
+* dont need `select` if we have only one `ngContent`.
+
+### ngContainer
+if use ngContainer for sending information, only inside it send
+```
+<mypanel>
+    <ngContainer class="headercontent"> header title </ngContainer>
+    <ngContainer class="bodycontent">
+        <h1>body</h1>
+        <p>some thing ...</p>
+    </ngContainer>
+</mypanel>
+```
+
+### ngIf
+```
+<div *ngIf="courses.lenght > 0"> // or function with true/false return
+    courses list
+</div>
+<div *ngIf="courses.lenght == 0">
+    no courses
+</div>
+```
+or use `else` and `ng-template`
+```
+<div *ngIf="courses.lenght > 0; else noCourse">
+    courses list
+</div>
+<ng-template #noCourse>
+    no courses
+</ng-template>
+```
+or use `then`, `else` and `ng-template`
+```
+<div *ngIf="courses.lenght > 0; then courseList else noCourse"></div>
+<ng-template #courseList>
+    no courses
+</ng-template>
+<ng-template #noCourse>
+    no courses
+</ng-template>
+```
+
+### hidden property
+* exist but hidden
+```
+<div [hidden]="courses.lenght == 0"> // or function with true/false return
+    courses list
+</div>
+<div [hidden]="courses.lenght > 0">
+    no courses
+</div>
+```
