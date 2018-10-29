@@ -590,3 +590,87 @@ or use `then`, `else` and `ng-template`
     no courses
 </div>
 ```
+
+### ngSwitch & ngSwitchCase
+```
+export class mycomponent{
+    viewName;
+}
+```
+```
+<ul class="nav nav-pills">
+    <li [class.active]="viewName == 'map'" ><a (click)="viewName = 'map'">Map View</a></li>
+    <li [class.active]="viewName == 'list'" ><a (click)="viewName = 'list'">List View</a></li>
+</ul>
+<div [ngSwitch]="viewName">
+    <div *ngSwitchCase="'map'">Map View Content</div>
+    <div *ngSwitchCase="'list'">List View Content</div>
+    <div *ngSwitchDefault>Otherwise</div> //when none of them
+</div>
+```
+
+### ngFor
+```
+export class mycomponent{
+    courses ={
+        {id:1 , name:'ali'}
+        {id:2 , name:'hasan'}
+        {id:3 , name:'mahdi'}
+    }
+    removeCourse(course){
+        let index = this.courses.indexOf(course);
+        this.courses.splice(index,1);
+    }
+}
+```
+```
+<ul>
+    <li *ngFor="let course of courses; index as i"> // export index 
+        {{i}} - {{course}} <button (click)="removeCourse(course)">Remove</button>
+    </li>
+</ul>
+```
+* can export `index`, `first`, `last`, `even` & `odd`
+
+### TrackBy
+use track by to better performance & not make dom every time
+```
+<botton (click)="loadCourse()">load</botton>
+<ul>
+    <li *ngFor="let course of courses; trackBy: trackCourse">
+        {{i}} - {{course}}
+    </li>
+</ul>
+```
+```
+export class mycomponent{
+    courses;
+    loadCourse(){
+        this.courses = {
+                {id:1 , name:'ali'}
+                {id:2 , name:'hasan'}
+                {id:3 , name:'mahdi'}
+            }
+    }
+    trackCourse(index, course){
+        return course ? course.id : undefined;
+    } // track by id
+}
+```
+* use only when need
+
+### leading Astrisk
+* the * before `ngIf`, `ngFor` & `ngSwitch` is means angular rewrite block with `ng-template` and put block in it
+```
+<div *ngIf="courses.length > 0">
+    list of course
+</div>
+```
+convert to
+```
+<ng-template [ngIf]="courses.length > 0">
+    <div>
+        list of course
+    </div>
+</ng-template>
+```
