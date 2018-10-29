@@ -493,3 +493,14 @@ export class mycomponent{
 ```
 <mycomponent (change)="onFavoriteChange($event)"></mycomponent>
 ```
+* Aliasing Output
+```
+<mycomponent (change)="onFavoriteChange()"></mycomponent>
+```
+```
+export class mycomponent{
+    @output('change')  changeEvent = new EventEmitter();
+}
+```
+
+### Shadow Dom
