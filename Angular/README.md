@@ -674,3 +674,215 @@ convert to
     </div>
 </ng-template>
 ```
+
+### ngClass
+```
+<span class="glyphicon"
+    [class.glyph-star]="isSelected" 
+    [class.glyph-star-empty]="isSelected"
+    ></span>
+//or
+<span class="glyphicon" 
+    [ngClass]="{
+        'glyph-star' : isSelected,
+        'glyph-star-empty' : !isSelected
+    }"
+></span>
+```
+
+### ngStyle
+```
+<button
+    [style.color]="canSave ? 'blue' : 'yellow'" 
+    [style.fontWeight]="canSave ? 'bold' : 'normal'" 
+    >submit</button>
+//or
+<button 
+    [ngStyle]="{
+        'color': canSave ? 'blue' : 'yellow',
+        'fontWeight' : canSave ? 'bold' : 'normal'
+    }"
+>submit</button>
+```
+
+### safe Traversal Operator
+* prevent error when object is null
+```
+<span>{{ user.job?.title }}</span>
+```
+
+### Custome Directive
+Angular generate directive [directive-name]
+```
+ng g d input-format
+```
+* angularCli add app in front of directive name to prevent clash html attribute
+
+```
+import { Directive, HostListener, ElementRef } from '@angular/core'; //HostListener for hande dome event, ElementRef for reading value
+@Directive({
+    selector: 'appInputFormat'
+})
+export class InputFormatDirective{
+
+    cunstructor(private el: ElementRef){} //dependencu injection
+
+    @HostListener('fucus') onFucus(){
+    }
+    @HostListener('blure') onBlure(){
+        let value = this.el.nativeElement.value;
+    }
+    
+}
+```
+use
+```
+<input type="text" appInputFormat>
+```
+
+with sengding value
+```
+import { Directive, HostListener, ElementRef, Input } from '@angular/core'; //HostListener for hande dome event, ElementRef for reading value, Input for recieve value
+@Directive({
+    selector: 'appInputFormat'
+})
+export class InputFormatDirective{
+    @Input('format') format;
+    cunstructor(private el: ElementRef){} //dependencu injection
+
+    @HostListener('fucus') onFucus(){
+    }
+    @HostListener('blure') onBlure(){
+        let value = this.el.nativeElement.value;
+        if(this.format == 'something')
+        {
+
+        }
+    }
+    
+}
+```
+use
+```
+<input type="text" appInputFormat [format]="'something'">
+```
+
+* if we have only one variable we can use
+```
+<input type="text" [appInputFormat]="'something'">
+```
+```
+...
+@Input('appInputFormat') format;
+...
+```
+
+### Template-Driven Forms
+### ngModel
+```
+<form>
+    <div class="form-group">
+        <lable for="firstName">First Name</lable>
+        <input required ngModel name="firstName" id="firstName" class="form-control" type="text">
+        <div class="alert alert-danger" *ngif="firstname.touched && !firstName.valid">First Name is required</div>
+    </div>
+    <div class="form-group">
+        <lable for="coment">Comment</lable>
+        <textarea ngModel name="coment" id="coment"></textarea>
+    </div>
+</form>
+```
+
+* for see all change
+```
+<input required ngModel #firstName="ngModel" name="firstName" (change)="console.log(firstName);" id="firstName">
+```
+
+* can use other HTML5 validator such as `minlenght ='3'`, `maxlenght ='30'` or `pattern='banana'`.
+```
+<form>
+    <div class="form-group">
+        <lable for="firstName">First Name</lable>
+        <input required minlenght ='3' ngModel name="firstName" id="firstName" class="form-control" type="text">
+        <div class="alert alert-danger" *ngif="firstname.touched && !firstName.valid">
+        <div *ngIf="firstName.error.required">First Name is required</div>
+        <div *ngIf="firstName.error.minlength">First Name should be minimum 3 characters</div> //or minimum {{ firstName.error.minlength.requiredLenght }} 
+        </div>
+    </div>
+    <div class="form-group">
+        <lable for="coment">Comment</lable>
+        <textarea ngModel name="coment" id="coment"  class="form-control"></textarea>
+    </div>
+</form>
+```
+
+* angular add class depend to validation roles
+```
+.form-control.ng-touched.ng-invalid{
+    border: 2px solid red;
+}
+```
+
+### ngForm
+* if we have not `ngNoForm` or `formGroup` in form tag, angular add ngForm to it.
+```
+<form #f='ngForm' (ngSubmit)="console.log(f)">
+...
+<p>{{ f.value | json }}</p> //see all form value as json
+<button class="btn btn-primary" [disabled]="!f.valid"></button> //validation depend on ngForm valid
+</form>
+```
+
+### ngModelGroup
+* use to categorise ngModels
+```
+<form>
+<div ngModelGroup="contact">
+...
+</div>
+...
+</form>
+```
+
+* use Drop-down list
+```
+<select>
+    <option *ngFor="let item of list" [value]=""item.id>{{ item.name }}</option>
+</select>
+```
+for recieve everything use `ngValue`
+```
+<select>
+    <option *ngFor="let item of list" [ngValue]=""item>{{ item.name }}</option>
+</select>
+```
+
+### Reactive Form
+#### Creating Control
+* need to add `ReactiveFormModule` in app.moduls imports
+```
+import { FormGroup, FormControl, Validators } from '@angular/forms'
+...
+export class signupFormComponent{
+    form = new FormGroup({
+        userName: new FormControl('',[Validators.required, Validators.minlenght(3)]),
+        password: new FormControl('',Validators.required),
+    })
+
+    get username(){ // for easiar access to form controll
+        return this.form.get('userName');
+    }
+}
+```
+```
+<form [formGroup]='form'>
+...
+    <input formControlName="userName" ...>
+    <div *ngIf="form.get('userName').touched && username.invalid" //2way
+    class="alert alert-danger">
+        <div *ngIf="username.errors.required">...</div>
+        <div *ngIf="username.errors.minlength">...</div>
+    </div>
+...
+</form>
+```
