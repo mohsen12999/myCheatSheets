@@ -886,3 +886,74 @@ export class signupFormComponent{
 ...
 </form>
 ```
+
+### Custome Validate
+define
+```
+import { AbstractControl, ValidationErrors } from '@angular/forms';
+
+export class usernameValidators{
+  static cannotContainSpace(control: AbstractControl): ValidationErrors | null{
+    if((control.value as string).indexOf(' ') >= 0)
+      return { cannotContainSpace: true };
+    return null;
+    // for minlength
+    // return { minlength: { requiredLength:10 , actualLength: control.value.length }}
+  }
+}
+```
+use
+```
+...
+userName: new FormControl('',[
+    Validators.required,
+    Validators.minlenght(3)
+    usernameValidators.cannotContainSpace //because its static
+    ])
+```
+* we can add validaton in `src/app/common/validators/`
+
+### Asynchronouse Validators
+* simulate asnc `setTimeout(()=>{console.log('time out'); },2000)`
+define
+```
+static shouldBeUnique(control: AbstractControl): Promise<ValidationErrors | null> {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (control.value == 'mohsen1299')
+          resolve({ cannotContainSpace: true });
+        else
+          resolve(null);
+      }, 2000);
+    })
+  }
+```
+use
+...
+userName: new FormControl('',[
+    Validators.required,
+    Validators.minlenght(3)
+    usernameValidators.cannotContainSpace //because its static
+    ],
+    usernameValidators.shouldBeUnique
+    )
+```
+* we can use `pending` for waiting time
+```
+<div *ngIf="username.pending">checking username uniqueness ..</div>
+```
+
+### Validation Form
+```
+<form [formGroup]='form' (ngSubmit)="login()">
+    <div *ngIf="form.errors">...</div>
+...
+```
+```
+login(){
+    let valid = server.checkuser(this.form.value);
+    if(!valid){
+        this.form.setError({ invalidLogin: true})
+    }
+}
+```
