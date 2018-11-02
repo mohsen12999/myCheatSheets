@@ -1009,3 +1009,28 @@ removeTopic(topic: FormControl){
 </form>
 ```
 
+### Form Builder
+```
+form = new FormGroup({
+    name: new FormControl('', Validator.required),
+    account: new FormGroup({
+        username: new FormControl(),
+        password: new FormControl()
+    })
+    topic: new FormArray([])
+})
+```
+use form builder
+```
+form;
+constroctor(fb: FormBuilder){
+    this.form = fb.group({
+        name:['', Validator.required],
+        account: fb.group({
+            username: [],
+            password: []
+        }),
+        topic: fb.array([])
+    })
+}
+```
