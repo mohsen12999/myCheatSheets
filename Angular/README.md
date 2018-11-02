@@ -957,3 +957,55 @@ login(){
     }
 }
 ```
+
+### Nested FormGroup
+```
+...
+form = new FormGroup({
+    account: new FormGroup({
+        userName: new FormControl('',[Validators.required, Validators.minlenght(3)]),
+        password: new FormControl('',Validators.required)
+    )}
+})
+
+get username(){
+    return this.form.get('account.userName');
+}
+...
+```
+```
+<form [formGroup]='form'>
+    <div 'formGroup'='account'>
+    ...
+</form>
+```
+
+### Form Array
+```
+form = new FormGroup({
+    topic: new FormArray([])
+})
+addTopic(topic: HTMLInputElement){
+    (this.form.get('topic') as FormArray).push(new FormControl(topic.value));
+    topic.value='';
+}
+removeTopic(topic: FormControl){
+    let index = this.form.get('topic').indexOf(topic)
+    this.form.get('topic').removeAt(index);
+}
+```
+```
+<form [formGroup]='form'>
+    <input type="text" class="form-control"
+        (keyup.enter)="addTopic(topic)" #topic>
+    <ul clss="list-group">
+        <li 
+            *ngFor="let topic of form.get('topic').control"
+            (click)="removeTopic(topic)"
+            class="list-group-item">
+            {{ topic.value }}
+        </li>
+    </ul>
+</form>
+```
+
