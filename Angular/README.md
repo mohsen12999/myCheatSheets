@@ -1100,4 +1100,164 @@ DeletePost(post: HtmlInputElement){
             });
 }
 ```
-* `Sepration of Concern`: better to use service for calling server
+* `Sepration of Concern`: better to use service for calling server.
+
+### Handeling Error
+* Unexpected Errors: `Server is Offline`,`Network is down`, `Unhandled expections`.
+```
+...
+.subscribe(response => {
+        ...
+    },error => { 
+        console.log(error); //see error
+    });
+...
+```
+
+* Expected: `Not Found` Errors (404), `Bad Request` Errors (400)
+```
+...
+.subscribe(
+    response => {
+        ...
+    },
+    (error: Response) => { 
+        if(error.status == 404)
+            console.log('this post already deleted');
+        else   
+            console.log(error); //see error
+        //if(error.status == 400)
+            //this.form.setError(error.json())
+    });
+...
+```
+
+### Throwing Specefic Errors
+* can catch error in service
+make error
+```
+//app/common/app-error.ts
+export class AppError{
+    constroctor(public originalError?: any){}
+}
+```
+```
+//app/common/not-found-error.ts
+export class NotFoundError extend AppError{}
+```
+use in service
+```
+import  'rxjs/add/operator/catch';
+import  'rxjs/add/Observable/throw';
+...
+deletePost(id){
+    return this.http.delete(this.url+'/'+id)
+        .catch((error: Response) =>{
+            if(error.status == 404) 
+                return Observable.throw(new NotFoundError(error));
+            return Observable.throw(new AppError(error));
+        });
+}
+```
+in component
+```
+...
+.subscribe(
+    response => {
+        ...
+    },
+    (error: AppError) => { 
+        if(error instanceof NotFoundError)
+            console.log('this post already deleted');
+        else   
+            console.log(error); //see error
+        //if(error.status == 400)
+            //this.form.setError(error.json())
+    });
+...
+```
+
+### Global Error Handler
+```
+//app/common/app-error-handler.ts
+export class AppErrorHandler implements ErrorHandler{
+    handleError(error){
+        // log
+    }
+}
+```
+* add in app.module providers
+```
+providers:[
+    ... ,
+    { provide: ErrorHandler, useClass: AppErrorHandler } //use AppErrorHandler instead of Error handler
+]
+```
+use
+```
+(error: AppError) => { 
+        if(error instanceof NotFoundError)
+            console.log('this post already deleted');
+        else   
+            throw error;
+    });
+```
+
+### reusable Error handling method
+```
+...
+catch(this.handelError);
+...
+handelError(error){
+    if(error.status == 400)
+        this.form.setError(error.json())
+    if(error instanceof NotFoundError)
+        console.log('this post already deleted');
+    else   
+        console.log(error); //see error
+}
+```
+
+### Reusable Data service
+define
+```
+export class DataService{
+    constroctor(private url: string, private http: Http){}
+    getAll(){ ... }
+    create(resource){ ... }
+    updete(resource){ ... }
+    delete(id){ ... }
+}
+```
+use
+```
+export class PostService extend DataService{
+    constroctor(http: Http){
+        super('url',http);
+    }
+}
+```
+
+### Map Operator
+```
+import 'rxjs/add/operator/map'
+...
+getAll(){
+    return this.http.get(this.url)
+        .map(response => response.json())
+        .catch(this.handleError);
+}
+
+```
+use
+```
+this.service.getAll()
+    .subscribe(posts => this.post = posts);
+```
+
+* Optimistic (Hopefull) vs Pessimistic (Hopeless)
+
+* obsevable : nothing happen until we have subscribe
+* obsevables are lazy, Promise are eager
+* `retry(3)` if obsevable fail, retry 3 time
+* can alwayse convert observable to promise by `toPromise` operator.
