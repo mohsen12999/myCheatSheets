@@ -1038,3 +1038,66 @@ constroctor(fb: FormBuilder){
 ### Http Service
 * [`JSONPlaceholder`](https://jsonplaceholder.typicode.com/) Fake Online REST API for Testing and Prototyping Serving.
 
+### Getting Data
+* Add `httpModule`  to app.module imports
+```
+posts: any[];
+constructor(http: Http){ // from '@angular/http'
+    http.get('https://jsonplaceholder.typicode.com/posts')
+        .subscribe(response => {
+            this.posts= response.json();
+        });
+}
+```
+### Creating Data
+```
+<input (keyup.enter)="creatPost(title)" #title ...>
+```
+```
+posts: any[];
+constructor(private http: Http){}
+creatPost(input: HtmlInputElement){
+    let postdata = { title: input,value };
+    input.value = '';
+    this.http.post('https://jsonplaceholder.typicode.com/posts',        JSON.stringify(postdata))
+        .subscribe(response => {
+            post['id'] = response.json().id;
+            this.posts.splite(0,0,post)
+        });
+}
+```
+
+* better to call http in OnInit event
+* `OnInit` is a lifecycle hook that is called after Angular has initialized a directive. call function => `ngOnInit`
+* lifecycle hook: `OnInit`, `OnChange`, `Docheck`, `AfterContentInit`,...
+
+### Updating Data
+```
+<li *ngFor="let post in posts">
+    <button (click)="updatePost(post)"></button> 
+    {{ post.title }}
+    </li>
+```
+```
+updatePost(post: HtmlInputElement){
+    this.http.patch('https://jsonplaceholder.typicode.com/posts/' +     post.id, JSON.stringify({isRead: true}))
+        .subscribe(response => {
+                post['id'] = response.json().id;
+                this.posts.splite(0,0,post)
+            });
+}
+```
+* `http.patch`use for update only few property in the object. only send the property should modify.
+* `http.put` use for send object to server.
+
+### Delete Data
+```
+DeletePost(post: HtmlInputElement){
+    this.http.delete('https://jsonplaceholder.typicode.com/posts/' +    post.id)
+        .subscribe(response => {
+                let index = this.posts.indexOf(post);
+                this.posts.splice(index,1);
+            });
+}
+```
+* `Sepration of Concern`: better to use service for calling server
