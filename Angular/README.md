@@ -1,4 +1,7 @@
-# Angular
+# Angular CheatSheet
+"Udemy The Complete Angular Course Beginner to Advanced" from mosh hamedani video
+
+# Install Component
 
 ## pre-install
 `node -v`
@@ -18,13 +21,14 @@
 `ng serve --open`
 
 --------------------------------------
+# Type Script
 ## install type script
 `npm install -g typescript`
 
-### typescript version
+## typescript version
 `tsc --version`
 
-### compile and get `main.js` and run
+## compile and get `main.js` and run
 ```
 tsc main.ts
 node main.js
@@ -32,7 +36,7 @@ node main.js
 tsc main.ts && node main.js
 ```
 
-### variables 
+## variables 
 `var i=8` => global variable
 
 `let i=4` => compile to var but have scope & type
@@ -60,19 +64,19 @@ enum Color {Red = 1, Green = 2, Blue = 3}//add values  manually to prevent any p
 ```
 we have `void`: mean nothing (null or Undefined), `never`: if function go to throw error, `object`: for object ;)
 
-### Type assertions
+## Type assertions
 for having intellisence
 ```
 let strLength: number = (<string>someValue).length;
 let strLength: number = (someValue as string).length;
 ```
 
-### Arrow Function
+## Arrow Function
 ```
 let log = (message) => console.log(message);
 ```
 
-### Interface
+## Interface
 inline annotation
 ```
 let func = (point:{x:number,y:number})=>{ ...... }
@@ -92,7 +96,7 @@ interface Other{
 }
 ```
 
-### Class
+## Class
 ```
 class Point{
     //fileds
@@ -164,7 +168,7 @@ class num{
 }
 ```
 
-### Modules
+## Modules
 
 Modules file need to expot something(one or more class, function, variable, ...)
 ```
@@ -179,25 +183,27 @@ import {Point} from './point'
 let point:Point = new Point();
 ```
 
-### Use Backtick
+## Use Backtick
 ```
 let user = {name:'mohsen',email='...'};
 console.log(`Username is ${user.name}, email is ${user.email}`);
 ```
 --------------------------------------
+
+# Angular Fundamental
 * Modules is some related component
 * component Date + html + logic
     * creat component
     * register in modules
     * add element to html markup
 
-### Creat Component 
+## Creat Component 
 angularCli generate component course
 ```
 ng g c course
 ```
 
-### Template
+## Template
 
 ```
 @component{(
@@ -218,7 +224,7 @@ export class mycomponent{
 }
 ```
 
-### Creat Service 
+## Creat Service 
 angularCli generate service readlist
 ```
 ng g s readlist
@@ -234,7 +240,7 @@ export class mycomponent{
 ```
 for use dependency injection, declare service in module providers
 
-### Property Binding
+## Property Binding
 one way from component to Dom
 ```
 <h2>{{title}}</h2>
@@ -247,7 +253,7 @@ one way from component to Dom
 ```
 * for element not in Dom like `colspan` use `[attr.colspan]`
 
-### Add Bootstrap
+## Add Bootstrap
 ```
 npm install botstrap --save
 ```
@@ -259,7 +265,7 @@ add bootstrap to global style file: `styles.css`
 ```
 * `^3.4.7` (minor.minor.patch) means last version of 3
 
-### Class Binding
+## Class Binding
 ```
 @component{(
     template:`
@@ -272,7 +278,7 @@ export class mycomponent{
 ```
 if `isActive==true` class `active` add to button, else not adding.
 
-### Style Binding
+## Style Binding
 ```
 @component{(
     template:`
@@ -285,7 +291,7 @@ export class mycomponent{
 ```
 * for more info see Dom style object list
 
-### Event Binding
+## Event Binding
 ```
 @component{(
     template:`
@@ -301,7 +307,7 @@ export class mycomponent{
 * Event Bubbling mean from inner object to outer one.
 * for stop Bubbling `$event.stopPropagation()`
 
-### Event Filter
+## Event Filter
 ```
 @component{(
     template:`
@@ -319,7 +325,7 @@ export class mycomponent{
     }
 }
 ```
-### Template Variable
+## Template Variable
 ```
 @component{(
     template:`
@@ -337,7 +343,7 @@ export class mycomponent{
 }
 ```
 
-### Two Way Binding
+## Two Way Binding
 * Banana in the box [()]
 ```
 @component{(
@@ -372,7 +378,7 @@ import { FormsModule } from '@angular/forms'
 ...
 ```
 
-### Pipes
+## Pipes
 ```
 @component{(
     template:`
@@ -423,7 +429,7 @@ export class SummaryPipe implements PipeTransform {
 }
 ```
 
-### Component Api
+## Component Api
 send recieve information from component
 state for input & event for output
 
@@ -478,7 +484,7 @@ export class mycomponent{
     }
 }
 ```
-### Passing Event Data
+## Passing Event Data
 ```
 export class mycomponent{
     ...
@@ -503,7 +509,7 @@ export class mycomponent{
 }
 ```
 
-### view Encapsulation
+## view Encapsulation
 * `Shadow Dom` Allows us to apply scoped styles to elements without bleeding out to the outer world.
 ```
 @Component({
@@ -539,7 +545,7 @@ mypanel.component.html
 ```
 * dont need `select` if we have only one `ngContent`.
 
-### ngContainer
+## ngContainer
 if use ngContainer for sending information, only inside it send
 ```
 <mypanel>
@@ -551,7 +557,7 @@ if use ngContainer for sending information, only inside it send
 </mypanel>
 ```
 
-### ngIf
+## ngIf
 ```
 <div *ngIf="courses.lenght > 0"> // or function with true/false return
     courses list
@@ -580,7 +586,7 @@ or use `then`, `else` and `ng-template`
 </ng-template>
 ```
 
-### hidden property
+## hidden property
 * exist but hidden
 ```
 <div [hidden]="courses.lenght == 0"> // or function with true/false return
@@ -591,7 +597,7 @@ or use `then`, `else` and `ng-template`
 </div>
 ```
 
-### ngSwitch & ngSwitchCase
+## ngSwitch & ngSwitchCase
 ```
 export class mycomponent{
     viewName;
@@ -609,7 +615,7 @@ export class mycomponent{
 </div>
 ```
 
-### ngFor
+## ngFor
 ```
 export class mycomponent{
     courses ={
@@ -675,7 +681,7 @@ convert to
 </ng-template>
 ```
 
-### ngClass
+## ngClass
 ```
 <span class="glyphicon"
     [class.glyph-star]="isSelected" 
@@ -690,7 +696,7 @@ convert to
 ></span>
 ```
 
-### ngStyle
+## ngStyle
 ```
 <button
     [style.color]="canSave ? 'blue' : 'yellow'" 
@@ -777,8 +783,8 @@ use
 ...
 ```
 
-### Template-Driven Forms
-### ngModel
+# Template-Driven Forms
+## ngModel
 ```
 <form>
     <div class="form-group">
@@ -823,7 +829,7 @@ use
 }
 ```
 
-### ngForm
+## ngForm
 * if we have not `ngNoForm` or `formGroup` in form tag, angular add ngForm to it.
 ```
 <form #f='ngForm' (ngSubmit)="console.log(f)">
@@ -833,7 +839,7 @@ use
 </form>
 ```
 
-### ngModelGroup
+## ngModelGroup
 * use to categorise ngModels
 ```
 <form>
@@ -857,8 +863,8 @@ for recieve everything use `ngValue`
 </select>
 ```
 
-### Reactive Form
-#### Creating Control
+# Reactive Form
+## Creating Control
 * need to add `ReactiveFormModule` in app.moduls imports
 ```
 import { FormGroup, FormControl, Validators } from '@angular/forms'
@@ -887,7 +893,7 @@ export class signupFormComponent{
 </form>
 ```
 
-### Custome Validate
+## Custome Validate
 define
 ```
 import { AbstractControl, ValidationErrors } from '@angular/forms';
@@ -913,7 +919,7 @@ userName: new FormControl('',[
 ```
 * we can add validaton in `src/app/common/validators/`
 
-### Asynchronouse Validators
+## Asynchronouse Validators
 * simulate asnc `setTimeout(()=>{console.log('time out'); },2000)`
 define
 ```
@@ -943,7 +949,7 @@ userName: new FormControl('',[
 <div *ngIf="username.pending">checking username uniqueness ..</div>
 ```
 
-### Validation Form
+## Validation Form
 ```
 <form [formGroup]='form' (ngSubmit)="login()">
     <div *ngIf="form.errors">...</div>
@@ -958,7 +964,7 @@ login(){
 }
 ```
 
-### Nested FormGroup
+## Nested FormGroup
 ```
 ...
 form = new FormGroup({
@@ -980,7 +986,7 @@ get username(){
 </form>
 ```
 
-### Form Array
+## Form Array
 ```
 form = new FormGroup({
     topic: new FormArray([])
@@ -1009,7 +1015,7 @@ removeTopic(topic: FormControl){
 </form>
 ```
 
-### Form Builder
+## Form Builder
 ```
 form = new FormGroup({
     name: new FormControl('', Validator.required),
@@ -1035,10 +1041,10 @@ constroctor(fb: FormBuilder){
 }
 ```
 
-### Http Service
+# Http Service
 * [`JSONPlaceholder`](https://jsonplaceholder.typicode.com/) Fake Online REST API for Testing and Prototyping Serving.
 
-### Getting Data
+## Getting Data
 * Add `httpModule`  to app.module imports
 ```
 posts: any[];
@@ -1049,7 +1055,7 @@ constructor(http: Http){ // from '@angular/http'
         });
 }
 ```
-### Creating Data
+## Creating Data
 ```
 <input (keyup.enter)="creatPost(title)" #title ...>
 ```
@@ -1071,7 +1077,7 @@ creatPost(input: HtmlInputElement){
 * `OnInit` is a lifecycle hook that is called after Angular has initialized a directive. call function => `ngOnInit`
 * lifecycle hook: `OnInit`, `OnChange`, `Docheck`, `AfterContentInit`,...
 
-### Updating Data
+## Updating Data
 ```
 <li *ngFor="let post in posts">
     <button (click)="updatePost(post)"></button> 
@@ -1090,7 +1096,7 @@ updatePost(post: HtmlInputElement){
 * `http.patch`use for update only few property in the object. only send the property should modify.
 * `http.put` use for send object to server.
 
-### Delete Data
+## Delete Data
 ```
 DeletePost(post: HtmlInputElement){
     this.http.delete('https://jsonplaceholder.typicode.com/posts/' +    post.id)
@@ -1102,7 +1108,7 @@ DeletePost(post: HtmlInputElement){
 ```
 * `Sepration of Concern`: better to use service for calling server.
 
-### Handeling Error
+## Handeling Error
 * Unexpected Errors: `Server is Offline`,`Network is down`, `Unhandled expections`.
 ```
 ...
@@ -1177,7 +1183,7 @@ in component
 ...
 ```
 
-### Global Error Handler
+## Global Error Handler
 ```
 //app/common/app-error-handler.ts
 export class AppErrorHandler implements ErrorHandler{
@@ -1203,7 +1209,7 @@ use
     });
 ```
 
-### reusable Error handling method
+## reusable Error handling method
 ```
 ...
 catch(this.handelError);
@@ -1218,7 +1224,7 @@ handelError(error){
 }
 ```
 
-### Reusable Data service
+## Reusable Data service
 define
 ```
 export class DataService{
@@ -1238,7 +1244,7 @@ export class PostService extend DataService{
 }
 ```
 
-### Map Operator
+## Map Operator
 ```
 import 'rxjs/add/operator/map'
 ...
@@ -1261,3 +1267,41 @@ this.service.getAll()
 * obsevables are lazy, Promise are eager
 * `retry(3)` if obsevable fail, retry 3 time
 * can alwayse convert observable to promise by `toPromise` operator.
+
+# Routing
+* configure the routes
+* add a router outlet
+* add link
+
+## Configuring Routes
+ * add `RouterModule.forRoot()` to app.module imports.
+ ```
+ RouterModule.forRoot([
+     { path: '', component: HomeComponent }, // note use '/'
+     { path: 'followers', component: FollowersComponent },
+     { path: 'profile/:username', component: ProfileComponent },
+     { path: '**', component: NotFoundComponent } // wildcart catch any route
+ ])
+ ```
+* more specefic route must be higher. `products/:product` before `products`
+
+## Router Outlet
+* add `<router-outlet></router-outlet>` to app.module.html
+
+## Router Link
+* do not use `href` in link to refresh all page data, use `routerLink`.
+```
+<a routerLink="/followers">...</a>
+<a [routerLink]="['/followers' , follower.id]">...</a> // [ path, args ]
+```
+
+### Router Active Link
+```
+<a routerLinkActive="cssClass other-class" routerLink="/followers">...</a>
+```
+* add class "cssClass", "other-class" when we are in current link
+
+## Getting Route Parameter
+```
+constroctor(private route: ActivatedRoute){}
+```
