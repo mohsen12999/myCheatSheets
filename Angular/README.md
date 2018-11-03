@@ -1304,4 +1304,230 @@ this.service.getAll()
 ## Getting Route Parameter
 ```
 constroctor(private route: ActivatedRoute){}
+ngOnInit(){
+    this.route.paramMap
+        .subscribe(params => {
+            let username = param.get('username') //name set in route
+            // for number: let id = +param.get('id')
+        })
+}
+```
+* `param.key` get all key send to param
+* convert string to number with `+` => +string
+* route param observable help us to change info without destroy component
+* we can use `snapshot` if we 100% sure component destroy and creat (navigate somewhere else and back again)
+```
+ngOnInit(){
+    let id = +this.route.snapshot.paramMap.get('id');
+}
+```
+
+## Route with multiple Parameter
+* 'profile/157/saeed'
+```
+{ path: 'profile/:id/:username', component: ProfileComponent }
+```
+```
+<a [routerLink]="['/profile' , profile.id, profile.username ]">...</a>
+```
+
+## Query Parameter
+sending
+```
+<a routerLink="/profile" [queryParams] ="{ page:1,  order: 'newest' }">...</a>
+```
+recieve
+```
+constroctor(private route: ActivatedRoute){}
+ngOnInit(){
+    this.route.queryParamMap
+        .subscribe(params => {
+            let username = param.get('username') //name set in route
+        })
+}
+```
+* we can use query and other in a component
+
+## Subscribe to multiple Observable
+```
+import { observable } from 'rxjs/observable';
+import 'rxjs/add/observable/combineLatest';
+...
+ngOnInit(){
+    observable.combineLatest([
+        this.route.paramMap,
+        this.route.queryParamMap
+    ]).subscribe( combine =>{
+        let id = combine[0].get('id'); //paramMap
+        let page = combine[1].get('page'); //queryParamMap
+
+        //this.service.getAll({ id: id, page: page});
+        this.service.getAll()
+            .subscribe(folowers => this.flowers = flowers );
+    });
+}
+```
+
+## SwitchMap Operator
+* solve problem subscribe in subscribe
+```
+import { observable } from 'rxjs/observable';
+import 'rxjs/add/observable/combineLatest';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/switchMap';
+...
+ngOnInit(){
+    observable.combineLatest([
+        this.route.paramMap,
+        this.route.queryParamMap
+    ])
+    .switchMap(combine =>{
+        let id = combine[0].get('id');
+        let page = combine[1].get('page');
+        return this.service.getAll(); //subscribe method
+    })
+    .subscribe( folowers => this.flowers = flowers);
+}
+```
+
+## Programmatic Navigation
+```
+constroctor(private router: Router){}
+
+submit(){
+    this.router.navigate(['/followes'],{
+        queryParams: { page:1, order: 'newst' }
+    }); //['path', args]
+}
+```
+
+# Authentication and Authorization
+* `JWT: JSON Web Token` save in local storage. 
+* we need to have in both the client and server. more info [`JWT`](https/jwt.io)
+* JWT on clent: Dispaly current user name, show/hide part of page, prevent access to certain route
+
+## Login
+```
+invalidLogin: boolean;
+constructor(private router: Router, private authService: AuthService){}
+
+signIn(credentials){
+    this.authService.login(credentials)
+        .subscribe(result => {
+            if(result)
+                this.router.navigate(['/']);
+            else
+                this.invalidLogin = true;
+        })
+}
+```
+```
+<form #f="ngForm" (ngSubmit)="signIn(f.value)">
+...
+<div *ngIf="invalidLogin"> invalid user/password </div>
+```
+we dont need to have observable function for login so we use `map`.
+in service
+```
+login(credentials){
+    return this.http.post('...',JSON.stringify(credentials)) // its observable
+    .map(response => {
+        let result = response.json();
+        if(result && result.token){ // when login we have token
+           localstorage.setItem('token',result.token);
+           return true;
+        }
+        return false;
+    })
+}
+```
+* in chrome -> developer tools -> Application we can see local storage
+
+## Logout
+```
+<a (click)="authService.logout()">logout</a>
+```
+in service
+```
+logout(){
+    localstorage.removeItem('token');
+}
+```
+
+## Show or hide Element
+install jwt
+```
+npm install angular2-jwt --save
+```
+in service
+```
+isLoggedIn(){
+    let jwtHelper = new JwtHelper();
+    let token = localStorage.getItem('token');
+    if (!token) 
+        return false;
+
+    let expirationDate = jwtHelper.getTockenExpirationDate(token);
+    let isExpired = jwtHelper.isTokenExpired(token);
+
+    return !isExpired;
+}
+// or only use
+isLoggedIn(){
+    return tockenNotExpired();
+}
+```
+```
+<a *ngIf="authService.isLoggedIn()">log out</a>
+```
+
+### Show or hide Element base on role
+in service
+```
+get currentUser(){
+    let token = localStorage.getItem('token');
+    if (!token) 
+        return null;
+
+    let jwtHelper = new JwtHelper();
+    return jwtHelper.decodeTocken(ticken);
+    //or
+    return new JwtHelper().decodeTocken(ticken);
+}
+```
+```
+<a *ngIf="authService.isLoggedIn() && authService.currentUser.admin">Admin Page</a>
+```
+
+## CanActivate Interface
+* check route with auth-guard servise
+```
+export class AuthGuard implement CanActivate{
+    constroctor(
+        private router: Router, 
+        private authService: AuthService){}
+    canActivate(){
+        if(this.authService.isLoggedIn()) 
+            return true;
+        this.router.navigate(['/login']);
+        return false;
+    }
+}
+```
+add auth-guard to app.module in provider and use in imports RouterModule.
+```
+RouterModule.forRoot([
+    { path: '', component: HomeComponent },
+    { 
+        path: 'admin', 
+        component: HomeComponent,
+        canActive: [AuthGuardServise]
+    }
+    ...
+])
+...
+provider:[
+    ...
+    AuthGuardServise
+]
 ```
