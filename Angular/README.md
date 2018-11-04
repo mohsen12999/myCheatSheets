@@ -2,41 +2,42 @@
 
 "Udemy The Complete Angular Course Beginner to Advanced" from mosh hamedani video
 
-# Install Component
+## Install Component
 
-## pre-install
+### pre-install
 
 `node -v`
 
 `npm -v`
 
-## install globaly
+### install globaly
 
 `npm install -g @angular/cli`
 
 
-## make project name: my-app
+### make project name: my-app
 
 `ng new my-app`
 
-## run app
+### run app
 
 `cd my-app`
 
 `ng serve --open`
 
 --------------------------------------
-# Type Script
 
-## install type script
+## Type Script
+
+### install type script
 
 `npm install -g typescript`
 
-## typescript version
+### typescript version
 
 `tsc --version`
 
-## compile and get `main.js` and run
+### compile and get `main.js` and run
 
 ```javascript
 
@@ -47,7 +48,7 @@ tsc main.ts && node main.js
 
 ```
 
-## variables 
+### variables 
 
 `var i=8` => global variable
 
@@ -79,7 +80,7 @@ enum Color {Red = 1, Green = 2, Blue = 3}//add values  manually to prevent any p
 
 we have `void`: mean nothing (null or Undefined), `never`: if function go to throw error, `object`: for object ;)
 
-## Type assertions
+### Type assertions
 
 for having intellisence
 
@@ -88,13 +89,13 @@ let strLength: number = (<string>someValue).length;
 let strLength: number2 = (someValue as string).length;
 ```
 
-## Arrow Function
+### Arrow Function
 
 ```javascript
 let log = (message) => console.log(message);
 ```
 
-## Interface
+### Interface
 
 inline annotation
 
@@ -118,7 +119,7 @@ interface Other{
 }
 ```
 
-## Class
+### Class
 
 ```javascript
 class Point{
@@ -198,7 +199,7 @@ class num{
 }
 ```
 
-## Modules
+### Modules
 
 Modules file need to expot something(one or more class, function, variable, ...)
 
@@ -216,7 +217,7 @@ import {Point} from './point'
 let point:Point = new Point();
 ```
 
-## Use Backtick
+### Use Backtick
 
 ```javascript
 let user = {name:'mohsen',email='...'};
@@ -225,7 +226,7 @@ console.log(`Username is ${user.name}, email is ${user.email}`);
 
 --------------------------------------
 
-# Angular Fundamental
+## Angular Fundamental
 
 * Modules is some related component
 * component Date + html + logic
@@ -233,13 +234,13 @@ console.log(`Username is ${user.name}, email is ${user.email}`);
   * register in modules
   * add element to html markup
 
-## Creat Component
+### Creat Component
 
 angularCli generate component course
 
 `ng g c course`
 
-## Template
+### Template
 
 ```javascript
 @component{(
@@ -260,7 +261,7 @@ export class mycomponent{
 }
 ```
 
-## Creat Service
+### Creat Service
 
 angularCli generate service readlist
 
@@ -279,7 +280,7 @@ export class mycomponent{
 
 for use dependency injection, declare service in module providers
 
-## Property Binding
+### Property Binding
 
 one way from component to Dom
 
@@ -295,7 +296,7 @@ one way from component to Dom
 
 * for element not in Dom like `colspan` use `[attr.colspan]`.
 
-## Add Bootstrap
+### Add Bootstrap
 
 `npm install botstrap --save`
 
@@ -309,7 +310,7 @@ add bootstrap to global style file: `styles.css`
 
 * `^3.4.7` (minor.minor.patch) means last version of 3
 
-## Class Binding
+### Class Binding
 
 ```javascript
 @component{(
@@ -324,7 +325,7 @@ export class mycomponent{
 
 if `isActive==true` class `active` add to button, else not adding.
 
-## Style Binding
+### Style Binding
 
 ```javascript
 @component{(
@@ -339,7 +340,7 @@ export class mycomponent{
 
 * for more info see Dom style object list
 
-## Event Binding
+### Event Binding
 
 ```javascript
 @component{(
@@ -357,7 +358,7 @@ export class mycomponent{
 * Event Bubbling mean from inner object to outer one.
 * for stop Bubbling `$event.stopPropagation()`
 
-## Event Filter
+### Event Filter
 
 ```javascript
 @component{(
@@ -377,7 +378,7 @@ export class mycomponent{
 }
 ```
 
-## Template Variable
+### Template Variable
 
 ```javascript
 @component{(
@@ -396,7 +397,7 @@ export class mycomponent{
 }
 ```
 
-## Two Way Binding
+### Two Way Binding
 
 * Banana in the box [()]
 
@@ -435,7 +436,7 @@ import { FormsModule } from '@angular/forms'
 ...
 ```
 
-## Pipes
+### Pipes
 
 ```javascript
 @component{(
@@ -467,7 +468,7 @@ export class mycomponent{
 }
 ```
 
-### Custome Pipe
+#### Custome Pipe
 
 angularCli generate pipe mypipe
 
@@ -489,12 +490,12 @@ export class SummaryPipe implements PipeTransform {
 }
 ```
 
-## Component Api
+### Component Api
 
 send recieve information from component
 state for input & event for output
 
-### Input Properties
+#### Input Properties
 
 for send information to component
 
@@ -540,7 +541,7 @@ export class mycomponent{
 }
 ```
 
-### Output Properties
+#### Output Properties
 
 for recieve
 
@@ -561,7 +562,7 @@ export class mycomponent{
 }
 ```
 
-## Passing Event Data
+### Passing Event Data
 
 ```javascript
 export class mycomponent{
@@ -591,7 +592,7 @@ export class mycomponent{
 }
 ```
 
-## view Encapsulation
+### view Encapsulation
 
 * `Shadow Dom` Allows us to apply scoped styles to elements without bleeding out to the outer world.
 
@@ -604,7 +605,7 @@ export class mycomponent{
 })
 ```
 
-### ngContent
+#### ngContent
 
 sending information to component
 mypanel.component.html
@@ -635,7 +636,7 @@ mypanel.component.html
 
 * dont need `select` if we have only one `ngContent`.
 
-## ngContainer
+### ngContainer
 
 if use ngContainer for sending information, only inside it send
 
@@ -649,7 +650,7 @@ if use ngContainer for sending information, only inside it send
 </mypanel>
 ```
 
-## ngIf
+### ngIf
 
 ```html
 <div *ngIf="courses.lenght > 0"> // or function with true/false return
@@ -683,7 +684,7 @@ or use `then`, `else` and `ng-template`
 </ng-template>
 ```
 
-## hidden property
+### hidden property
 
 * exist but hidden
 
@@ -696,7 +697,7 @@ or use `then`, `else` and `ng-template`
 </div>
 ```
 
-## ngSwitch & ngSwitchCase
+### ngSwitch & ngSwitchCase
 
 ```javascript
 export class mycomponent{
@@ -716,7 +717,7 @@ export class mycomponent{
 </div>
 ```
 
-## ngFor
+### ngFor
 
 ```javascript
 export class mycomponent{
@@ -742,7 +743,7 @@ export class mycomponent{
 
 * can export `index`, `first`, `last`, `even` & `odd`
 
-### TrackBy
+#### TrackBy
 
 use track by to better performance & not make dom every time
 
@@ -773,7 +774,7 @@ export class mycomponent{
 
 * use only when need
 
-### leading Astrisk
+#### leading Astrisk
 
 * the * before `ngIf`, `ngFor` & `ngSwitch` is means angular rewrite block with `ng-template` and put block in it
 
@@ -793,7 +794,7 @@ convert to
 </ng-template>
 ```
 
-## ngClass
+### ngClass
 
 ```html
 <span class="glyphicon"
@@ -809,7 +810,7 @@ convert to
 ></span>
 ```
 
-## ngStyle
+### ngStyle
 
 ```html
 <button
@@ -825,7 +826,7 @@ convert to
 >submit</button>
 ```
 
-### safe Traversal Operator
+#### safe Traversal Operator
 
 * prevent error when object is null
 
@@ -833,7 +834,7 @@ convert to
 <span>{{ user.job?.title }}</span>
 ```
 
-### Custome Directive
+#### Custome Directive
 
 Angular generate directive [directive-name]
 
@@ -905,9 +906,9 @@ use
 ...
 ```
 
-# Template-Driven Forms
+## Template-Driven Forms
 
-## ngModel
+### ngModel
 
 ```html
 <form>
@@ -956,7 +957,7 @@ use
 }
 ```
 
-## ngForm
+### ngForm
 
 * if we have not `ngNoForm` or `formGroup` in form tag, angular add ngForm to it.
 
@@ -968,7 +969,7 @@ use
 </form>
 ```
 
-## ngModelGroup
+### ngModelGroup
 
 * use to categorise ngModels
 
@@ -997,9 +998,9 @@ for recieve everything use `ngValue`
 </select>
 ```
 
-# Reactive Form
+## Reactive Form
 
-## Creating Control
+### Creating Control
 
 * need to add `ReactiveFormModule` in app.moduls imports
 
@@ -1031,7 +1032,7 @@ export class signupFormComponent{
 </form>
 ```
 
-## Custome Validate
+### Custome Validate
 
 define
 
@@ -1062,7 +1063,7 @@ userName: new FormControl('',[
 
 * we can add validaton in `src/app/common/validators/`
 
-## Asynchronouse Validators
+### Asynchronouse Validators
 
 * simulate asnc `setTimeout(()=>{console.log('time out'); },2000)`
 
@@ -1099,7 +1100,7 @@ userName: new FormControl('',[
 <div *ngIf="username.pending">checking username uniqueness ..</div>
 ```
 
-## Validation Form
+### Validation Form
 
 ```html
 <form [formGroup]='form' (ngSubmit)="login()">
@@ -1116,7 +1117,7 @@ login(){
 }
 ```
 
-## Nested FormGroup
+### Nested FormGroup
 
 ```javascript
 ...
@@ -1140,7 +1141,7 @@ get username(){
 </form>
 ```
 
-## Form Array
+### Form Array
 
 ```javascript
 
@@ -1172,7 +1173,7 @@ removeTopic(topic: FormControl){
 </form>
 ```
 
-## Form Builder
+### Form Builder
 
 ```javascript
 form = new FormGroup({
@@ -1201,11 +1202,11 @@ constroctor(fb: FormBuilder){
 }
 ```
 
-# Http Service
+## Http Service
 
 * [`JSONPlaceholder`](https://jsonplaceholder.typicode.com/) Fake Online REST API for Testing and Prototyping Serving.
 
-## Getting Data
+### Getting Data
 
 * Add `httpModule`  to app.module imports
 
@@ -1219,7 +1220,7 @@ constructor(http: Http){ // from '@angular/http'
 }
 ```
 
-## Creating Data
+### Creating Data
 
 ```html
 <input (keyup.enter)="creatPost(title)" #title ...>
@@ -1243,7 +1244,7 @@ creatPost(input: HtmlInputElement){
 * `OnInit` is a lifecycle hook that is called after Angular has initialized a directive. call function => `ngOnInit`
 * lifecycle hook: `OnInit`, `OnChange`, `Docheck`, `AfterContentInit`,...
 
-## Updating Data
+### Updating Data
 
 ```html
 <li *ngFor="let post in posts">
@@ -1266,7 +1267,7 @@ updatePost(post: HtmlInputElement){
 
 * `http.put` use for send object to server.
 
-## Delete Data
+### Delete Data
 
 ```javascript
 DeletePost(post: HtmlInputElement){
@@ -1280,7 +1281,7 @@ DeletePost(post: HtmlInputElement){
 
 * `Sepration of Concern`: better to use service for calling server.
 
-## Handeling Error
+### Handeling Error
 
 * Unexpected Errors: `Server is Offline`,`Network is down`, `Unhandled expections`.
 
@@ -1313,7 +1314,7 @@ DeletePost(post: HtmlInputElement){
 ...
 ```
 
-### Throwing Specefic Errors
+#### Throwing Specefic Errors
 
 * can catch error in service
 
@@ -1366,7 +1367,7 @@ in component
 ...
 ```
 
-## Global Error Handler
+### Global Error Handler
 
 ```javascript
 //app/common/app-error-handler.ts
@@ -1397,7 +1398,7 @@ use
     });
 ```
 
-## reusable Error handling method
+### reusable Error handling method
 
 ```javascript
 ...
@@ -1413,7 +1414,7 @@ handelError(error){
 }
 ```
 
-## Reusable Data service
+### Reusable Data service
 
 define
 
@@ -1437,7 +1438,7 @@ export class PostService extend DataService{
 }
 ```
 
-## Map Operator
+### Map Operator
 
 ```javascript
 import 'rxjs/add/operator/map'
@@ -1464,13 +1465,13 @@ this.service.getAll()
 * `retry(3)` if obsevable fail, retry 3 time
 * can alwayse convert observable to promise by `toPromise` operator.
 
-# Routing
+## Routing
 
 * configure the routes
 * add a router outlet
 * add link
 
-## Configuring Routes
+### Configuring Routes
 
 * add `RouterModule.forRoot()` to app.module imports.
 
@@ -1485,11 +1486,11 @@ RouterModule.forRoot([
 
 * more specefic route must be higher. `products/:product` before `products`
 
-## Router Outlet
+### Router Outlet
 
 * add `<router-outlet></router-outlet>` to app.module.html
 
-## Router Link
+### Router Link
 
 * do not use `href` in link to refresh all page data, use `routerLink`.
 
@@ -1498,7 +1499,7 @@ RouterModule.forRoot([
 <a [routerLink]="['/followers' , follower.id]">...</a> // [ path, args ]
 ```
 
-### Router Active Link
+#### Router Active Link
 
 ```html
 <a routerLinkActive="cssClass other-class" routerLink="/followers">...</a>
@@ -1506,7 +1507,7 @@ RouterModule.forRoot([
 
 * add class "cssClass", "other-class" when we are in current link
 
-## Getting Route Parameter
+### Getting Route Parameter
 
 ```javascript
 constroctor(private route: ActivatedRoute){}
@@ -1530,7 +1531,7 @@ ngOnInit(){
 }
 ```
 
-## Route with multiple Parameter
+### Route with multiple Parameter
 
 * 'profile/157/saeed'
 
@@ -1542,7 +1543,7 @@ ngOnInit(){
 <a [routerLink]="['/profile' , profile.id, profile.username ]">...</a>
 ```
 
-## Query Parameter
+### Query Parameter
 
 sending
 
@@ -1564,7 +1565,7 @@ ngOnInit(){
 
 * we can use query and other in a component
 
-## Subscribe to multiple Observable
+### Subscribe to multiple Observable
 
 ```javascript
 import { observable } from 'rxjs/observable';
@@ -1585,7 +1586,7 @@ ngOnInit(){
 }
 ```
 
-## SwitchMap Operator
+### SwitchMap Operator
 
 * solve problem subscribe in subscribe
 
@@ -1609,7 +1610,7 @@ ngOnInit(){
 }
 ```
 
-## Programmatic Navigation
+### Programmatic Navigation
 
 ```javascript
 constroctor(private router: Router){}
@@ -1621,13 +1622,13 @@ submit(){
 }
 ```
 
-# Authentication and Authorization
+## Authentication and Authorization
 
 * `JWT: JSON Web Token` save in local storage. 
 * we need to have in both the client and server. more info [`JWT`](https/jwt.io)
 * JWT on clent: Dispaly current user name, show/hide part of page, prevent access to certain route
 
-## Login
+### Login
 
 ```javascript
 invalidLogin: boolean;
@@ -1669,7 +1670,7 @@ login(credentials){
 
 * in chrome -> developer tools -> Application we can see local storage
 
-## Logout
+### Logout
 
 ```html
 <a (click)="authService.logout()">logout</a>
@@ -1683,7 +1684,7 @@ logout(){
 }
 ```
 
-## Show or hide Element
+### Show or hide Element
 
 install jwt
 `npm install angular2-jwt --save`
@@ -1712,7 +1713,7 @@ isLoggedIn(){
 <a *ngIf="authService.isLoggedIn()">log out</a>
 ```
 
-### Show or hide Element base on role
+#### Show or hide Element base on role
 
 in service
 
@@ -1733,7 +1734,7 @@ get currentUser(){
 <a *ngIf="authService.isLoggedIn() && authService.currentUser.admin">Admin Page</a>
 ```
 
-## CanActivate Interface
+### CanActivate Interface
 
 * check route with auth-guard servise
 
@@ -1771,7 +1772,7 @@ provider:[
 ]
 ```
 
-## Redirect User
+### Redirect User
 
 ```javascript
 export class AuthGuard implement CanActivate{
@@ -1810,7 +1811,7 @@ signIn(credentials){
 }
 ```
 
-## Protecting Route Base One Users Role
+### Protecting Route Base One Users Role
 
 * a service like auth-guard inmplement from `CanActivated`such as admin-auth-guard.
 
@@ -1849,7 +1850,7 @@ provider:[
 ]
 ```
 
-## Accessing Protected API
+### Accessing Protected API
 
 in service
 
@@ -1874,7 +1875,7 @@ getOrder(){
 }
 ```
 
-# Deployment
+## Deployment
 
 * Optimization technices
   * Minification: remove all comment and white space.
@@ -1885,7 +1886,7 @@ getOrder(){
 
 do all that in: `ng build -prod`
 
-## JIT vs AOT
+### JIT vs AOT
 
 * JIT compilation problem:
   * Inefficient for production
@@ -1899,20 +1900,20 @@ do all that in: `ng build -prod`
   * Catch template error earlier
   * Better security
 
-## Angular compiler
+### Angular compiler
 
 * see version in pavkage.json dependency '@angular/cmpiler'.
 
 run compiler from moduls: `node_modules/.bin/ngc`
 send nothind if we have not any error
 
-## Building Aplication with Angular Cli
+### Building Aplication with Angular Cli
 
 if use `ng build` -> compile without optimization.
 
 `ng build --prod`: make 'dist' folder. folder name with hash number for each change to prevent cach them in browser.
 
-## Enviroment
+### Enviroment
 
 * Enviroment like Deployment, Test, Production.
 * in 'src/enviroment/': 'enviroment.prod.ts' for production, 'enviroment.ts' for development.
@@ -1929,7 +1930,7 @@ backgroungColor = enviroment.production;
 
 * `ng serve` default run in develop enviroment. for product enviroment `ng serve --prod` or `ng serve --enviroment=prod`
 
-### Add custom Enviroment
+#### Add custom Enviroment
 
 make new enviroment file like 'enviroment.test.ts'
 register in angular-cli.json -> inviroments
@@ -1944,16 +1945,16 @@ use `ng serve --enviroment=test` or `ng build --enviroment=test`.
 
 * only in develpment enviroment change immedietly can see in browser.
 
-## Linter
+### Linter
 
-### Linter with Angular Cli
+#### Linter with Angular Cli
 
 * programs roles like [`tslint`](https://github.com/plantir/tslint)
 * install by default in angular. see 'package.json'
 * run tslint `ng lint` and see errors.
 * for find and fix error run `ng lint --fix`
 
-### Linter with VSCode
+#### Linter with VSCode
 
 install TSLint extention for VScode
 
