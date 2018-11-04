@@ -1,47 +1,60 @@
 # Angular CheatSheet
+
 "Udemy The Complete Angular Course Beginner to Advanced" from mosh hamedani video
 
 # Install Component
 
 ## pre-install
+
 `node -v`
 
 `npm -v`
 
 ## install globaly
+
 `npm install -g @angular/cli`
 
 
 ## make project name: my-app
+
 `ng new my-app`
 
 ## run app
+
 `cd my-app`
 
 `ng serve --open`
 
 --------------------------------------
 # Type Script
+
 ## install type script
+
 `npm install -g typescript`
 
 ## typescript version
+
 `tsc --version`
 
 ## compile and get `main.js` and run
-```
+
+```javascript
+
 tsc main.ts
 node main.js
 //or
 tsc main.ts && node main.js
+
 ```
 
 ## variables 
+
 `var i=8` => global variable
 
 `let i=4` => compile to var but have scope & type
 
-```
+```javascript
+
 let a:number;
 let a:boolean;
 let a:string;
@@ -61,28 +74,37 @@ enum Color {Red, Green, Blue}
 let c: Color = Color.Green;
 let background = Color.Red;
 enum Color {Red = 1, Green = 2, Blue = 3}//add values  manually to prevent any problem after change enum
+
 ```
+
 we have `void`: mean nothing (null or Undefined), `never`: if function go to throw error, `object`: for object ;)
 
 ## Type assertions
+
 for having intellisence
-```
+
+```javascript
 let strLength: number = (<string>someValue).length;
-let strLength: number = (someValue as string).length;
+let strLength: number2 = (someValue as string).length;
 ```
 
 ## Arrow Function
-```
+
+```javascript
 let log = (message) => console.log(message);
 ```
 
 ## Interface
+
 inline annotation
-```
+
+```javascript
 let func = (point:{x:number,y:number})=>{ ...... }
 ```
+
 interface
-```
+
+```javascript
 interface Point{
     x:number,
     y:number
@@ -97,7 +119,8 @@ interface Other{
 ```
 
 ## Class
-```
+
+```javascript
 class Point{
     //fileds
     x:number;
@@ -108,8 +131,10 @@ class Point{
 }
 let point:Point = new Point();
 ```
+
 constructor
-```
+
+```javascript
 class Greeter {
     greeting: string;
     constructor(message?: string) { //optional variable
@@ -122,8 +147,10 @@ class Greeter {
 
 let greeter = new Greeter("world");
 ```
+
 inherit
-```
+
+```javascript
 class Point {
     x: number;
     y: number;
@@ -132,10 +159,12 @@ class Point3d extends Point {
     z: number;
 }
 ```
+
 also have `private`, `protected`, `abstract` & `static`
 
 use Access Modifier in construct parameters
-```
+
+```javascript
 class Point {
     constructor(private x: number,private y: number) {
     }
@@ -153,10 +182,11 @@ class Point {
 
 access property
 if have error `tsc *.ts --target ES%`
-```
+
+```javascript
 class num{
     private _x:number;
-    
+
     get x(){
         return this._x;
     }
@@ -171,12 +201,15 @@ class num{
 ## Modules
 
 Modules file need to expot something(one or more class, function, variable, ...)
-```
+
+```javascript
 //point.ts
 export class Point{ ..... }
 ```
+
 use Modules
-```
+
+```javascript
 //main.ts
 import {Point} from './point'
 
@@ -184,28 +217,31 @@ let point:Point = new Point();
 ```
 
 ## Use Backtick
-```
+
+```javascript
 let user = {name:'mohsen',email='...'};
 console.log(`Username is ${user.name}, email is ${user.email}`);
 ```
+
 --------------------------------------
 
 # Angular Fundamental
+
 * Modules is some related component
 * component Date + html + logic
-    * creat component
-    * register in modules
-    * add element to html markup
+  * creat component
+  * register in modules
+  * add element to html markup
 
-## Creat Component 
+## Creat Component
+
 angularCli generate component course
-```
-ng g c course
-```
+
+`ng g c course`
 
 ## Template
 
-```
+```javascript
 @component{(
     template:` // backtick for many line
     <h1>{{"Title: "+title+ " " + getCount() }}</h1>
@@ -224,13 +260,15 @@ export class mycomponent{
 }
 ```
 
-## Creat Service 
+## Creat Service
+
 angularCli generate service readlist
-```
-ng g s readlist
-```
+
+`ng g s readlist`
+
 * using service
-```
+
+```javascript
 export class mycomponent{
     list;
     constructor(read: readlist){ // dependency injection
@@ -238,11 +276,14 @@ export class mycomponent{
     }
 }
 ```
+
 for use dependency injection, declare service in module providers
 
 ## Property Binding
+
 one way from component to Dom
-```
+
+```html
 <h2>{{title}}</h2>
 //or
 <h2 [textContent]="text"></h2>
@@ -251,22 +292,26 @@ one way from component to Dom
 //or
 <img [src]="imageUrl">
 ```
-* for element not in Dom like `colspan` use `[attr.colspan]`
+
+* for element not in Dom like `colspan` use `[attr.colspan]`.
 
 ## Add Bootstrap
-```
-npm install botstrap --save
-```
+
+`npm install botstrap --save`
+
 `save` flag add boorstrap as dependency in `package.json`
 
 add bootstrap to global style file: `styles.css`
-```
+
+```javascript
 @import "~bootstrap/dist/css/bootstrap.css";
 ```
+
 * `^3.4.7` (minor.minor.patch) means last version of 3
 
 ## Class Binding
-```
+
+```javascript
 @component{(
     template:`
     <button class="btn btn-primary" [class.active]="isActive"></button>
@@ -276,10 +321,12 @@ export class mycomponent{
     isActive=true;
 }
 ```
+
 if `isActive==true` class `active` add to button, else not adding.
 
 ## Style Binding
-```
+
+```javascript
 @component{(
     template:`
     <button [style.backgroundColor]="isActive? 'blue':'white' "></button>
@@ -289,10 +336,12 @@ export class mycomponent{
     isActive=true;
 }
 ```
+
 * for more info see Dom style object list
 
 ## Event Binding
-```
+
+```javascript
 @component{(
     template:`
     <button (click)="onSave()"></button>
@@ -304,11 +353,13 @@ export class mycomponent{
     onSave2($event){}
 }
 ```
+
 * Event Bubbling mean from inner object to outer one.
 * for stop Bubbling `$event.stopPropagation()`
 
 ## Event Filter
-```
+
+```javascript
 @component{(
     template:`
     <input (keyup)="OnKeyUp($event)" />
@@ -325,8 +376,10 @@ export class mycomponent{
     }
 }
 ```
+
 ## Template Variable
-```
+
+```javascript
 @component{(
     template:`
     <input (keyup.enter)="onEnter($event)" />
@@ -344,8 +397,10 @@ export class mycomponent{
 ```
 
 ## Two Way Binding
+
 * Banana in the box [()]
-```
+
+```javascript
 @component{(
     template:`
     <input [value]="name" (keyup.enter)=" email=$event.target.value; onEnter(name.value)" />
@@ -363,8 +418,10 @@ export class mycomponent{
     }
 }
 ```
+
 * need to add forms module to modules
-```
+
+```javascript
 import { FormsModule } from '@angular/forms'
 ...
 @ngMoModule({
@@ -379,7 +436,8 @@ import { FormsModule } from '@angular/forms'
 ```
 
 ## Pipes
-```
+
+```javascript
 @component{(
     template:`
     {{ course.title }} <br />
@@ -410,12 +468,14 @@ export class mycomponent{
 ```
 
 ### Custome Pipe
+
 angularCli generate pipe mypipe
-```
-ng g c mypipe
-```
-send variable to Pipe ` {{ bigString | summary:40 }}`
-```
+
+`ng g c mypipe`
+
+send variable to Pipe `{{ bigString | summary:40 }}`
+
+```javascript
 export class SummaryPipe implements PipeTransform {
 
   transform(value: string, limit?: number): any {
@@ -430,25 +490,33 @@ export class SummaryPipe implements PipeTransform {
 ```
 
 ## Component Api
+
 send recieve information from component
 state for input & event for output
 
 ### Input Properties
+
 for send information to component
-```
+
+```html
 <mycomponent [isFavorite]="post.isfavorite"></mycomponent>
 ```
+
 2 way for send
+
 * first way
-```
+
+```javascript
 import {... , Input} from '@angular/core'
 ...
 export class mycomponent{
     @input() isFavorite = false;
 }
 ```
+
 * second way
-```
+
+```javascript
 @component{(
     ...
     input:['isFavorite']
@@ -457,22 +525,30 @@ export class mycomponent{
     isFavorite = false;
 }
 ```
+
 * Aliasing input
-```
+
+```html
 <mycomponent [is-favorite]="post.isfavorite"></mycomponent>
 ```
+
 can not define or use `is-favorite` as variable in typescript or javascript
-```
+
+```javascript
 export class mycomponent{
     @input('is-favorite') isFavorite = false;
 }
 ```
+
 ### Output Properties
+
 for recieve
-```
+
+```html
 <mycomponent (change)="onFavoriteChange()"></mycomponent>
 ```
-```
+
+```javascript
 import {... , Output,EventEmitter} from '@angular/core'
 ...
 export class mycomponent{
@@ -484,8 +560,10 @@ export class mycomponent{
     }
 }
 ```
+
 ## Passing Event Data
-```
+
+```javascript
 export class mycomponent{
     ...
     onClick(){
@@ -496,22 +574,28 @@ export class mycomponent{
     }
 }
 ```
-```
+
+```html
 <mycomponent (change)="onFavoriteChange($event)"></mycomponent>
 ```
+
 * Aliasing Output
-```
+
+```html
 <mycomponent (change)="onFavoriteChange()"></mycomponent>
 ```
-```
+
+```javascript
 export class mycomponent{
     @output('change')  changeEvent = new EventEmitter();
 }
 ```
 
 ## view Encapsulation
+
 * `Shadow Dom` Allows us to apply scoped styles to elements without bleeding out to the outer world.
-```
+
+```javascript
 @Component({
   ...
   encapsulation: ViewEncapsulation.Emulated // angular try to emulate shadow dom
@@ -521,9 +605,11 @@ export class mycomponent{
 ```
 
 ### ngContent
+
 sending information to component
 mypanel.component.html
-```
+
+```javascript
 <div class="panel panel-default">
     <div class="panel-heading">
         <ngContent select=".headercontent"></ngContent> //element with class headercontent come hear
@@ -533,8 +619,10 @@ mypanel.component.html
     </div>
 </div>
 ```
+
 * `select` like css selector & can be class or id or element.
-```
+
+```javascript
 <mypanel>
     <div class="headercontent"> header title </div>
     <div class="bodycontent">
@@ -542,12 +630,16 @@ mypanel.component.html
         <p>some thing ...</p>
     </div>
 </mypanel>
+
 ```
+
 * dont need `select` if we have only one `ngContent`.
 
 ## ngContainer
+
 if use ngContainer for sending information, only inside it send
-```
+
+```javascript
 <mypanel>
     <ngContainer class="headercontent"> header title </ngContainer>
     <ngContainer class="bodycontent">
@@ -558,7 +650,8 @@ if use ngContainer for sending information, only inside it send
 ```
 
 ## ngIf
-```
+
+```html
 <div *ngIf="courses.lenght > 0"> // or function with true/false return
     courses list
 </div>
@@ -566,8 +659,10 @@ if use ngContainer for sending information, only inside it send
     no courses
 </div>
 ```
+
 or use `else` and `ng-template`
-```
+
+```html
 <div *ngIf="courses.lenght > 0; else noCourse">
     courses list
 </div>
@@ -575,8 +670,10 @@ or use `else` and `ng-template`
     no courses
 </ng-template>
 ```
+
 or use `then`, `else` and `ng-template`
-```
+
+```html
 <div *ngIf="courses.lenght > 0; then courseList else noCourse"></div>
 <ng-template #courseList>
     no courses
@@ -587,8 +684,10 @@ or use `then`, `else` and `ng-template`
 ```
 
 ## hidden property
+
 * exist but hidden
-```
+
+```html
 <div [hidden]="courses.lenght == 0"> // or function with true/false return
     courses list
 </div>
@@ -598,12 +697,14 @@ or use `then`, `else` and `ng-template`
 ```
 
 ## ngSwitch & ngSwitchCase
-```
+
+```javascript
 export class mycomponent{
     viewName;
 }
 ```
-```
+
+```html
 <ul class="nav nav-pills">
     <li [class.active]="viewName == 'map'" ><a (click)="viewName = 'map'">Map View</a></li>
     <li [class.active]="viewName == 'list'" ><a (click)="viewName = 'list'">List View</a></li>
@@ -616,7 +717,8 @@ export class mycomponent{
 ```
 
 ## ngFor
-```
+
+```javascript
 export class mycomponent{
     courses ={
         {id:1 , name:'ali'}
@@ -629,26 +731,31 @@ export class mycomponent{
     }
 }
 ```
-```
+
+```html
 <ul>
     <li *ngFor="let course of courses; index as i"> // export index 
         {{i}} - {{course}} <button (click)="removeCourse(course)">Remove</button>
     </li>
 </ul>
 ```
+
 * can export `index`, `first`, `last`, `even` & `odd`
 
 ### TrackBy
+
 use track by to better performance & not make dom every time
-```
-<botton (click)="loadCourse()">load</botton>
+
+```html
+<button (click)="loadCourse()">load</button>
 <ul>
     <li *ngFor="let course of courses; trackBy: trackCourse">
         {{i}} - {{course}}
     </li>
 </ul>
 ```
-```
+
+```javascript
 export class mycomponent{
     courses;
     loadCourse(){
@@ -663,17 +770,22 @@ export class mycomponent{
     } // track by id
 }
 ```
+
 * use only when need
 
 ### leading Astrisk
+
 * the * before `ngIf`, `ngFor` & `ngSwitch` is means angular rewrite block with `ng-template` and put block in it
-```
+
+```html
 <div *ngIf="courses.length > 0">
     list of course
 </div>
 ```
+
 convert to
-```
+
+```html
 <ng-template [ngIf]="courses.length > 0">
     <div>
         list of course
@@ -682,7 +794,8 @@ convert to
 ```
 
 ## ngClass
-```
+
+```html
 <span class="glyphicon"
     [class.glyph-star]="isSelected" 
     [class.glyph-star-empty]="isSelected"
@@ -697,13 +810,14 @@ convert to
 ```
 
 ## ngStyle
-```
+
+```html
 <button
     [style.color]="canSave ? 'blue' : 'yellow'" 
     [style.fontWeight]="canSave ? 'bold' : 'normal'" 
     >submit</button>
 //or
-<button 
+<button
     [ngStyle]="{
         'color': canSave ? 'blue' : 'yellow',
         'fontWeight' : canSave ? 'bold' : 'normal'
@@ -712,19 +826,22 @@ convert to
 ```
 
 ### safe Traversal Operator
+
 * prevent error when object is null
-```
+
+```html
 <span>{{ user.job?.title }}</span>
 ```
 
 ### Custome Directive
+
 Angular generate directive [directive-name]
-```
-ng g d input-format
-```
+
+`ng g d input-format`
+
 * angularCli add app in front of directive name to prevent clash html attribute
 
-```
+```javascript
 import { Directive, HostListener, ElementRef } from '@angular/core'; //HostListener for hande dome event, ElementRef for reading value
 @Directive({
     selector: 'appInputFormat'
@@ -738,16 +855,18 @@ export class InputFormatDirective{
     @HostListener('blure') onBlure(){
         let value = this.el.nativeElement.value;
     }
-    
 }
 ```
+
 use
-```
+
+```html
 <input type="text" appInputFormat>
 ```
 
 with sengding value
-```
+
+```javascript
 import { Directive, HostListener, ElementRef, Input } from '@angular/core'; //HostListener for hande dome event, ElementRef for reading value, Input for recieve value
 @Directive({
     selector: 'appInputFormat'
@@ -765,50 +884,57 @@ export class InputFormatDirective{
 
         }
     }
-    
 }
 ```
+
 use
-```
+
+```html
 <input type="text" appInputFormat [format]="'something'">
 ```
 
 * if we have only one variable we can use
-```
+
+```html
 <input type="text" [appInputFormat]="'something'">
 ```
-```
+
+```javascript
 ...
 @Input('appInputFormat') format;
 ...
 ```
 
 # Template-Driven Forms
+
 ## ngModel
-```
+
+```html
 <form>
     <div class="form-group">
-        <lable for="firstName">First Name</lable>
+        <label for="firstName">First Name</label>
         <input required ngModel name="firstName" id="firstName" class="form-control" type="text">
         <div class="alert alert-danger" *ngif="firstname.touched && !firstName.valid">First Name is required</div>
     </div>
     <div class="form-group">
-        <lable for="coment">Comment</lable>
+        <label for="coment">Comment</label>
         <textarea ngModel name="coment" id="coment"></textarea>
     </div>
 </form>
 ```
 
 * for see all change
-```
+
+```html
 <input required ngModel #firstName="ngModel" name="firstName" (change)="console.log(firstName);" id="firstName">
 ```
 
 * can use other HTML5 validator such as `minlenght ='3'`, `maxlenght ='30'` or `pattern='banana'`.
-```
+
+```html
 <form>
     <div class="form-group">
-        <lable for="firstName">First Name</lable>
+        <label for="firstName">First Name</label>
         <input required minlenght ='3' ngModel name="firstName" id="firstName" class="form-control" type="text">
         <div class="alert alert-danger" *ngif="firstname.touched && !firstName.valid">
         <div *ngIf="firstName.error.required">First Name is required</div>
@@ -816,22 +942,25 @@ use
         </div>
     </div>
     <div class="form-group">
-        <lable for="coment">Comment</lable>
+        <label for="coment">Comment</label>
         <textarea ngModel name="coment" id="coment"  class="form-control"></textarea>
     </div>
 </form>
 ```
 
 * angular add class depend to validation roles
-```
+
+```css
 .form-control.ng-touched.ng-invalid{
     border: 2px solid red;
 }
 ```
 
 ## ngForm
+
 * if we have not `ngNoForm` or `formGroup` in form tag, angular add ngForm to it.
-```
+
+```html
 <form #f='ngForm' (ngSubmit)="console.log(f)">
 ...
 <p>{{ f.value | json }}</p> //see all form value as json
@@ -840,8 +969,10 @@ use
 ```
 
 ## ngModelGroup
+
 * use to categorise ngModels
-```
+
+```html
 <form>
 <div ngModelGroup="contact">
 ...
@@ -851,22 +982,28 @@ use
 ```
 
 * use Drop-down list
-```
+
+```html
 <select>
     <option *ngFor="let item of list" [value]=""item.id>{{ item.name }}</option>
 </select>
 ```
+
 for recieve everything use `ngValue`
-```
+
+```html
 <select>
     <option *ngFor="let item of list" [ngValue]=""item>{{ item.name }}</option>
 </select>
 ```
 
 # Reactive Form
+
 ## Creating Control
+
 * need to add `ReactiveFormModule` in app.moduls imports
-```
+
+```javascript
 import { FormGroup, FormControl, Validators } from '@angular/forms'
 ...
 export class signupFormComponent{
@@ -880,7 +1017,8 @@ export class signupFormComponent{
     }
 }
 ```
-```
+
+```html
 <form [formGroup]='form'>
 ...
     <input formControlName="userName" ...>
@@ -894,8 +1032,10 @@ export class signupFormComponent{
 ```
 
 ## Custome Validate
+
 define
-```
+
+```javascript
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 
 export class usernameValidators{
@@ -908,8 +1048,10 @@ export class usernameValidators{
   }
 }
 ```
+
 use
-```
+
+```javascript
 ...
 userName: new FormControl('',[
     Validators.required,
@@ -917,12 +1059,16 @@ userName: new FormControl('',[
     usernameValidators.cannotContainSpace //because its static
     ])
 ```
+
 * we can add validaton in `src/app/common/validators/`
 
 ## Asynchronouse Validators
+
 * simulate asnc `setTimeout(()=>{console.log('time out'); },2000)`
+
 define
-```
+
+```javascript
 static shouldBeUnique(control: AbstractControl): Promise<ValidationErrors | null> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
@@ -934,8 +1080,10 @@ static shouldBeUnique(control: AbstractControl): Promise<ValidationErrors | null
     })
   }
 ```
+
 use
-...
+
+```javascript
 userName: new FormControl('',[
     Validators.required,
     Validators.minlenght(3)
@@ -944,18 +1092,22 @@ userName: new FormControl('',[
     usernameValidators.shouldBeUnique
     )
 ```
+
 * we can use `pending` for waiting time
-```
+
+```html
 <div *ngIf="username.pending">checking username uniqueness ..</div>
 ```
 
 ## Validation Form
-```
+
+```html
 <form [formGroup]='form' (ngSubmit)="login()">
     <div *ngIf="form.errors">...</div>
 ...
 ```
-```
+
+```javascript
 login(){
     let valid = server.checkuser(this.form.value);
     if(!valid){
@@ -965,7 +1117,8 @@ login(){
 ```
 
 ## Nested FormGroup
-```
+
+```javascript
 ...
 form = new FormGroup({
     account: new FormGroup({
@@ -979,7 +1132,8 @@ get username(){
 }
 ...
 ```
-```
+
+```html
 <form [formGroup]='form'>
     <div 'formGroup'='account'>
     ...
@@ -987,7 +1141,9 @@ get username(){
 ```
 
 ## Form Array
-```
+
+```javascript
+
 form = new FormGroup({
     topic: new FormArray([])
 })
@@ -1000,7 +1156,8 @@ removeTopic(topic: FormControl){
     this.form.get('topic').removeAt(index);
 }
 ```
-```
+
+```html
 <form [formGroup]='form'>
     <input type="text" class="form-control"
         (keyup.enter)="addTopic(topic)" #topic>
@@ -1016,7 +1173,8 @@ removeTopic(topic: FormControl){
 ```
 
 ## Form Builder
-```
+
+```javascript
 form = new FormGroup({
     name: new FormControl('', Validator.required),
     account: new FormGroup({
@@ -1026,8 +1184,10 @@ form = new FormGroup({
     topic: new FormArray([])
 })
 ```
+
 use form builder
-```
+
+```javascript
 form;
 constroctor(fb: FormBuilder){
     this.form = fb.group({
@@ -1042,11 +1202,14 @@ constroctor(fb: FormBuilder){
 ```
 
 # Http Service
+
 * [`JSONPlaceholder`](https://jsonplaceholder.typicode.com/) Fake Online REST API for Testing and Prototyping Serving.
 
 ## Getting Data
+
 * Add `httpModule`  to app.module imports
-```
+
+```javascript
 posts: any[];
 constructor(http: Http){ // from '@angular/http'
     http.get('https://jsonplaceholder.typicode.com/posts')
@@ -1055,11 +1218,14 @@ constructor(http: Http){ // from '@angular/http'
         });
 }
 ```
+
 ## Creating Data
-```
+
+```html
 <input (keyup.enter)="creatPost(title)" #title ...>
 ```
-```
+
+```javascript
 posts: any[];
 constructor(private http: Http){}
 creatPost(input: HtmlInputElement){
@@ -1078,13 +1244,15 @@ creatPost(input: HtmlInputElement){
 * lifecycle hook: `OnInit`, `OnChange`, `Docheck`, `AfterContentInit`,...
 
 ## Updating Data
-```
+
+```html
 <li *ngFor="let post in posts">
     <button (click)="updatePost(post)"></button> 
     {{ post.title }}
     </li>
 ```
-```
+
+```javascript
 updatePost(post: HtmlInputElement){
     this.http.patch('https://jsonplaceholder.typicode.com/posts/' +     post.id, JSON.stringify({isRead: true}))
         .subscribe(response => {
@@ -1093,11 +1261,14 @@ updatePost(post: HtmlInputElement){
             });
 }
 ```
+
 * `http.patch`use for update only few property in the object. only send the property should modify.
+
 * `http.put` use for send object to server.
 
 ## Delete Data
-```
+
+```javascript
 DeletePost(post: HtmlInputElement){
     this.http.delete('https://jsonplaceholder.typicode.com/posts/' +    post.id)
         .subscribe(response => {
@@ -1106,11 +1277,14 @@ DeletePost(post: HtmlInputElement){
             });
 }
 ```
+
 * `Sepration of Concern`: better to use service for calling server.
 
 ## Handeling Error
+
 * Unexpected Errors: `Server is Offline`,`Network is down`, `Unhandled expections`.
-```
+
+```javascript
 ...
 .subscribe(response => {
         ...
@@ -1121,7 +1295,8 @@ DeletePost(post: HtmlInputElement){
 ```
 
 * Expected: `Not Found` Errors (404), `Bad Request` Errors (400)
-```
+
+```javascript
 ...
 .subscribe(
     response => {
@@ -1139,20 +1314,26 @@ DeletePost(post: HtmlInputElement){
 ```
 
 ### Throwing Specefic Errors
+
 * can catch error in service
+
 make error
-```
+
+```javascript
 //app/common/app-error.ts
 export class AppError{
     constroctor(public originalError?: any){}
 }
 ```
-```
+
+```javascript
 //app/common/not-found-error.ts
 export class NotFoundError extend AppError{}
 ```
+
 use in service
-```
+
+```javascript
 import  'rxjs/add/operator/catch';
 import  'rxjs/add/Observable/throw';
 ...
@@ -1165,8 +1346,10 @@ deletePost(id){
         });
 }
 ```
+
 in component
-```
+
+```javascript
 ...
 .subscribe(
     response => {
@@ -1184,7 +1367,8 @@ in component
 ```
 
 ## Global Error Handler
-```
+
+```javascript
 //app/common/app-error-handler.ts
 export class AppErrorHandler implements ErrorHandler{
     handleError(error){
@@ -1192,25 +1376,30 @@ export class AppErrorHandler implements ErrorHandler{
     }
 }
 ```
+
 * add in app.module providers
-```
+
+```javascript
 providers:[
     ... ,
     { provide: ErrorHandler, useClass: AppErrorHandler } //use AppErrorHandler instead of Error handler
 ]
 ```
+
 use
-```
+
+```javascript
 (error: AppError) => { 
         if(error instanceof NotFoundError)
             console.log('this post already deleted');
-        else   
+        else
             throw error;
     });
 ```
 
 ## reusable Error handling method
-```
+
+```javascript
 ...
 catch(this.handelError);
 ...
@@ -1225,8 +1414,10 @@ handelError(error){
 ```
 
 ## Reusable Data service
+
 define
-```
+
+```javascript
 export class DataService{
     constroctor(private url: string, private http: Http){}
     getAll(){ ... }
@@ -1235,8 +1426,10 @@ export class DataService{
     delete(id){ ... }
 }
 ```
+
 use
-```
+
+```javascript
 export class PostService extend DataService{
     constroctor(http: Http){
         super('url',http);
@@ -1245,7 +1438,8 @@ export class PostService extend DataService{
 ```
 
 ## Map Operator
-```
+
+```javascript
 import 'rxjs/add/operator/map'
 ...
 getAll(){
@@ -1255,8 +1449,10 @@ getAll(){
 }
 
 ```
+
 use
-```
+
+```javascript
 this.service.getAll()
     .subscribe(posts => this.post = posts);
 ```
@@ -1269,40 +1465,50 @@ this.service.getAll()
 * can alwayse convert observable to promise by `toPromise` operator.
 
 # Routing
+
 * configure the routes
 * add a router outlet
 * add link
 
 ## Configuring Routes
- * add `RouterModule.forRoot()` to app.module imports.
- ```
- RouterModule.forRoot([
-     { path: '', component: HomeComponent }, // note use '/'
-     { path: 'followers', component: FollowersComponent },
-     { path: 'profile/:username', component: ProfileComponent },
-     { path: '**', component: NotFoundComponent } // wildcart catch any route
- ])
- ```
+
+* add `RouterModule.forRoot()` to app.module imports.
+
+```javascript
+RouterModule.forRoot([
+    { path: '', component: HomeComponent }, // note use '/'
+    { path: 'followers', component: FollowersComponent },
+    { path: 'profile/:username', component: ProfileComponent },
+    { path: '**', component: NotFoundComponent } // wildcart catch any route
+])
+```
+
 * more specefic route must be higher. `products/:product` before `products`
 
 ## Router Outlet
+
 * add `<router-outlet></router-outlet>` to app.module.html
 
 ## Router Link
+
 * do not use `href` in link to refresh all page data, use `routerLink`.
-```
+
+```html
 <a routerLink="/followers">...</a>
 <a [routerLink]="['/followers' , follower.id]">...</a> // [ path, args ]
 ```
 
 ### Router Active Link
-```
+
+```html
 <a routerLinkActive="cssClass other-class" routerLink="/followers">...</a>
 ```
+
 * add class "cssClass", "other-class" when we are in current link
 
 ## Getting Route Parameter
-```
+
+```javascript
 constroctor(private route: ActivatedRoute){}
 ngOnInit(){
     this.route.paramMap
@@ -1312,32 +1518,41 @@ ngOnInit(){
         })
 }
 ```
+
 * `param.key` get all key send to param
 * convert string to number with `+` => +string
 * route param observable help us to change info without destroy component
 * we can use `snapshot` if we 100% sure component destroy and creat (navigate somewhere else and back again)
-```
+
+```javascript
 ngOnInit(){
     let id = +this.route.snapshot.paramMap.get('id');
 }
 ```
 
 ## Route with multiple Parameter
+
 * 'profile/157/saeed'
-```
+
+```javascript
 { path: 'profile/:id/:username', component: ProfileComponent }
 ```
-```
+
+```html
 <a [routerLink]="['/profile' , profile.id, profile.username ]">...</a>
 ```
 
 ## Query Parameter
+
 sending
-```
+
+```html
 <a routerLink="/profile" [queryParams] ="{ page:1,  order: 'newest' }">...</a>
 ```
+
 recieve
-```
+
+```javascript
 constroctor(private route: ActivatedRoute){}
 ngOnInit(){
     this.route.queryParamMap
@@ -1346,10 +1561,12 @@ ngOnInit(){
         })
 }
 ```
+
 * we can use query and other in a component
 
 ## Subscribe to multiple Observable
-```
+
+```javascript
 import { observable } from 'rxjs/observable';
 import 'rxjs/add/observable/combineLatest';
 ...
@@ -1369,8 +1586,10 @@ ngOnInit(){
 ```
 
 ## SwitchMap Operator
+
 * solve problem subscribe in subscribe
-```
+
+```javascript
 import { observable } from 'rxjs/observable';
 import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/operator/map';
@@ -1391,7 +1610,8 @@ ngOnInit(){
 ```
 
 ## Programmatic Navigation
-```
+
+```javascript
 constroctor(private router: Router){}
 
 submit(){
@@ -1402,12 +1622,14 @@ submit(){
 ```
 
 # Authentication and Authorization
+
 * `JWT: JSON Web Token` save in local storage. 
 * we need to have in both the client and server. more info [`JWT`](https/jwt.io)
 * JWT on clent: Dispaly current user name, show/hide part of page, prevent access to certain route
 
 ## Login
-```
+
+```javascript
 invalidLogin: boolean;
 constructor(private router: Router, private authService: AuthService){}
 
@@ -1421,14 +1643,17 @@ signIn(credentials){
         })
 }
 ```
-```
+
+```html
 <form #f="ngForm" (ngSubmit)="signIn(f.value)">
 ...
 <div *ngIf="invalidLogin"> invalid user/password </div>
 ```
+
 we dont need to have observable function for login so we use `map`.
 in service
-```
+
+```javascript
 login(credentials){
     return this.http.post('...',JSON.stringify(credentials)) // its observable
     .map(response => {
@@ -1441,26 +1666,31 @@ login(credentials){
     })
 }
 ```
+
 * in chrome -> developer tools -> Application we can see local storage
 
 ## Logout
-```
+
+```html
 <a (click)="authService.logout()">logout</a>
 ```
+
 in service
-```
+
+```javascript
 logout(){
     localstorage.removeItem('token');
 }
 ```
 
 ## Show or hide Element
+
 install jwt
-```
-npm install angular2-jwt --save
-```
+`npm install angular2-jwt --save`
+
 in service
-```
+
+```javascript
 isLoggedIn(){
     let jwtHelper = new JwtHelper();
     let token = localStorage.getItem('token');
@@ -1477,13 +1707,16 @@ isLoggedIn(){
     return tockenNotExpired();
 }
 ```
-```
+
+```html
 <a *ngIf="authService.isLoggedIn()">log out</a>
 ```
 
 ### Show or hide Element base on role
+
 in service
-```
+
+```javascript
 get currentUser(){
     let token = localStorage.getItem('token');
     if (!token) 
@@ -1495,13 +1728,16 @@ get currentUser(){
     return new JwtHelper().decodeTocken(ticken);
 }
 ```
-```
+
+```html
 <a *ngIf="authService.isLoggedIn() && authService.currentUser.admin">Admin Page</a>
 ```
 
 ## CanActivate Interface
+
 * check route with auth-guard servise
-```
+
+```javascript
 export class AuthGuard implement CanActivate{
     constroctor(
         private router: Router, 
@@ -1509,13 +1745,16 @@ export class AuthGuard implement CanActivate{
     canActivate(){
         if(this.authService.isLoggedIn()) 
             return true;
+
         this.router.navigate(['/login']);
         return false;
     }
 }
 ```
+
 add auth-guard to app.module in provider and use in imports RouterModule.
-```
+
+```javascript
 RouterModule.forRoot([
     { path: '', component: HomeComponent },
     { 
@@ -1531,3 +1770,192 @@ provider:[
     AuthGuardServise
 ]
 ```
+
+## Redirect User
+
+```javascript
+export class AuthGuard implement CanActivate{
+    constroctor(
+        private router: Router, 
+        private authService: AuthService){}
+    canActivate(route, state: RouteStateSnapeshot){
+        if(this.authService.isLoggedIn()) 
+            return true;
+
+        this.router.navigate(['/login'],{ queryParams: { returnUrl: state.url });
+        return false;
+    }
+}
+```
+
+in login componen
+
+```javascript
+invalidLogin: boolean;
+constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private authService: AuthService){}
+
+signIn(credentials){
+    this.authService.login(credentials)
+        .subscribe(result => {
+            if(result){
+                let returnUrl = thise.route.snapshot.queryParamMap.get('returnUrl');
+                this.router.navigate([returnUrl || '/']);
+            }
+            else
+                this.invalidLogin = true;
+        })
+}
+```
+
+## Protecting Route Base One Users Role
+
+* a service like auth-guard inmplement from `CanActivated`such as admin-auth-guard.
+
+```javascript
+export class AdminAuthGuard implement CanActivate{
+    constroctor(
+        private router: Router, 
+        private authService: AuthService){}
+    canActivate(){
+        if(this.authService.currntUser && this.authService.currntUser.admin) 
+            return true;
+
+        this.router.navigate(['/no-access']);
+        return false;
+    }
+}
+```
+
+use in app.module
+
+```javascript
+RouterModule.forRoot([
+    { path: '', component: HomeComponent },
+    {
+        path: 'admin',
+        component: HomeComponent,
+        canActive: [AuthGuardServise, AdminAuthGuard]
+    }
+    ...
+])
+...
+provider:[
+    ...
+    AuthGuardServise,
+    AdminAuthGuard
+]
+```
+
+## Accessing Protected API
+
+in service
+
+```javascript
+import { AuthHttp } from 'angular2-jwt'
+import { Http, RequestOption, Headers } from '@angular/http';
+import 'rxjs/add/operator/map'
+...
+constroctore(private http: Http,private authHttp: AuthHttp){}
+getOrder(){
+    // when use Http
+    //let header = new Header();
+    //let token = localStorage.getItem('token');
+    //header.append('Authorizaion','Bearer' + token);
+    //let options = new RequestOption({ headers: headers })
+    //return this.http.get('url', options)
+        //.map(response => response.json());
+
+    //when use AuthHttp
+    return this.authHttp.get('url')
+        .map(response => response.json());
+}
+```
+
+# Deployment
+
+* Optimization technices
+  * Minification: remove all comment and white space.
+  * Uglification: rename long descriptive variable and function to little one.
+  * Bundling: combine file to one file.
+  * Dead code elimination: delete the code that not use.
+  * Ahead-of-time (AOT) compilation: pre-compile angular component.
+
+do all that in: `ng build -prod`
+
+## JIT vs AOT
+
+* JIT compilation problem:
+  * Inefficient for production
+  * Happens for every user
+  * More components, slower
+  * We have to ship Angular compiler
+
+* AOT compilation bebefits:
+  * Faster startup
+  * Small bunle size
+  * Catch template error earlier
+  * Better security
+
+## Angular compiler
+
+* see version in pavkage.json dependency '@angular/cmpiler'.
+
+run compiler from moduls: `node_modules/.bin/ngc`
+send nothind if we have not any error
+
+## Building Aplication with Angular Cli
+
+if use `ng build` -> compile without optimization.
+
+`ng build --prod`: make 'dist' folder. folder name with hash number for each change to prevent cach them in browser.
+
+## Enviroment
+
+* Enviroment like Deployment, Test, Production.
+* in 'src/enviroment/': 'enviroment.prod.ts' for production, 'enviroment.ts' for development.
+* for show us the enviroment, and prevent any change in production enviroment.
+* we can add variable to each enviroment
+
+use in component:
+
+```javascript
+import { enviroment } from './../../enviroments/enviroment' //not enviroment.prod
+...
+backgroungColor = enviroment.production;
+```
+
+* `ng serve` default run in develop enviroment. for product enviroment `ng serve --prod` or `ng serve --enviroment=prod`
+
+### Add custom Enviroment
+
+make new enviroment file like 'enviroment.test.ts'
+register in angular-cli.json -> inviroments
+
+```json
+"inviroments":{
+    "test": "enviroments/enviroment.test.ts"
+}
+```
+
+use `ng serve --enviroment=test` or `ng build --enviroment=test`.
+
+* only in develpment enviroment change immedietly can see in browser.
+
+## Linter
+
+### Linter with Angular Cli
+
+* programs roles like [`tslint`](https://github.com/plantir/tslint)
+* install by default in angular. see 'package.json'
+* run tslint `ng lint` and see errors.
+* for find and fix error run `ng lint --fix`
+
+### Linter with VSCode
+
+install TSLint extention for VScode
+
+* See all problem in page
+* use `ctrl+shift+p` for command pallet and type T`TSLint:Fix all auto-fixable problems`.
