@@ -2045,3 +2045,182 @@ and use `npm run deploy:gh`
 ```
 
 ### Building Real-time Server-less Apps with Firebase
+
+* Fast, scalable and real-time database in the cloud
+* Authentication
+* Cloud messaging
+* Storage
+* Analytics
+
+#### Firebase project
+
+* go to [firebase console](console.firebase.google.com) and add project.
+* firebase database in NOSQL database, thats like tree of node
+* make project `ng new firebase-demo`
+* `cd firebase-demo` & `npm install firebase angularfire2 --save`
+* in firebase project page go to 'add fire base to your app' copy all config property like `appkey` to out project enviroment.ts -> firebase
+
+```javascript
+export const enviroment = {
+    production: false,
+    firebase:{
+        apikey: '',
+    }
+}
+```
+
+* in app.module.ts
+
+```javascript
+import { enviroment } from './../../enviroments/enviroment'
+import { AngularFireModule } from 'angularfire2'
+import { AngularFireDatabaseModule } from 'angularfire2/database'
+...
+imports:{
+AngularFireModule.initializedApp(enviroment.firebase),
+AngularFireDatabaseModule
+}
+```
+
+#### Read from Firebase Database
+
+* need to change role in project page and change `"read": true`
+
+```javascript
+import { AngularFireDatabase } from 'angularfire2/database'
+...
+courses: any[];
+constroctor(db: AngularFireDatabase){
+    db.list('/courses')
+        .subscribe(courses => {
+            this.courses = courses;
+        })
+}
+```
+
+* firebase database is real time, change reflected in app immedietly. very good for chat app. sometime its make memory leak for records change that does not see in client.
+
+#### Unsubscribe from Subscription
+
+```javascript
+expot class AppCompoment implements onDestroy{
+    courses: any[];
+    subscription: Subscription;
+
+    constroctor(db: AngularFireDatabase){
+        this.subscription = db.list('/courses')
+            .subscribe(courses => {
+                this.courses = courses;
+            })
+    }
+    ngOneDestroy(){
+        this.subscription.unsubscribe();
+    }
+}
+```
+
+#### Async Pipe
+
+async get latest value and subscribe when component destroy unsubscribe.
+
+```javascript
+expot class AppCompoment{
+    courses$; // $ means its observable
+
+    constroctor(db: AngularFireDatabase){
+        this.courses$ = db.list('/courses');
+    }
+}
+```
+
+use
+
+```html
+<li *ngFor="let course of courses$ | async"> ...</li>
+```
+
+#### Reading an Object
+
+```javascript
+expot class AppCompoment{
+    courses$; // $ means its observable
+    course$;
+
+    constroctor(db: AngularFireDatabase){
+        this.courses$ = db.list('/courses');
+        this.course$ = db.object('/courses/1');
+    }
+}
+```
+
+```html
+<p> {{ course$ | async | json }} </p>
+<p> {{ (course$ | async).title | json }} </p>
+```
+
+#### As Keyword
+
+```html
+<ul *ngIf="author$ | async as author">
+    <li> {{ author.name }}</li>
+    <li> {{ author.age }}</li>
+</ul>
+```
+
+#### Add Object
+
+* need to change role in fire base console `".write":true`
+
+```html
+<input type="text" (keyup.enter)="add(course)" #course >
+```
+
+```javascript
+expot class AppCompoment{
+    courses$: FirebaseListObservable<any[]>; // $ means its observable
+
+    constroctor(db: AngularFireDatabase){
+        this.courses$ = db.list('/courses');
+    }
+
+    add(course: HtmlInputElement){
+        this.courses$.push(course.value);
+            //.then({})
+        course.value='';
+    }
+}
+```
+
+#### Update Object
+
+```html
+<li *ngFor="let course of courses$ | async"> ...
+    <button (click)="update(course)">update</button>
+</li>
+```
+
+```javascript
+constroctor(this db: AngularFireDatabase){
+    this.courses$ = db.list('/courses');
+}
+
+update(course){
+    this.db.object('/courses/' + course.$key)
+        //.set(course.$value + ' updated');
+        //.set({title: course.$value + ' updated', price:150});
+        .update({title: course.$value + ' updated', price:150});
+}
+```
+
+* set change object exactly to new thing, but update change exist and add new thing not delete any thing.
+
+#### Remove Object
+
+```javascript
+delete(course){
+    this.db.object('/courses/' + course.$key)
+        .remove();
+}
+```
+
+* other work with firebase: Joining, Check for existence of an object, Sorting, Filterng, Indexing, Limiting, Multiple updates, Authentication, Facebook Login
