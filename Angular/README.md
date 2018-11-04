@@ -1965,3 +1965,83 @@ install TSLint extention for VScode
 * Github Page: no back-end.
 * Firebase: as backend.
 * Heroku: custome backend.
+
+#### Deploying to GitHub Pages
+
+* first deployment
+  * Create GitHub Repository
+  * connect to project `git remote add origin http://github/somting.git`
+  * send project `git push origin master`
+  * install node package for deploy our app `npm i -g angular-cli-ghpages`
+  * build project for github `ng build --prod --base-href="https://mohsen1299.github.io/repositoryname/"`
+  * run `angular-cli-ghpages` or `ngh`
+
+* other deployment
+  * `ng build --prod --base-href="https://mohsen1299.github.io/repositoryname/"`
+  * `ngh`
+
+or in package.json onther the script add command
+
+```json
+"scrips": {
+    "deploy:gh": "ng build --prod --base-href='https://mohsen1299.github.io/repositoryname/' && ngh"
+}
+```
+
+and use `npm run deploy:gh`
+
+#### Deploying to Firebase
+
+* provide by google for backend mobile/web app
+* go to [firebase](https://console.firebase.google.com) and add project
+* install firebase tool: `npm install -g firebase-tools`
+* login to fire base: `firebse login`
+* in project folder: `firebase init` and select hosting after than select project name
+* in firebase.json
+
+```json
+{
+    "Hosting": {
+        "public": "dist",
+        "rewrites": [
+            {
+                "source": "**",
+                "destination": "index.html"
+            }
+        ]
+    }
+}
+```
+
+* run `ng build --prod`
+* deploy with `firebase deploy` and get app address
+* can add `"deploy:firebase": 'ng buil --prod && firebase deploy'` to package.json -> scripts. and use `npm run deploy:firebase`
+
+#### Deploying to Heroku
+
+* go to [Heroku](https://www.heroku.com/) and add project
+* search for Heroku-cli, and download and install it, check `heroku --version`
+* login with `heroku login`
+* create heroku app with `heroku creat [app-name]` or `heroku creat` (and heroku generate a name) and get address
+* go to app page `heroku open`
+* in package.json:
+  * move 'angular/cli' & 'angular/compiler-cli' & 'typescript' from devDependencies to dependencies.
+  * add `"postinstall": "ng build --prod"` in scripts
+  * chande `"start": "ng server.js"`
+* add express to dependency `npm i express --save`
+* `git add .` & `git commit -m "prepare for Heroku"`
+* `git push heroku master`
+* `heroku open` to see app
+
+* if hade probelem we can set engine for heroku in package.json:
+
+```json
+{
+    "engines": {
+        "node": "6.10.3", // our machin version
+        "npm": "5.3.0"
+    }
+}
+```
+
+### Building Real-time Server-less Apps with Firebase
