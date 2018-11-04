@@ -14,7 +14,6 @@
 
 `npm install -g @angular/cli`
 
-
 ### make project name: my-app
 
 `ng new my-app`
@@ -48,7 +47,7 @@ tsc main.ts && node main.js
 
 ```
 
-### variables 
+### variables
 
 `var i=8` => global variable
 
@@ -460,7 +459,7 @@ import { FormsModule } from '@angular/forms'
 export class mycomponent{
     course={
         title: 'Angular App',
-        student: 30146 
+        student: 30146
         rating: 4.9745
         price: 1990.95
         releaseDate: new Date(2016,3,1)
@@ -735,7 +734,7 @@ export class mycomponent{
 
 ```html
 <ul>
-    <li *ngFor="let course of courses; index as i"> // export index 
+    <li *ngFor="let course of courses; index as i"> // export index
         {{i}} - {{course}} <button (click)="removeCourse(course)">Remove</button>
     </li>
 </ul>
@@ -798,11 +797,11 @@ convert to
 
 ```html
 <span class="glyphicon"
-    [class.glyph-star]="isSelected" 
+    [class.glyph-star]="isSelected"
     [class.glyph-star-empty]="isSelected"
     ></span>
 //or
-<span class="glyphicon" 
+<span class="glyphicon"
     [ngClass]="{
         'glyph-star' : isSelected,
         'glyph-star-empty' : !isSelected
@@ -814,8 +813,8 @@ convert to
 
 ```html
 <button
-    [style.color]="canSave ? 'blue' : 'yellow'" 
-    [style.fontWeight]="canSave ? 'bold' : 'normal'" 
+    [style.color]="canSave ? 'blue' : 'yellow'"
+    [style.fontWeight]="canSave ? 'bold' : 'normal'"
     >submit</button>
 //or
 <button
@@ -939,7 +938,7 @@ use
         <input required minlenght ='3' ngModel name="firstName" id="firstName" class="form-control" type="text">
         <div class="alert alert-danger" *ngif="firstname.touched && !firstName.valid">
         <div *ngIf="firstName.error.required">First Name is required</div>
-        <div *ngIf="firstName.error.minlength">First Name should be minimum 3 characters</div> //or minimum {{ firstName.error.minlength.requiredLenght }} 
+        <div *ngIf="firstName.error.minlength">First Name should be minimum 3 characters</div> //or minimum {{ firstName.error.minlength.requiredLenght }}
         </div>
     </div>
     <div class="form-group">
@@ -1163,7 +1162,7 @@ removeTopic(topic: FormControl){
     <input type="text" class="form-control"
         (keyup.enter)="addTopic(topic)" #topic>
     <ul clss="list-group">
-        <li 
+        <li
             *ngFor="let topic of form.get('topic').control"
             (click)="removeTopic(topic)"
             class="list-group-item">
@@ -1248,7 +1247,7 @@ creatPost(input: HtmlInputElement){
 
 ```html
 <li *ngFor="let post in posts">
-    <button (click)="updatePost(post)"></button> 
+    <button (click)="updatePost(post)"></button>
     {{ post.title }}
     </li>
 ```
@@ -1289,7 +1288,7 @@ DeletePost(post: HtmlInputElement){
 ...
 .subscribe(response => {
         ...
-    },error => { 
+    },error => {
         console.log(error); //see error
     });
 ...
@@ -1303,10 +1302,10 @@ DeletePost(post: HtmlInputElement){
     response => {
         ...
     },
-    (error: Response) => { 
+    (error: Response) => {
         if(error.status == 404)
             console.log('this post already deleted');
-        else   
+        else
             console.log(error); //see error
         //if(error.status == 400)
             //this.form.setError(error.json())
@@ -1341,7 +1340,7 @@ import  'rxjs/add/Observable/throw';
 deletePost(id){
     return this.http.delete(this.url+'/'+id)
         .catch((error: Response) =>{
-            if(error.status == 404) 
+            if(error.status == 404)
                 return Observable.throw(new NotFoundError(error));
             return Observable.throw(new AppError(error));
         });
@@ -1356,10 +1355,10 @@ in component
     response => {
         ...
     },
-    (error: AppError) => { 
+    (error: AppError) => {
         if(error instanceof NotFoundError)
             console.log('this post already deleted');
-        else   
+        else
             console.log(error); //see error
         //if(error.status == 400)
             //this.form.setError(error.json())
@@ -1390,7 +1389,7 @@ providers:[
 use
 
 ```javascript
-(error: AppError) => { 
+(error: AppError) => {
         if(error instanceof NotFoundError)
             console.log('this post already deleted');
         else
@@ -1409,7 +1408,7 @@ handelError(error){
         this.form.setError(error.json())
     if(error instanceof NotFoundError)
         console.log('this post already deleted');
-    else   
+    else
         console.log(error); //see error
 }
 ```
@@ -1624,7 +1623,7 @@ submit(){
 
 ## Authentication and Authorization
 
-* `JWT: JSON Web Token` save in local storage. 
+* `JWT: JSON Web Token` save in local storage.
 * we need to have in both the client and server. more info [`JWT`](https/jwt.io)
 * JWT on clent: Dispaly current user name, show/hide part of page, prevent access to certain route
 
@@ -1695,7 +1694,7 @@ in service
 isLoggedIn(){
     let jwtHelper = new JwtHelper();
     let token = localStorage.getItem('token');
-    if (!token) 
+    if (!token)
         return false;
 
     let expirationDate = jwtHelper.getTockenExpirationDate(token);
@@ -1720,7 +1719,7 @@ in service
 ```javascript
 get currentUser(){
     let token = localStorage.getItem('token');
-    if (!token) 
+    if (!token)
         return null;
 
     let jwtHelper = new JwtHelper();
@@ -1741,10 +1740,10 @@ get currentUser(){
 ```javascript
 export class AuthGuard implement CanActivate{
     constroctor(
-        private router: Router, 
+        private router: Router,
         private authService: AuthService){}
     canActivate(){
-        if(this.authService.isLoggedIn()) 
+        if(this.authService.isLoggedIn())
             return true;
 
         this.router.navigate(['/login']);
@@ -1758,8 +1757,8 @@ add auth-guard to app.module in provider and use in imports RouterModule.
 ```javascript
 RouterModule.forRoot([
     { path: '', component: HomeComponent },
-    { 
-        path: 'admin', 
+    {
+        path: 'admin',
         component: HomeComponent,
         canActive: [AuthGuardServise]
     }
@@ -1777,10 +1776,10 @@ provider:[
 ```javascript
 export class AuthGuard implement CanActivate{
     constroctor(
-        private router: Router, 
+        private router: Router,
         private authService: AuthService){}
     canActivate(route, state: RouteStateSnapeshot){
-        if(this.authService.isLoggedIn()) 
+        if(this.authService.isLoggedIn())
             return true;
 
         this.router.navigate(['/login'],{ queryParams: { returnUrl: state.url });
@@ -1818,10 +1817,10 @@ signIn(credentials){
 ```javascript
 export class AdminAuthGuard implement CanActivate{
     constroctor(
-        private router: Router, 
+        private router: Router,
         private authService: AuthService){}
     canActivate(){
-        if(this.authService.currntUser && this.authService.currntUser.admin) 
+        if(this.authService.currntUser && this.authService.currntUser.admin)
             return true;
 
         this.router.navigate(['/no-access']);
@@ -1960,3 +1959,9 @@ install TSLint extention for VScode
 
 * See all problem in page
 * use `ctrl+shift+p` for command pallet and type T`TSLint:Fix all auto-fixable problems`.
+
+### Deployment Option
+
+* Github Page: no back-end.
+* Firebase: as backend.
+* Heroku: custome backend.
