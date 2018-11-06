@@ -2224,3 +2224,97 @@ delete(course){
 ```
 
 * other work with firebase: Joining, Check for existence of an object, Sorting, Filterng, Indexing, Limiting, Multiple updates, Authentication, Facebook Login
+
+## Animation
+
+* two way to creat animation: `css`, `javascript`
+  * `css`: limit control, suitable for simple, one shote animations
+  * `javascript`: `jQuery`, `GSAP`, `Zepto`, `Web Animation API`
+* recommend: `Web Animation API` for animate dom element and support natively in chrome, firefox & opera.
+* `@angular/animations` amodules top of standard `Web Animation API`.
+* [`CanIUse`](https://caniuse.com/) for check support browser
+* css animation: `transient`, `animation`
+* can use `animate.css`
+
+## Angular Animations
+
+* `@angular/animations`: trigger(), transition(), state(), animate(), ...
+* States: void, default(*) & custom.
+  * void: not part of DOM. creat from outside or remove element.
+* `Polyfill` allow to use modern javascript feature in old browser.
+
+### Import the Animation Module and Polyfills
+
+* in app.mudule.ts
+
+```javascript
+import { BrowserAnimationModule } from '@angular/platform-browser/animation';
+...
+import:[
+    BrowserAnimationModule
+]
+```
+* in src/polyfills.ts in line 40,41 uncomment `import web-animation-js;`
+* in terminal: `npm install web-animation-js --save`
+
+### Implement Animation
+
+```javascript
+import { trigger } from '@angular/animation';
+....
+@component({
+    ...
+    animation: [
+        trigger('fade',[
+            //state(),
+            transition('void => *',[
+                style({ backgroundColor: 'yellow',opacity: 0 }), // in transient time
+                animate(2000, style({ backgroundColor: 'white',opacity: 1 }))) //at the end after 2 sec
+                // animate(2000) //undo all style at the end
+            ]), //fade-in effect
+
+            transition('* => void',[
+                animation(2000,{ opacity: 0})
+            ]) //fade-out effect
+
+        ])
+    ]
+})
+```
+
+```html
+<button @fade></button>
+```
+
+### States
+
+```javascript
+....
+@component({
+    ...
+    animation: [
+        trigger('fade',[
+            state('void', style({ opacity: 0}),
+            
+            transition('void => *',[
+                // no need style { opacity: 0}
+                animate(2000)
+            ]),
+
+            transition('* => void',[
+                animate(2000) //no need { opacity: 0}
+            ])
+
+            //or
+            //transition('void => *, * => void',[ //or 'void <=> *'
+            //    animate(2000)
+            //])
+        ])
+    ]
+})
+```
+
+### Transition
+* `void => *` and `* => void` equel to `void => *, * => void` or `void <=> *`
+* `void => 0`: `:enter`
+* `* => void`: `:leave`
