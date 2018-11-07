@@ -38,7 +38,7 @@
 
 ### compile and get `main.js` and run
 
-```javascript
+```ts
 
 tsc main.ts
 node main.js
@@ -53,7 +53,7 @@ tsc main.ts && node main.js
 
 `let i=4` => compile to var but have scope & type
 
-```javascript
+```ts
 
 let a:number;
 let a:boolean;
@@ -83,14 +83,14 @@ we have `void`: mean nothing (null or Undefined), `never`: if function go to thr
 
 for having intellisence
 
-```javascript
+```ts
 let strLength: number = (<string>someValue).length;
 let strLength: number2 = (someValue as string).length;
 ```
 
 ### Arrow Function
 
-```javascript
+```ts
 let log = (message) => console.log(message);
 ```
 
@@ -98,13 +98,13 @@ let log = (message) => console.log(message);
 
 inline annotation
 
-```javascript
+```ts
 let func = (point:{x:number,y:number})=>{ ...... }
 ```
 
 interface
 
-```javascript
+```ts
 interface Point{
     x:number,
     y:number
@@ -120,7 +120,7 @@ interface Other{
 
 ### Class
 
-```javascript
+```ts
 class Point{
     //fileds
     x:number;
@@ -134,7 +134,7 @@ let point:Point = new Point();
 
 constructor
 
-```javascript
+```ts
 class Greeter {
     greeting: string;
     constructor(message?: string) { //optional variable
@@ -150,7 +150,7 @@ let greeter = new Greeter("world");
 
 inherit
 
-```javascript
+```ts
 class Point {
     x: number;
     y: number;
@@ -164,7 +164,7 @@ also have `private`, `protected`, `abstract` & `static`
 
 use Access Modifier in construct parameters
 
-```javascript
+```ts
 class Point {
     constructor(private x: number,private y: number) {
     }
@@ -183,7 +183,7 @@ class Point {
 access property
 if have error `tsc *.ts --target ES%`
 
-```javascript
+```ts
 class num{
     private _x:number;
 
@@ -202,14 +202,14 @@ class num{
 
 Modules file need to expot something(one or more class, function, variable, ...)
 
-```javascript
+```ts
 //point.ts
 export class Point{ ..... }
 ```
 
 use Modules
 
-```javascript
+```ts
 //main.ts
 import {Point} from './point'
 
@@ -218,7 +218,7 @@ let point:Point = new Point();
 
 ### Use Backtick
 
-```javascript
+```ts
 let user = {name:'mohsen',email='...'};
 console.log(`Username is ${user.name}, email is ${user.email}`);
 ```
@@ -241,7 +241,7 @@ angularCli generate component course
 
 ### Template
 
-```javascript
+```ts
 @component{(
     template:` // backtick for many line
     <h1>{{"Title: "+title+ " " + getCount() }}</h1>
@@ -268,7 +268,7 @@ angularCli generate service readlist
 
 * using service
 
-```javascript
+```ts
 export class mycomponent{
     list;
     constructor(read: readlist){ // dependency injection
@@ -303,7 +303,7 @@ one way from component to Dom
 
 add bootstrap to global style file: `styles.css`
 
-```javascript
+```ts
 @import "~bootstrap/dist/css/bootstrap.css";
 ```
 
@@ -311,7 +311,7 @@ add bootstrap to global style file: `styles.css`
 
 ### Class Binding
 
-```javascript
+```ts
 @component{(
     template:`
     <button class="btn btn-primary" [class.active]="isActive"></button>
@@ -326,7 +326,7 @@ if `isActive==true` class `active` add to button, else not adding.
 
 ### Style Binding
 
-```javascript
+```ts
 @component{(
     template:`
     <button [style.backgroundColor]="isActive? 'blue':'white' "></button>
@@ -341,7 +341,7 @@ export class mycomponent{
 
 ### Event Binding
 
-```javascript
+```ts
 @component{(
     template:`
     <button (click)="onSave()"></button>
@@ -359,7 +359,7 @@ export class mycomponent{
 
 ### Event Filter
 
-```javascript
+```ts
 @component{(
     template:`
     <input (keyup)="OnKeyUp($event)" />
@@ -379,7 +379,7 @@ export class mycomponent{
 
 ### Template Variable
 
-```javascript
+```ts
 @component{(
     template:`
     <input (keyup.enter)="onEnter($event)" />
@@ -400,7 +400,7 @@ export class mycomponent{
 
 * Banana in the box [()]
 
-```javascript
+```ts
 @component{(
     template:`
     <input [value]="name" (keyup.enter)=" email=$event.target.value; onEnter(name.value)" />
@@ -421,7 +421,7 @@ export class mycomponent{
 
 * need to add forms module to modules
 
-```javascript
+```ts
 import { FormsModule } from '@angular/forms'
 ...
 @ngMoModule({
@@ -437,7 +437,7 @@ import { FormsModule } from '@angular/forms'
 
 ### Pipes
 
-```javascript
+```ts
 @component{(
     template:`
     {{ course.title }} <br />
@@ -475,7 +475,7 @@ angularCli generate pipe mypipe
 
 send variable to Pipe `{{ bigString | summary:40 }}`
 
-```javascript
+```ts
 export class SummaryPipe implements PipeTransform {
 
   transform(value: string, limit?: number): any {
@@ -506,7 +506,7 @@ for send information to component
 
 * first way
 
-```javascript
+```ts
 import {... , Input} from '@angular/core'
 ...
 export class mycomponent{
@@ -516,7 +516,7 @@ export class mycomponent{
 
 * second way
 
-```javascript
+```ts
 @component{(
     ...
     input:['isFavorite']
@@ -534,7 +534,7 @@ export class mycomponent{
 
 can not define or use `is-favorite` as variable in typescript or javascript
 
-```javascript
+```ts
 export class mycomponent{
     @input('is-favorite') isFavorite = false;
 }
@@ -548,7 +548,7 @@ for recieve
 <mycomponent (change)="onFavoriteChange()"></mycomponent>
 ```
 
-```javascript
+```ts
 import {... , Output,EventEmitter} from '@angular/core'
 ...
 export class mycomponent{
@@ -563,7 +563,7 @@ export class mycomponent{
 
 ### Passing Event Data
 
-```javascript
+```ts
 export class mycomponent{
     ...
     onClick(){
@@ -585,7 +585,7 @@ export class mycomponent{
 <mycomponent (change)="onFavoriteChange()"></mycomponent>
 ```
 
-```javascript
+```ts
 export class mycomponent{
     @output('change')  changeEvent = new EventEmitter();
 }
@@ -595,7 +595,7 @@ export class mycomponent{
 
 * `Shadow Dom` Allows us to apply scoped styles to elements without bleeding out to the outer world.
 
-```javascript
+```ts
 @Component({
   ...
   encapsulation: ViewEncapsulation.Emulated // angular try to emulate shadow dom
@@ -609,7 +609,7 @@ export class mycomponent{
 sending information to component
 mypanel.component.html
 
-```javascript
+```ts
 <div class="panel panel-default">
     <div class="panel-heading">
         <ngContent select=".headercontent"></ngContent> //element with class headercontent come hear
@@ -622,7 +622,7 @@ mypanel.component.html
 
 * `select` like css selector & can be class or id or element.
 
-```javascript
+```ts
 <mypanel>
     <div class="headercontent"> header title </div>
     <div class="bodycontent">
@@ -639,7 +639,7 @@ mypanel.component.html
 
 if use ngContainer for sending information, only inside it send
 
-```javascript
+```ts
 <mypanel>
     <ngContainer class="headercontent"> header title </ngContainer>
     <ngContainer class="bodycontent">
@@ -698,7 +698,7 @@ or use `then`, `else` and `ng-template`
 
 ### ngSwitch & ngSwitchCase
 
-```javascript
+```ts
 export class mycomponent{
     viewName;
 }
@@ -718,7 +718,7 @@ export class mycomponent{
 
 ### ngFor
 
-```javascript
+```ts
 export class mycomponent{
     courses ={
         {id:1 , name:'ali'}
@@ -755,7 +755,7 @@ use track by to better performance & not make dom every time
 </ul>
 ```
 
-```javascript
+```ts
 export class mycomponent{
     courses;
     loadCourse(){
@@ -841,7 +841,7 @@ Angular generate directive [directive-name]
 
 * angularCli add app in front of directive name to prevent clash html attribute
 
-```javascript
+```ts
 import { Directive, HostListener, ElementRef } from '@angular/core'; //HostListener for hande dome event, ElementRef for reading value
 @Directive({
     selector: 'appInputFormat'
@@ -866,7 +866,7 @@ use
 
 with sengding value
 
-```javascript
+```ts
 import { Directive, HostListener, ElementRef, Input } from '@angular/core'; //HostListener for hande dome event, ElementRef for reading value, Input for recieve value
 @Directive({
     selector: 'appInputFormat'
@@ -899,7 +899,7 @@ use
 <input type="text" [appInputFormat]="'something'">
 ```
 
-```javascript
+```ts
 ...
 @Input('appInputFormat') format;
 ...
@@ -1003,7 +1003,7 @@ for recieve everything use `ngValue`
 
 * need to add `ReactiveFormModule` in app.moduls imports
 
-```javascript
+```ts
 import { FormGroup, FormControl, Validators } from '@angular/forms'
 ...
 export class signupFormComponent{
@@ -1035,7 +1035,7 @@ export class signupFormComponent{
 
 define
 
-```javascript
+```ts
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 
 export class usernameValidators{
@@ -1051,7 +1051,7 @@ export class usernameValidators{
 
 use
 
-```javascript
+```ts
 ...
 userName: new FormControl('',[
     Validators.required,
@@ -1068,7 +1068,7 @@ userName: new FormControl('',[
 
 define
 
-```javascript
+```ts
 static shouldBeUnique(control: AbstractControl): Promise<ValidationErrors | null> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
@@ -1083,7 +1083,7 @@ static shouldBeUnique(control: AbstractControl): Promise<ValidationErrors | null
 
 use
 
-```javascript
+```ts
 userName: new FormControl('',[
     Validators.required,
     Validators.minlenght(3)
@@ -1107,7 +1107,7 @@ userName: new FormControl('',[
 ...
 ```
 
-```javascript
+```ts
 login(){
     let valid = server.checkuser(this.form.value);
     if(!valid){
@@ -1118,7 +1118,7 @@ login(){
 
 ### Nested FormGroup
 
-```javascript
+```ts
 ...
 form = new FormGroup({
     account: new FormGroup({
@@ -1142,7 +1142,7 @@ get username(){
 
 ### Form Array
 
-```javascript
+```ts
 
 form = new FormGroup({
     topic: new FormArray([])
@@ -1174,7 +1174,7 @@ removeTopic(topic: FormControl){
 
 ### Form Builder
 
-```javascript
+```ts
 form = new FormGroup({
     name: new FormControl('', Validator.required),
     account: new FormGroup({
@@ -1187,7 +1187,7 @@ form = new FormGroup({
 
 use form builder
 
-```javascript
+```ts
 form;
 constroctor(fb: FormBuilder){
     this.form = fb.group({
@@ -1209,7 +1209,7 @@ constroctor(fb: FormBuilder){
 
 * Add `httpModule`  to app.module imports
 
-```javascript
+```ts
 posts: any[];
 constructor(http: Http){ // from '@angular/http'
     http.get('https://jsonplaceholder.typicode.com/posts')
@@ -1225,7 +1225,7 @@ constructor(http: Http){ // from '@angular/http'
 <input (keyup.enter)="creatPost(title)" #title ...>
 ```
 
-```javascript
+```ts
 posts: any[];
 constructor(private http: Http){}
 creatPost(input: HtmlInputElement){
@@ -1252,7 +1252,7 @@ creatPost(input: HtmlInputElement){
     </li>
 ```
 
-```javascript
+```ts
 updatePost(post: HtmlInputElement){
     this.http.patch('https://jsonplaceholder.typicode.com/posts/' +     post.id, JSON.stringify({isRead: true}))
         .subscribe(response => {
@@ -1268,7 +1268,7 @@ updatePost(post: HtmlInputElement){
 
 ### Delete Data
 
-```javascript
+```ts
 DeletePost(post: HtmlInputElement){
     this.http.delete('https://jsonplaceholder.typicode.com/posts/' +    post.id)
         .subscribe(response => {
@@ -1284,7 +1284,7 @@ DeletePost(post: HtmlInputElement){
 
 * Unexpected Errors: `Server is Offline`,`Network is down`, `Unhandled expections`.
 
-```javascript
+```ts
 ...
 .subscribe(response => {
         ...
@@ -1296,7 +1296,7 @@ DeletePost(post: HtmlInputElement){
 
 * Expected: `Not Found` Errors (404), `Bad Request` Errors (400)
 
-```javascript
+```ts
 ...
 .subscribe(
     response => {
@@ -1319,21 +1319,21 @@ DeletePost(post: HtmlInputElement){
 
 make error
 
-```javascript
+```ts
 //app/common/app-error.ts
 export class AppError{
     constroctor(public originalError?: any){}
 }
 ```
 
-```javascript
+```ts
 //app/common/not-found-error.ts
 export class NotFoundError extend AppError{}
 ```
 
 use in service
 
-```javascript
+```ts
 import  'rxjs/add/operator/catch';
 import  'rxjs/add/Observable/throw';
 ...
@@ -1349,7 +1349,7 @@ deletePost(id){
 
 in component
 
-```javascript
+```ts
 ...
 .subscribe(
     response => {
@@ -1368,7 +1368,7 @@ in component
 
 ### Global Error Handler
 
-```javascript
+```ts
 //app/common/app-error-handler.ts
 export class AppErrorHandler implements ErrorHandler{
     handleError(error){
@@ -1379,7 +1379,7 @@ export class AppErrorHandler implements ErrorHandler{
 
 * add in app.module providers
 
-```javascript
+```ts
 providers:[
     ... ,
     { provide: ErrorHandler, useClass: AppErrorHandler } //use AppErrorHandler instead of Error handler
@@ -1388,7 +1388,7 @@ providers:[
 
 use
 
-```javascript
+```ts
 (error: AppError) => {
         if(error instanceof NotFoundError)
             console.log('this post already deleted');
@@ -1399,7 +1399,7 @@ use
 
 ### reusable Error handling method
 
-```javascript
+```ts
 ...
 catch(this.handelError);
 ...
@@ -1417,7 +1417,7 @@ handelError(error){
 
 define
 
-```javascript
+```ts
 export class DataService{
     constroctor(private url: string, private http: Http){}
     getAll(){ ... }
@@ -1429,7 +1429,7 @@ export class DataService{
 
 use
 
-```javascript
+```ts
 export class PostService extend DataService{
     constroctor(http: Http){
         super('url',http);
@@ -1439,7 +1439,7 @@ export class PostService extend DataService{
 
 ### Map Operator
 
-```javascript
+```ts
 import 'rxjs/add/operator/map'
 ...
 getAll(){
@@ -1452,7 +1452,7 @@ getAll(){
 
 use
 
-```javascript
+```ts
 this.service.getAll()
     .subscribe(posts => this.post = posts);
 ```
@@ -1474,7 +1474,7 @@ this.service.getAll()
 
 * add `RouterModule.forRoot()` to app.module imports.
 
-```javascript
+```ts
 RouterModule.forRoot([
     { path: '', component: HomeComponent }, // note use '/'
     { path: 'followers', component: FollowersComponent },
@@ -1508,7 +1508,7 @@ RouterModule.forRoot([
 
 ### Getting Route Parameter
 
-```javascript
+```ts
 constroctor(private route: ActivatedRoute){}
 ngOnInit(){
     this.route.paramMap
@@ -1524,7 +1524,7 @@ ngOnInit(){
 * route param observable help us to change info without destroy component
 * we can use `snapshot` if we 100% sure component destroy and creat (navigate somewhere else and back again)
 
-```javascript
+```ts
 ngOnInit(){
     let id = +this.route.snapshot.paramMap.get('id');
 }
@@ -1534,7 +1534,7 @@ ngOnInit(){
 
 * 'profile/157/saeed'
 
-```javascript
+```ts
 { path: 'profile/:id/:username', component: ProfileComponent }
 ```
 
@@ -1552,7 +1552,7 @@ sending
 
 recieve
 
-```javascript
+```ts
 constroctor(private route: ActivatedRoute){}
 ngOnInit(){
     this.route.queryParamMap
@@ -1566,7 +1566,7 @@ ngOnInit(){
 
 ### Subscribe to multiple Observable
 
-```javascript
+```ts
 import { observable } from 'rxjs/observable';
 import 'rxjs/add/observable/combineLatest';
 ...
@@ -1589,7 +1589,7 @@ ngOnInit(){
 
 * solve problem subscribe in subscribe
 
-```javascript
+```ts
 import { observable } from 'rxjs/observable';
 import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/operator/map';
@@ -1611,7 +1611,7 @@ ngOnInit(){
 
 ### Programmatic Navigation
 
-```javascript
+```ts
 constroctor(private router: Router){}
 
 submit(){
@@ -1629,7 +1629,7 @@ submit(){
 
 ### Login
 
-```javascript
+```ts
 invalidLogin: boolean;
 constructor(private router: Router, private authService: AuthService){}
 
@@ -1653,7 +1653,7 @@ signIn(credentials){
 we dont need to have observable function for login so we use `map`.
 in service
 
-```javascript
+```ts
 login(credentials){
     return this.http.post('...',JSON.stringify(credentials)) // its observable
     .map(response => {
@@ -1677,7 +1677,7 @@ login(credentials){
 
 in service
 
-```javascript
+```ts
 logout(){
     localstorage.removeItem('token');
 }
@@ -1690,7 +1690,7 @@ install jwt
 
 in service
 
-```javascript
+```ts
 isLoggedIn(){
     let jwtHelper = new JwtHelper();
     let token = localStorage.getItem('token');
@@ -1716,7 +1716,7 @@ isLoggedIn(){
 
 in service
 
-```javascript
+```ts
 get currentUser(){
     let token = localStorage.getItem('token');
     if (!token)
@@ -1737,7 +1737,7 @@ get currentUser(){
 
 * check route with auth-guard servise
 
-```javascript
+```ts
 export class AuthGuard implement CanActivate{
     constroctor(
         private router: Router,
@@ -1754,7 +1754,7 @@ export class AuthGuard implement CanActivate{
 
 add auth-guard to app.module in provider and use in imports RouterModule.
 
-```javascript
+```ts
 RouterModule.forRoot([
     { path: '', component: HomeComponent },
     {
@@ -1773,7 +1773,7 @@ provider:[
 
 ### Redirect User
 
-```javascript
+```ts
 export class AuthGuard implement CanActivate{
     constroctor(
         private router: Router,
@@ -1790,7 +1790,7 @@ export class AuthGuard implement CanActivate{
 
 in login componen
 
-```javascript
+```ts
 invalidLogin: boolean;
 constructor(
     private router: Router,
@@ -1814,7 +1814,7 @@ signIn(credentials){
 
 * a service like auth-guard inmplement from `CanActivated`such as admin-auth-guard.
 
-```javascript
+```ts
 export class AdminAuthGuard implement CanActivate{
     constroctor(
         private router: Router,
@@ -1831,7 +1831,7 @@ export class AdminAuthGuard implement CanActivate{
 
 use in app.module
 
-```javascript
+```ts
 RouterModule.forRoot([
     { path: '', component: HomeComponent },
     {
@@ -1853,7 +1853,7 @@ provider:[
 
 in service
 
-```javascript
+```ts
 import { AuthHttp } from 'angular2-jwt'
 import { Http, RequestOption, Headers } from '@angular/http';
 import 'rxjs/add/operator/map'
@@ -1921,7 +1921,7 @@ if use `ng build` -> compile without optimization.
 
 use in component:
 
-```javascript
+```ts
 import { enviroment } from './../../enviroments/enviroment' //not enviroment.prod
 ...
 backgroungColor = enviroment.production;
@@ -2060,7 +2060,7 @@ and use `npm run deploy:gh`
 * `cd firebase-demo` & `npm install firebase angularfire2 --save`
 * in firebase project page go to 'add fire base to your app' copy all config property like `appkey` to out project enviroment.ts -> firebase
 
-```javascript
+```ts
 export const enviroment = {
     production: false,
     firebase:{
@@ -2071,7 +2071,7 @@ export const enviroment = {
 
 * in app.module.ts
 
-```javascript
+```ts
 import { enviroment } from './../../enviroments/enviroment'
 import { AngularFireModule } from 'angularfire2'
 import { AngularFireDatabaseModule } from 'angularfire2/database'
@@ -2086,7 +2086,7 @@ AngularFireDatabaseModule
 
 * need to change role in project page and change `"read": true`
 
-```javascript
+```ts
 import { AngularFireDatabase } from 'angularfire2/database'
 ...
 courses: any[];
@@ -2102,7 +2102,7 @@ constroctor(db: AngularFireDatabase){
 
 #### Unsubscribe from Subscription
 
-```javascript
+```ts
 expot class AppCompoment implements onDestroy{
     courses: any[];
     subscription: Subscription;
@@ -2123,7 +2123,7 @@ expot class AppCompoment implements onDestroy{
 
 async get latest value and subscribe when component destroy unsubscribe.
 
-```javascript
+```ts
 expot class AppCompoment{
     courses$; // $ means its observable
 
@@ -2141,7 +2141,7 @@ use
 
 #### Reading an Object
 
-```javascript
+```ts
 expot class AppCompoment{
     courses$; // $ means its observable
     course$;
@@ -2175,7 +2175,7 @@ expot class AppCompoment{
 <input type="text" (keyup.enter)="add(course)" #course >
 ```
 
-```javascript
+```ts
 expot class AppCompoment{
     courses$: FirebaseListObservable<any[]>; // $ means its observable
 
@@ -2199,7 +2199,7 @@ expot class AppCompoment{
 </li>
 ```
 
-```javascript
+```ts
 constroctor(this db: AngularFireDatabase){
     this.courses$ = db.list('/courses');
 }
@@ -2216,7 +2216,7 @@ update(course){
 
 #### Remove Object
 
-```javascript
+```ts
 delete(course){
     this.db.object('/courses/' + course.$key)
         .remove();
@@ -2247,7 +2247,7 @@ delete(course){
 
 * in app.mudule.ts
 
-```javascript
+```ts
 import { BrowserAnimationModule } from '@angular/platform-browser/animation';
 ...
 import:[
@@ -2260,7 +2260,7 @@ import:[
 
 ### Implement Animation
 
-```javascript
+```ts
 import { trigger } from '@angular/animation';
 ....
 @component({
@@ -2289,7 +2289,7 @@ import { trigger } from '@angular/animation';
 
 ### States
 
-```javascript
+```ts
 ....
 @component({
     ...
@@ -2325,7 +2325,7 @@ import { trigger } from '@angular/animation';
 
 animate.ts
 
-```javascript
+```ts
 import { trigger, transition, state, style, animate } from '@angular/animation';
 export fade = trigger('fade',[
             state('void', style({ opacity: 0})),
@@ -2337,7 +2337,7 @@ export fade = trigger('fade',[
 
 use
 
-```javascript
+```ts
 import { fade } from './animate.ts'
 ....
 @component({
@@ -2350,7 +2350,7 @@ import { fade } from './animate.ts'
 
 ### Easing
 
-```javascript
+```ts
 transition(':leave',[
     animate(500, style({ transform: 'translateX(-100%)'}))
    ])
@@ -2367,7 +2367,7 @@ transition(':leave',[
 
 ### Keyframes
 
-```javascript
+```ts
 transition(':leave',[
     animate(500, keyframes([
         style({ offset: .2, opacity: 1, transform: 'translateX(20px)' }),
@@ -2380,7 +2380,7 @@ transition(':leave',[
 
 animate.ts
 
-```javascript
+```ts
 export let bounceOutLeftAnimation = Animation(
     animate(500, keyframes([
         style({ offset: .2, opacity: 1, transform: 'translateX(20px)' }),
@@ -2391,7 +2391,7 @@ export let bounceOutLeftAnimation = Animation(
 
 use
 
-```javascript
+```ts
 ...
 transition(':leave',[
     style({ backgroundColor: 'red'}),
@@ -2402,7 +2402,7 @@ transition(':leave',[
 
 ### Parametrize Reuse Animations
 
-```javascript
+```ts
 export fadeInAnimation = animation([
     style({ opacity: 0})
     animate('{{ duration }} {{ easing }}')
@@ -2441,7 +2441,7 @@ export fade = trigger('fade',[
 
 component
 
-```javascript
+```ts
 animationStarted($event){}
 animationDone($event){}
 ```
@@ -2455,7 +2455,7 @@ animationDone($event){}
 </div>
 ```
 
-```javascript
+```ts
 @component({
     animations:[
         trigger('todosAnimation',[
@@ -2481,7 +2481,7 @@ animationDone($event){}
 
 * parent animation block child animations
 
-```javascript
+```ts
 @component({
     animations:[
         trigger('todosAnimation',[
@@ -2499,7 +2499,7 @@ animationDone($event){}
 
 ### Parallel Animation with group
 
-```javascript
+```ts
 transition(':enter',[
     group([
         query('h1',[
@@ -2511,7 +2511,7 @@ transition(':enter',[
 ])
 ```
 
-```javascript
+```ts
 transition(':enter',[
     group([
         animate(1000, style({ background: 'red' })),
@@ -2522,7 +2522,7 @@ transition(':enter',[
 
 ### Stagger
 
-```javascript
+```ts
 trigger('todosAnimation',[
     transition(':enter',[
         query('h1',[
@@ -2536,38 +2536,86 @@ trigger('todosAnimation',[
 ])
 ```
 
+### Custom States
 
+```html
+<div [@expandCollapse]="isExpanded ? 'expanded' : 'collapse'" class="zippy-body" [hidden] = "!isExpanded">
+```
 
+```ts
+animation:[
+    trigger('expandCollapse',[
+        state('collapsed', style({
+            height: 0,
+            padding: 0,
+            overflow: 'hidden'
+        })),
+        state('expanded', style({
+            height: '*', //angular fill it dynamicly at runtime
+            padding: '*',
+            overflow: 'auto'
+        })),
+        transition('collapse => expanded', [
+            animate('300ms ease-out')
+        ]),
+        transition('expanded => collapse', [
+            animate('300ms ease-in')
+        ])
+    ])
+]
+```
 
+### Multi-step Animation
 
+```ts
+trigger('expandCollapse',[
+    state('collapsed', style({
+        height: 0,
+        paddingTop: 0,
+        paddingBottom: 0,
+        opacity: 0
+    })),
+    transition('collapse => expanded', [
+        animate('300ms ease-out',style({
+            height: '*',
+            paddingTop: '*',
+            paddingBottom: '*',
+        })),
+        animate('1s',style({
+            opacity: 1
+        }))
+    ]) // first expand and second show data
+])
+```
 
+### Sepration of Consern
 
+zippy.component.animation.ts
 
+```ts
+export const expandCollapse = trigger(...)
+```
 
+use
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+```ts
+@Component({
+    animation:[ expandCollapse ]
+})
+```
 
 ## Angular Material
 
-Material Design components for Angular, [site](https://material.angular.io/), [github](https://github.com/angular/material2), [Getting started](https://material.angular.io/guide/getting-started)
+Material Design components for Angular, [Home Page](https://material.angular.io/), [github Page](https://github.com/angular/material2), [Getting started](https://material.angular.io/guide/getting-started)
 
 ```sh
 npm install --save @angular/material @angular/cdk @angular/animations
 ```
+
+* Angular Material Components
+  * Internationalized
+  * Clean and Simple API
+  * Well-tested
+  * customizable
+  * fast
+  * Well-documented
