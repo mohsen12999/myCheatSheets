@@ -2681,3 +2681,73 @@ import:[
   </mat-select>
 </mat-form-field>
 ```
+
+### Input
+
+* need to import `MatInputModule` to app.module
+
+```html
+<mat-form-field class="example-full-width">
+    <input matInput placeholder="Favorite food" value="Sushi">
+</mat-form-field>
+```
+
+### Text Areas
+
+```html
+<mat-form-field class="example-full-width">
+    <textarea matInput placeholder="Leave a comment"></textarea>
+</mat-form-field>
+```
+
+### datepicker
+
+* need to import `MatDatepickerModule` to app.module
+
+```html
+<mat-form-field>
+  <input matInput [matDatepicker]="picker" placeholder="Choose a date">
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+</mat-form-field>
+```
+
+* better UI for mobile: `touchUi=true`.
+
+### Icons
+
+* see [material icon](https://material.io/icons/)
+* add to `styles.css`:
+
+```css
+@import "https://fonts.googlepis.com/icon?family=Material+Icons";
+```
+
+* add `MdIconModule` to app.module
+* omport icon by icon name (underline for space in name).
+
+```html
+<md-icon></md-icon>
+```
+
+### Button
+
+* add `MdButtonModule` to app.module
+
+```html
+<button mat-button>Click me!</button>
+<button mat-rased-button>Click me!</button>
+```
+
+### Chips
+
+* add `MdChipsModule` to app.module
+
+```html
+<mat-chip-list>
+  <mat-chip>One fish</mat-chip>
+  <mat-chip>Two fish</mat-chip>
+  <mat-chip color="primary" selected>Primary fish</mat-chip>
+  <mat-chip color="accent" selected>Accent fish</mat-chip>
+</mat-chip-list>
+```
