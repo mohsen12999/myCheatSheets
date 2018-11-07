@@ -2254,6 +2254,7 @@ import:[
     BrowserAnimationModule
 ]
 ```
+
 * in src/polyfills.ts in line 40,41 uncomment `import web-animation-js;`
 * in terminal: `npm install web-animation-js --save`
 
@@ -2294,8 +2295,8 @@ import { trigger } from '@angular/animation';
     ...
     animation: [
         trigger('fade',[
-            state('void', style({ opacity: 0}),
-            
+            state('void', style({ opacity: 0})),
+
             transition('void => *',[
                 // no need style { opacity: 0}
                 animate(2000)
@@ -2315,6 +2316,258 @@ import { trigger } from '@angular/animation';
 ```
 
 ### Transition
+
 * `void => *` and `* => void` equel to `void => *, * => void` or `void <=> *`
 * `void => 0`: `:enter`
 * `* => void`: `:leave`
+
+### Reusable Triggers
+
+animate.ts
+
+```javascript
+import { trigger, transition, state, style, animate } from '@angular/animation';
+export fade = trigger('fade',[
+            state('void', style({ opacity: 0})),
+            transition(':enter, :leave',[
+                animate(2000)
+            ])
+        ])
+```
+
+use
+
+```javascript
+import { fade } from './animate.ts'
+....
+@component({
+    ...
+    animation: [
+        fade
+    ]
+})
+```
+
+### Easing
+
+```javascript
+transition(':leave',[
+    animate(500, style({ transform: 'translateX(-100%)'}))
+   ])
+```
+
+* we can use string for time: 'duration [delay] [easing]'
+  * duration and delay: '500ms', '.5s'
+  * Easing: a function that determines the speed of animation over time.
+    * Linear: same speed
+    * Ease-in: start slow, end fast
+    * Ease-out: start fast, end slowly
+    * Ease-in-out: start slow, middle fast, end slowly
+    * Cubic Bezier: for custom easing like 'cubic-bezier(.17, .67,.17, .67)'. [online tool for design cubic-bezier](cubic-bezier.com)
+
+### Keyframes
+
+```javascript
+transition(':leave',[
+    animate(500, keyframes([
+        style({ offset: .2, opacity: 1, transform: 'translateX(20px)' }),
+        style({ offset: 1, opacity: 0, transform: 'translateX(-2000px)' })
+    ]))
+   ])
+```
+
+### Reuse Animations
+
+animate.ts
+
+```javascript
+export let bounceOutLeftAnimation = Animation(
+    animate(500, keyframes([
+        style({ offset: .2, opacity: 1, transform: 'translateX(20px)' }),
+        style({ offset: 1, opacity: 0, transform: 'translateX(-2000px)' })
+    ]))
+)
+```
+
+use
+
+```javascript
+...
+transition(':leave',[
+    style({ backgroundColor: 'red'}),
+    animate(1000),
+    useAnimation(bounceOutLeftAnimation)//after changing bg to red in 1 sec, this start
+])
+```
+
+### Parametrize Reuse Animations
+
+```javascript
+export fadeInAnimation = animation([
+    style({ opacity: 0})
+    animate('{{ duration }} {{ easing }}')
+],{
+    params: {
+        duration: '2s', // default value for duration
+        easing: 'ease-out' // default value for ease functoin
+    }
+})
+
+export fade = trigger('fade',[
+
+    transition(':enter',
+        useAnimation(fadeInAnimation,{
+            params: {
+                duration: '500ms'
+            }
+        })
+    ),
+
+    transition(':leave',[
+        animate(2000,style({ opacity: 0}))
+    ])
+])
+```
+
+### Animation Callbacks
+
+```html
+<button type="button"
+    @todoAnimation
+    (@todoAnimation.start)="animationStarted($event)"
+    (@todoAnimation.done)="animationDone($event)"
+    ></button>
+```
+
+component
+
+```javascript
+animationStarted($event){}
+animationDone($event){}
+```
+
+### Querying Child Element with query
+
+```html
+<div @todosAnimation>
+    <h1>Todos</h1>
+    <input />
+</div>
+```
+
+```javascript
+@component({
+    animations:[
+        trigger('todosAnimation',[
+            transition(':enter',[
+                query('h1',[
+                    style({ transform: 'translateY(-20px)' }),
+                    animate(1000)
+                ])
+            ])
+        ])
+    ]
+})
+```
+
+* Pseudo-selectors tockens
+  * query(':enter'), query(':leave'): for child enter or leave
+  * query(':animating'): when child animating
+  * query('@trigger'): for trigger [name: triger] triggerd
+  * query('@*'): all animation when triggerd
+  * query(':self')
+
+### Querying Child Element with animateChild
+
+* parent animation block child animations
+
+```javascript
+@component({
+    animations:[
+        trigger('todosAnimation',[
+            transition(':enter',[
+                query('h1',[
+                    style({ transform: 'translateY(-20px)' }),
+                    animate(1000)
+                ]),
+                query('@todoAnimation', animateChild()) // select trigger name @todoAnimation
+            ]) // first do h1 and after that child
+        ])
+    ]
+})
+```
+
+### Parallel Animation with group
+
+```javascript
+transition(':enter',[
+    group([
+        query('h1',[
+            style({ transform: 'translateY(-20px)' }),
+            animate(1000)
+        ]),
+        query('@todoAnimation', animateChild())
+    ]) // do is same time
+])
+```
+
+```javascript
+transition(':enter',[
+    group([
+        animate(1000, style({ background: 'red' })),
+        animate(2000, style({ transform: 'translateY(50px)' })) // 2 animate at same time
+    ])
+])
+```
+
+### Stagger
+
+```javascript
+trigger('todosAnimation',[
+    transition(':enter',[
+        query('h1',[
+            style({ transform: 'translateY(-20px)' }),
+            animate(1000)
+        ]),
+        query('@todoAnimation', stagger(200, animateChild())) // add 200ms delay for every child animation
+        //or query('@todoAnimation', stagger(200, useAnimation(fadeINAnimation))
+        //or query('.list-group-item', stagger(200, [ style({ transform:'translateX(-20px)' }), animate(1000) ]) // do it only for making parent and not do for making child
+    ])
+])
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Angular Material
+
+Material Design components for Angular, [site](https://material.angular.io/), [github](https://github.com/angular/material2), [Getting started](https://material.angular.io/guide/getting-started)
+
+```sh
+npm install --save @angular/material @angular/cdk @angular/animations
+```
