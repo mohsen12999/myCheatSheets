@@ -2608,10 +2608,6 @@ use
 
 Material Design components for Angular, [Home Page](https://material.angular.io/), [github Page](https://github.com/angular/material2), [Getting started](https://material.angular.io/guide/getting-started)
 
-```sh
-npm install --save @angular/material @angular/cdk @angular/animations
-```
-
 * Angular Material Components
   * Internationalized
   * Clean and Simple API
@@ -2619,3 +2615,69 @@ npm install --save @angular/material @angular/cdk @angular/animations
   * customizable
   * fast
   * Well-documented
+
+### install Angular Material
+
+```sh
+npm install --save @angular/material @angular/cdk @angular/animations
+```
+
+* `hammerjs` powerfull libery for Add multi-touch gestures to site.
+
+### Add Theme
+
+* include theme is in project > node_modules > @angular > material > prebuild-themes.
+* for Add Theme: in styles.css
+
+```css
+@import "~@angular/material/prebuild-themes/indego-pink.css";
+```
+
+* in app.module.ts
+
+```ts
+import { BrowserAnimationModule } from '@angular/platform-browser/animations'; // if want to use animation
+import { NoopAnimationModule } from '@angular/platform-browser/animations'; // if dont want to use animation
+
+import:[
+    BrowserAnimationModule,
+    // or NoopAnimationModule
+]
+```
+
+* for use every component of Angular Material, must to import its modules in app.module.ts
+
+### CheckBox
+
+* use `md-checkbox` tag & import `mdCheckboaModule` to app.module
+
+```html
+<md-checkbox #showDetail
+    [value]="" [checked]="isChecked" (change)="onChange($event)" >Show Detail</md-checkbox>
+    <div *ngIf="showDetail.checked">Some Detail</div>
+```
+
+### Radio Button
+
+* need to import `MatRadioModule` to app.module
+
+```html
+<mat-radio-group>
+  <mat-radio-button value="1">Male</mat-radio-button>
+  <mat-radio-button value="2">Female</mat-radio-button>
+</mat-radio-group>
+```
+
+### Selects
+
+* need to import `MatSelectModule` to app.module
+
+```html
+<mat-form-field>
+  <mat-select placeholder="Favorite food">
+    <mat-option *ngFor="let food of foods" [value]="food.value">
+      {{food.viewValue}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+```
