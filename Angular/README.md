@@ -2751,3 +2751,128 @@ import:[
   <mat-chip color="accent" selected>Accent fish</mat-chip>
 </mat-chip-list>
 ```
+
+### Progress Spinner
+
+* add `MatProgressSpinnerModule` to app.module
+
+```html
+<mat-spinner></mat-spinner>
+```
+
+* by default its spin for ever.
+* we can chose mode `Determinate` for see progress
+
+### Tooltip
+
+* add `MatTooltipModule` to app.module
+
+```html
+<button mat-raised-button
+        matTooltip="Info about the action"
+        aria-label="Button that displays a tooltip when focused or hovered over">
+  Action
+</button>
+```
+
+### Tabs
+
+* add `MatTabsModule` to app.module
+
+```html
+<mat-tab-group>
+  <mat-tab label="First"> Content 1 </mat-tab>
+  <mat-tab label="Second"> Content 2 </mat-tab>
+  <mat-tab label="Third"> Content 3 </mat-tab>
+</mat-tab-group>
+```
+
+### Dialogs
+
+* add `MatDialogModule` to app.module
+
+```html
+ <button mat-raised-button (click)="openDialog()">Pick one</button>
+```
+
+```ts
+  animal: string;
+  name: string;
+
+  constructor(public dialog: MatDialog) {} // for dialog
+  openDialog(): void {
+    const dialogRef = this.dialog.open(DialogOverviewExampleDialog,//component for see in dialog
+     {
+      width: '250px',
+      data: {name: this.name, animal: this.animal}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      this.animal = result;
+    });
+  }
+```
+
+* need to add component in app.modul.ts -> @NgModule -> entryComponents
+
+```ts
+entryComponents:[
+    DialogOverviewExampleDialog
+]
+```
+
+### Theme
+
+* theme color: primary, secondary, warn
+* for make custom theme use [color tool](material.io/color)
+* css preprocessor: SASS, LESS, Stylus
+* angular cli by default support sass
+* sass: Syntactically Awesome Style Sheet
+
+#### Use SASS
+
+* make file `theme.scss` in source folder
+* register in `.angular-cli.json` -> "styles" -> "theme.scss"
+
+```scss
+@import "another.scss"
+$color: blue;
+h1{ color: $color; }
+h2{ color: $color; }
+
+@mixin soft-border{
+    border: 1px solid red;
+    border-radius: 5px;
+}
+.box{
+    @include soft-border();
+    //....
+}
+
+@mixin soft-border($border-radius){
+    border: 1px solid red;
+    border-radius: $border-radius;
+}
+.box{
+    @include soft-border(7px);
+    //....
+}
+```
+
+* for see change restart the app
+
+#### Custom Theme
+
+* in `theme.scss`
+
+```scss
+@import "~@angular/material/_theming";
+@include mat-core();
+$app-primary: mat-pallete($mat-blue, 600);
+$app-accent: mat-pallete($mat-yellow, 700);
+$app-warn: mat-pallete($mat-red);
+$app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
+//$app-theme: mat-dark-theme -> dark background for our application
+@include angular-material-theme($app-theme);
+```
