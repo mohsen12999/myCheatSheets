@@ -3018,3 +3018,151 @@ export const INITIAL_STATE: IAppState = {
 ```ts
 ngRedux.configureStore(rootReducer, INITIAL_STATE);
 ```
+
+### Select Decorator
+
+* bad way to read with memory leak
+
+```ts
+constroctor(private ngRedux: NgRedux<IAppState>){
+    ngRedux.subscribe(()=>{
+        var store = ngRedux.getState();
+        this.counter = store.counter;
+    })
+}
+```
+
+* use select
+
+```ts
+import { NgRedux, select } from 'ng2-redux';
+...
+@select() counter; // if have same name with state property
+@select('counter') count; // for have not same name
+
+// for object in state: parentObj.child
+@select(['parentObj','child']) childname; //or
+@select((s: IAppState) => s.parentObj.child) childname;
+```
+
+```html
+{{ counter | async }}
+```
+
+### Avoid State Mutation
+
+* problem is to send a copy of state each time
+* `Object.assign` is for combine multiple object, we can use for make new copy of object
+
+```ts
+return Object.assign({}, state, { counter: state.counter + 1}) // change only counter
+```
+
+* problem of `Object.assign` is we can add new property to state. for solve problem we can use `tassign` -> `npm install tassign --save`
+
+```ts
+import { tassign } from 'tassign';
+...
+return tassign(state, { counter: state.counter + 1}); // we can not add new prop here
+```
+
+### Use Immutable
+
+* install `npm install immutable --save`
+* in app.module.ts
+
+```ts
+impoet { fromJs, Map } from 'immutable';
+...
+export class AppModule {
+    constroctor(ngRedux: NgRedux<Map<string, any>>){ //NgRedux<IAppState>
+        ngRedux.configureStore(rootReducer, fromJs(INITIAL_STATE));
+    }
+}
+```
+
+* in store.ts
+
+```ts
+impoet { Map } from 'immutable';
+...
+export function rootReducer(state: Map<string, any>, Action): Map<string, any>{
+    switch(action.type){
+        case 'INCREMENT':
+            //return tassign(state, { counter: state.counter + 1}); cannot use tassign
+            return state.set('counter', state.get('counter') + 1);
+    }
+    return state;
+}
+```
+
+* in component
+
+```ts
+impoet { Map } from 'immutable';
+...
+@select(s => s.get('counter')) count;
+constroctor(private ngRedux: NgRedux<Map<string, any>>){
+}
+```
+
+### Redux Dev Tools
+
+* for chrome install `chrome redux devtools`
+* in app.module.ts
+
+```ts
+import { NgModule, isDevMode } from 'ng2-redux';
+import { NgRedux, NgReduxModule, DevToolsExtention } from 'ng2-redux';
+...
+export class AppModule{
+    constroctor(ngRedux: NgRedux<IAppState>,
+    devTools: DevToolsExtention
+    ){
+        var enhancer = isDevMode() ? [devTools.enhancer()] : [];
+        ngRedux.configureStore(rootReducer, INITIAL_STATE, [], enhancer);
+    }
+}
+```
+
+* after that we can see all change in redux-devtool, can undo/rendo
+* can save state with bug and work with that level
+* pin state for refresh page
+
+### Calling Backend API
+
+* use in component
+
+```ts
+ngOnInit() {
+    this.ngRedux.dispatch({ type: 'FETCH_TODOS_REQUEST'});
+    // store.isFetching = true
+
+    this.service.getTodos().subscribe(todos => {
+        this.ngRedux.dispatch({ type: 'FETCH_TODOS_SUCCESS', todos: todos.json()});
+    }, err => {
+        this.ngRedux.dispatch({ type: 'FETCH_TODOS_ERROR'});
+    })
+}
+```
+
+* better use in service
+
+```ts
+loadTodos() {
+    this.ngRedux.dispatch({ type: 'FETCH_TODOS_REQUEST'});
+    this.service.getTodos().subscribe(todos => {
+        this.ngRedux.dispatch({ type: 'FETCH_TODOS_SUCCESS', todos: todos.json()});
+    }, err => {
+        this.ngRedux.dispatch({ type: 'FETCH_TODOS_ERROR'});
+    })
+}
+```
+
+use it in component
+
+```ts
+ngOnInit() {
+    this.service.loadTodos()
+}
+```
