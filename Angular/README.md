@@ -10,6 +10,8 @@
 
 `npm -v`
 
+`npm install -g npm@latest`
+
 ### install globaly
 
 `npm install -g @angular/cli`
@@ -2875,4 +2877,144 @@ $app-warn: mat-pallete($mat-red);
 $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
 //$app-theme: mat-dark-theme -> dark background for our application
 @include angular-material-theme($app-theme);
+```
+
+### Typography
+
+* [Typography](https://material.angular.io/guide/typography)
+
+```html
+<h1 class="mat-headline"></h1>
+<p class="mat-body-1">...</p>
+```
+
+* "mat-typography" class for change all things
+
+### Customize Typography
+
+```scss
+@import "~@angular/material/_theming";
+@include mat-core();
+
+
+$app-typography: mat-typography-config(
+    $font-family: '"Open Sanse",sans-serif',
+    $headline: mat-typography-level(34px,32px,700) //(fint-size,line-height,font-weight)
+);//change only font and headline
+@include angular-material-typography($app-typography);
+```
+
+## Redux
+
+* A library that help to manage state of application
+  * Predict application state
+  * Decoupled architecture
+  * Testability
+  * Great tooling
+  * Undo/redo
+* good for medium or larg single page aplication with complex view and data flow
+* good for problem of update multiple thing that depend on one thing
+* good for
+  * Independent copies of the same data in multiple tools
+  * Multiple views that need to work with the same data and be sync
+  * Data can be update by multiple users
+  * Data can be update by multiple actors
+
+* Redux block
+  * Store -> single js object that contain state of the application (local/client database)
+  * Actions -> Plain js object that represent something that happened, always have type (event)
+  * Reducers -> A function that specifies how the state change in response to an action (event handler)
+
+* Pure Function
+  * Same input -> Same output
+  * No side effects
+
+* Reducer is pure function and cannot change state, and return new state
+  * Easy testability
+  * Easy undo/rendo
+  * Time travel debugging
+
+### Installing Redux
+
+* 2 implementation of redux for angulr
+  * [ngrx/store](https://github.com/ngrx/store)
+  * [ng2-redux](https://github.com/angular-redux/store)
+* check angularcli version `ng --version`
+* `npm install redux ng2-redux --save`
+* creat src/app/store.ts
+
+```ts
+export interface IAppState{
+}
+export function rootReducer(state, action){
+    return state;
+}
+```
+
+* in app.module.ts
+
+```ts
+import { NgRedux, NgReduxModule } from 'ng2-redux';
+import { IAppState, rootReducer } from './store';
+...
+imports:[
+    NgReduxModule
+]
+...
+export class AppModule {
+    constroctor(ngRedux: NgRedux<IAppState>){
+        ngRedux.configureStore(rootReducer,{});
+    }
+}
+```
+
+### Work with Action
+
+```ts
+import { NgRedux } from 'ng2-redux';
+import { IAppState, rootReducer } from './store';
+...
+constroctor(private ngRedux: NgRedux<IAppState>){
+}
+increment(){
+    this.ngRedux.dispatch({type: 'INCREMENT'});
+}
+```
+
+in store.ts
+
+```ts
+export interface IAppState{
+    counter: number;
+}
+export function rootReducer(state: IAppState, action): IAppState{
+    switch(action.type){
+        case 'INCREMENT': return { counter: state.counter +1 };
+    }
+    return state;
+}
+```
+
+in app.module.ts
+
+```ts
+ngRedux.configureStore(rootReducer, { counter: 0 });
+```
+
+* we can store action name in a file src/app/actions.ts
+
+```ts
+export const INCREMENT = 'INCREMENT';
+```
+
+* can define initial state in store.ts
+
+```ts
+export const INITIAL_STATE: IAppState = {
+    counter: 0;
+}
+```
+
+```ts
+ngRedux.configureStore(rootReducer, INITIAL_STATE);
 ```
