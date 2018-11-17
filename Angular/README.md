@@ -3533,3 +3533,52 @@ it('hould have a link todos page',() => {
 ```
 
 ### Shalow Component Test
+
+* for many child
+
+```ts
+TestBed.configureTestModule({
+    schemas: [ NO_ERROR_ACHEMA ] // no error for unknow element
+})
+```
+
+### Attribute Directives Test
+
+```ts
+it('should highlight the first element with cyan', () => {
+    let de =  fixture.debugElement.queryAll(By.css('p'))[0];
+    expect(de.nativeElement.style.backgroundColor).toBe('cyan');
+});
+it('should highlight the second element with default color', () => {
+    let de =  fixture.debugElement.queryAll(By.css('p'))[1];
+    let directive = de.injector.get(HighlightDirective);
+    expect(de.nativeElement.style.backgroundColor).toBe(directive.defaultColor);
+});
+```
+
+### Asynchronous Operation Test
+
+* for promise function
+
+```ts
+it('should load todos from server', async(() => {
+    let service = TestBet.get(TodoService);
+    spyOn(service,'getTodosPromise').and.returnValue(Promise.resolve([1, 2, 3]));
+    fixture.deteceChanges();
+    fixture.whenStable().then(() => {
+        expect(component.todos.lenght).toBe(3);
+    })
+}));
+```
+
+or
+
+```ts
+it('should load todos from server', fakeAsync(() => {
+    let service = TestBet.get(TodoService);
+    spyOn(service,'getTodosPromise').and.returnValue(Promise.resolve([1, 2, 3]));
+    fixture.deteceChanges();
+    tick();
+    expect(component.todos.lenght).toBe(3);
+}));
+```
