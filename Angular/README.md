@@ -3435,3 +3435,101 @@ it('should increase total total vote when I click the upvote button', () => {
     expect(component.totalVote).toBe(1);
 });
 ```
+
+### Dependency
+
+```ts
+it('should load todos from server', () => {
+    // fixture.debugElement.injector.get(TodoService)
+    let service = TestBet.get(TodoService);
+    spyOn(service,'getTodos').and.returnValue(observable.from([ [ 1, 2, 3 ] ]));
+    fixture.deteceChanges();
+    expect(component.todos.lenght).toBe(3);
+});
+```
+
+### Providing Stubs
+
+```ts
+class RouterStub {
+    navigate(params){}
+}
+class ActivatedRouteStub {
+    params: obsevable<any> = obsevable.empty();
+}
+...
+TestBed.configureTestingModule({
+    providers: [
+        { provide: Router, useClass: RouterStub }
+        { provide: ActivatedRoute, useClass: ActivatedRouteStub }
+    ]
+})
+...
+it('should redirect the user to users page after saving', () => {
+    let router = TestBed.get(Router);
+    let spy = spyOn(router, 'navigate');
+    component.save();
+    expect(spy).toHaveBeenCalledWith(['users']);
+})
+```
+
+* with Route Param
+
+```ts
+class ActivatedRouteStub {
+    private subject =  new Subject();
+    push(value){
+        this.subject.next(value);
+    }
+    get params() {
+        return this.subject.asObservable();
+    }
+}
+...
+it('should navigate user to not found page when an invalid user id is pass', () => {
+    let router = TestBed.get(Router);
+    let spy = spyOn(router, 'navigate');
+
+    let route: ActivatedRoute = TestBed.get(ActivatedRoute);
+    route.push({ id: 0 });
+
+    expect(spy).toHaveBeenCalledWith(['not-found']);
+});
+```
+
+### Testing Navigation
+
+* for test routing -> app/app.routes.spec.ts
+
+```ts
+import { routes } from './app.route';
+import { UserComponent } from './users/users.Component';
+describe('routes', () => {
+    it('should contain a route for /user', () => {
+        expect(routes).toContain({ path: 'users', component: UserComponent });
+    });
+});
+```
+
+### RouterOutlet Test
+
+```ts
+import { RouterOutlet, RouterLinkWithHref } from '@angular/router'
+import { RouterTestingModule } from '@angular/router/testing'
+...
+TestBed.configureTestModule({
+    import: [ RouterTestingModule.withRoute([]) ],
+})
+...
+it('should have a router outlet', () => {
+    let de = fixture.debugElement.query(By.directive(RouterOutlet));
+    expect(de).not.toBeNull()
+});
+it('hould have a link todos page',() => {
+    let debugElements =  fixture.debugElement.queryAll(By.directive(RouterLinkWithHref));
+    // <a href="/todos"></a>
+    let index = debugElements.findIndex( de => de.properties['href'] === '/todos').toBeGreaterThan(-1);
+});
+```
+
+### Shalow Component Test
