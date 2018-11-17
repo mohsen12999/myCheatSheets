@@ -3166,3 +3166,186 @@ ngOnInit() {
     this.service.loadTodos()
 }
 ```
+
+### Complex Domain of reduser
+
+* make multiple reduser for big component and use `CombineRedusers`.
+
+## Unit Testing
+
+* automate test: write code to test code
+* type of test: Unit, Integration, End-to-end
+  * Unit Tests: test component in isolation without external source (database, filesystem, API end poin)
+    * Easiest
+    * Super fast
+    * Don't give us much confident
+  * Integration: test use some components or service togheter
+  * End-to-end: test the entire application as hole
+    * More confidence
+    * very slow
+    * very fragile -> breakable with little change
+
+* Clean Code / Test Practices
+  * small functions / methods (10 line of code or less)
+  * Proper naming
+  * Single responsibility
+
+### write test
+
+* run test `ng test`
+* compute.ts -> compute.spec.ts
+* angular use jasmin for unit test
+* `describe()` for describe suite (a group of related)
+* `it()` to define a spec (test)
+
+```ts
+describe('compute',()=>{
+    //it('test name',() =>{})
+    it('should return zero if input is negative',() =>{
+        const result = compute(-1);
+        expect(result).toBe(0);
+    })
+    it('increase the number if positive',() =>{
+        const result = compute(1);
+        expect(result).toBe(2);
+    })
+})
+```
+
+* duplicate selected code: alt+shift+down-arrow
+
+### String Test
+
+```ts
+it('should include the name in message',() =>{
+    //expect(greetfunc('mosh')).toBe('welcome mosh');
+    expect(greetfunc('mosh')).toContain('mosh');
+})
+```
+
+### Array Test
+
+```ts
+it('should return array',()=>{
+    const result = getArray();
+    expect(result).toContain('USD').toContain('AUD');
+})
+```
+
+### Set Up & Tear Down
+
+* 3A structure in spec file: Arrange, Act, Assert
+
+```ts
+describe('compute',()=>{
+    it('should increment totalvote when upvoted',()=>{
+        let component = new VoteComponent(); // Arrange
+        component.upVote();                  // Act
+        expect(component.totalvote).toBe(1); // Assert
+    })
+    it('should deccrement totalvote when upvoted',()=>{
+        let component = new VoteComponent(); // Arrange
+        component.downVote();                  // Act
+        expect(component.totalvote).toBe(-1); // Assert
+    })
+})
+```
+
+```ts
+describe('compute',()=>{
+    let component:VoteComponent; // Arrange
+
+    beforeEach(()=>{
+        component = new VoteComponent(); // run for every test
+    });
+    // afterEach(()=>{}) // clean after test
+    // beforeAll(()=>{})
+    // afterAll(()=>{})
+
+    it('should increment totalvote when upvoted',()=>{
+        component.upVote();                  // Act
+        expect(component.totalvote).toBe(1); // Assert
+    });
+    it('should deccrement totalvote when upvoted',()=>{
+        component.downVote();                  // Act
+        expect(component.totalvote).toBe(-1); // Assert
+    });
+})
+```
+
+### Form Test
+
+```ts
+it('should create a form with 2 controls',()=>{
+    expect(component.form.contain('name')).toBeTruthy();
+    expect(component.form.contain('email')).toBeTruthy();
+});
+it('should make the name control required',()=>{
+    let control = component.form.get('name');
+    control.setValue('');
+    expect(control.valid).toBeFalsy();
+});
+```
+
+### Event Emmiter Test
+
+```ts
+it('should raise voteChange event when upvoted',()=>{
+    let totalVote = null;
+    component.voteChanged.subscribe(tv=> totalVotes = tv);
+    component.upVote();
+    //expect(totalVote).not.toBeNull();
+    expect(totalVote).toBe(1);
+});
+```
+
+### Service Test
+
+```ts
+it('should set todos properly with the item returns from server',()=>{
+    spyOn(service, 'getTodos').and.callFake(()=>{
+        return observable.from([ [1,2,3] ])
+    });
+    component.ngOnInit();
+    //expect(component.todos.lenght).toBeGreaterThan(0);
+    expect(component.todos.lenght).toBe(3);
+})
+```
+
+```ts
+it('should set todos properly with the item returns from server',()=>{
+    let todos = [1,2,3];
+    spyOn(service, 'getTodos').and.callFake(()=>{
+        return observable.from([ todos ])
+    });
+    component.ngOnInit();
+    expect(component.todos).toBe(todos);
+})
+```
+
+### Interaction Teasting
+
+```ts
+it('shold call the sarver to save the change when a todo item is added', () => {
+    let spy = spyOn(service,'add').and.callFake((t)=>{
+        return Observable.empty();
+    });
+    component.add();
+    expect(spy).toHaveBeenCalled();
+});
+it('shold add the new todo return from server', () => {
+    let todo = { id:1 };
+    // let spy = spyOn(service,'add').and.callFake((t)=>{
+    //     return Observable.from([ todo ])
+    // });
+    let spy = spyOn(service,'add').and.returnValue(return Observable.from([ todo ]));
+    component.add();
+    expect(component.todos.indexOf(todo)).toBeGreaterThan(-1);
+});
+it('shold set message properly if server returnes an error when adding a new todo', () => {
+    let error = 'error from server';
+    let spy = spyOn(service,'add').and.returnValue(return Observable.throw(error));
+    component.add();
+    expect(component.message).toBe(error);
+});
+```
