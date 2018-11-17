@@ -3349,3 +3349,89 @@ it('shold set message properly if server returnes an error when adding a new tod
     expect(component.message).toBe(error);
 });
 ```
+
+### Working with Confirmation Boxs
+
+```ts
+it('should call the server to delete todo item if the user confirm',()=>{
+    spyOn(window,'confirm').and.returnValue(true);
+    let spy = spyOn(service, 'dletee').and.returnValue(observable.empty());
+    component.delete(1);
+    //expect(spy).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalledWith(1);
+})
+it('should NOT call the server to delete todo item if the user cancels',()=>{
+    spyOn(window,'confirm').and.returnValue(false);
+    let spy = spyOn(service, 'dletee').and.returnValue(observable.empty());
+    component.delete(1);
+    expect(spy).not.toHaveBeenCalled();
+})
+```
+
+### Limitation of Unit Tests
+
+* Routers
+* Template bindings
+
+### Code Coverage
+
+* `ng test --code-coverage` -> make a folder and show result in browser
+* disable test: `xit` instead of `it`
+* disable suite: `xdescribe` instead of `describe`
+
+## Integration Testing
+
+* angular-cli make spec file for every new component like this
+
+```ts
+import { TestBed, ComponentFixture } from `@angular/core/testing`
+describe('VoterComponent',() => {
+    let component: VoterComponent;
+    let fixture: ComponentFixture<VoterComponent>;
+    beforeEach(() => {
+        TestBed.configureTestingModule({
+            declaration: [ VoterComponent ]
+        });
+        fixture = TestBed.creatComponent(VoterComponent);
+        component = fixture.componentInstance;
+        // fixture.nativeElement
+        // fixture.debugElement
+        // fixture.detectChanges()
+    });
+});
+```
+
+### Testing Property Binding
+
+```ts
+it('should render total votes', () => {
+    component.otherVote = 20;
+    component.myVote = 1;
+    fixture.detectChanges();
+    //fixture.debugElement.queryAll(By.css('.vote-count'))
+    //fixture.debugElement.query(By.directive(Votercomponent))
+    let de = fixture.debugElement.query(By.css('.vote-count'));
+    let el:HTMLElement =  de.nativeElement;
+    //el.innerHtml
+    expect(el.innerText).toContain(21);
+});
+it('should highlight the upvote button if i have upvote', () => {
+    component.myVote = 1;
+    fixture.detectChanges();
+    let de = fixture.debugElement.query(By.css('.glyphicon-menu-up'));
+    // de.classes
+    // de.attribute
+    // de.styles
+    expect(de.classes['hilighted']).toBeTruthy();
+});
+```
+
+### Test Event Binding
+
+```ts
+it('should increase total total vote when I click the upvote button', () => {
+    let button = fixture.debugElement.query(By.css('.glyphicon-menu-up'));
+    button.triggerEventHandler('click', null);
+    expect(component.totalVote).toBe(1);
+});
+```
