@@ -3381,3 +3381,59 @@ it('should load todos from server', fakeAsync(() => {
     expect(component.todos.lenght).toBe(3);
 }));
 ```
+
+## Project
+
+* `npm i` or `npm install` for install dependency
+* creat firebase project -> click on 'add firebase to project' and copy all config to `invironment.ts`
+* `npm i --save firebase angularfire2` more info in [AngularFire](https://github.com/angular/angularfire2) & [Installation and Setup](https://github.com/angular/angularfire2/blob/master/docs/install-and-setup.md)
+* install firebase tools `sudo npm i g firebase-tools` -> test `firebase --version`
+* in app.module.ts
+
+```ts
+import { environment } from './../environment/environment'
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFireAuthModule } from 'angularfire2/auth';
+
+import:[
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireDatabaseModule,
+    AngularFireAuthModule
+]
+```
+
+* install bootstrap `npm install --save bootstrap`
+
+```css
+@import "~bootstrap/dist/css/bootstrap.css";
+```
+
+* install [`ng-bootstrap`](https://ng-bootstrap.github.io) for use some bootstrap js in angular: `npm install --save @ng-bootstrap/ng-bootstrap`
+* in app.module.ts
+
+```ts
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+...
+imports: [NgbModule, ...],//NgbModule.forRoot()
+```
+
+* firebase setting:
+
+```sh
+firebase login
+firebase init -> Hosting
+```
+
+in firebse.json
+
+```json
+{
+    "hosting":{
+        "public": "dist"
+    }
+}
+```
+
+* build `ng build --prod`
+* deploy: `firebase deploy`
