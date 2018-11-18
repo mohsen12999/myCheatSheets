@@ -1,5 +1,5 @@
 # myCheatSheets
 
-try to save my note as cheat sheet
+Try to save my note as a cheat sheet.
 
-* `torsocks`
+* if `sudo` not work, use `torsocks`
