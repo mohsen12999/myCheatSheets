@@ -25,3 +25,7 @@ git log
 ```sh
 git status
 ```
+
+```sh
+git reset --hard [name]
+```
