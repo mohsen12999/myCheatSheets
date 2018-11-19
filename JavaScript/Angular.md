@@ -3487,7 +3487,7 @@ constructor(private afAuth: AngularFireAuth){
 
 ```ts
 user$: observable<firebase.user>;
-constructor(private afAuth: AngularFireAuth){
+constroctor(private afAuth: AngularFireAuth){
     this.user$ = afAuth.authState;
 }
 ```
@@ -3513,3 +3513,264 @@ or
     <a ...>{{ user.displayName }}</a>
 </li>
 ```
+
+#### Protect route
+
+```ts
+export class AuthGuard implements CanActivate {
+    constroctor(private auth: AuthService, private router: Router){}
+    canActivate() {
+        this.auth.user$.map(user => {
+            if(user) return true;
+            this.router.navigation(['/login']);
+            return false;
+        })
+    }
+}
+```
+
+in app.module.ts
+
+```ts
+Route.forRoot([
+    { path: '', component: HomeComponent },
+    { path: 'admin', component: AdminComponent, canActivate: [AuthGuard] }
+])
+```
+
+#### redirect after log-in
+
+```ts
+canActivate(route, state:RouterStateSnapshot) {
+    this.auth.user$.map(user => {
+        if(user) return true;
+        this.router.navigation(['/login'], { queryParams: { returnUrl: state.url}});
+        return false;
+    })
+}
+```
+
+save route in localstorage
+
+```ts
+constroctor(private afAuth: AngularFireAuth, privete route: ActivatedRoute){
+    this.user$ = afAuth.authState;
+}
+login(){
+    let returnUrl = this.route.snapshot.queryMap.get('returnUrl') || '/';
+    localStorage.setItem('returnUrl',returnUrl);
+    this.afAuth.auth.signInWithRedirect(new firebase.auth.GoogleAuthProvider());
+}
+```
+
+after log-in in app-component (root of all component)
+
+```ts
+export class AppComponent {
+    constroctor(private auth: AuthService,router: Router){
+        auth.user$.subscribe(user => {
+            if(user){
+                let returnUrl = localStorage.getItem('returnUrl');
+                router.navigateByUrl(returnUrl);
+            }
+        })
+    }
+}
+```
+
+#### Store User In database
+
+in userService
+
+```ts
+constroctor(private db: AngularFireDatabase){}
+save(user: firebase.User){
+    this.db.object('/users/'+user.uid).update({name: user.displayName, email: user.email});
+}
+get(uid: string): firebaseObjectObservable<AppUser>{ // make AppUser Interface for better intellisense
+    return this.db.object('/users/'+user.uid);
+}
+```
+
+in app.component.ts befor redirect
+
+```ts
+constroctor(private userService: UserService, private auth: AuthService,router: Router){
+    auth.user$.subscribe(user => {
+        if(user){
+            userService.save(user);
+            let returnUrl = localStorage.getItem('returnUrl');
+            router.navigateByUrl(returnUrl);
+        }
+    })
+}
+```
+
+* make adminAuthGuard
+
+```ts
+constroctor(private auth: AuthServise, private userService: UserService){}
+canActivate(): Observable<boolean> {
+    return this.auth.user$
+        .switchMap(user =>  this.userService.get(useruid))
+        .map(appUser => appUser.isAdmin);
+}
+```
+
+```ts
+{ path: 'admin', component: AdminComponent, canActivate: [AuthGuard, adminAuthGuard] }
+```
+
+* use user data in authService
+
+```ts
+get appUser$(): Observable<AppUser> {
+    return this.auth.user$.switchMap(user =>  {
+        if(user){
+            return this.userService.get(useruid)
+        }
+        return Observable.of(null);});
+}
+```
+
+use
+
+```ts
+appUse: AppUser;
+constroctor(private auth: AuthService){
+    auth.appUser$.subscribe(appUser => this.AppUser = appUser);
+}
+```
+
+```html
+<li *ngIf="appUse; else ...">
+...
+<ng-container *ngIf="appUse">
+...
+</ng-container>
+...
+</li>
+```
+
+* read with order: return this.db.list('/category',{ query:{ orderBychild: 'name' }})
+
+### Save Form
+
+```html
+<form #f="ngForm" (onSubmit)="save(f.value)">
+...
+<input ngModel name="">
+```
+
+* import FormModule in app.module.ts
+* in product service
+
+```ts
+create(product) {
+    this.db.list('/products').push(product)
+}
+```
+
+* validation
+
+```html
+<input #title='ngModel' ngModel name="">
+<div class="alert alert-danger" *ngIf="title.touched & title.invalid">
+```
+
+* [ng2-validation](https://github.com/yuyang041060120/ng2-validation) for custom validation -> `npm i ng2-validation --save`
+
+* for generate link
+
+```html
+<a [routerLinl]="['/admin/product/',prod.$key]"></a>
+```
+
+### Edit product
+
+```ts
+Route.forRoot([
+    { path: '/admin/product/new', component: productComponent },
+    { path: '/admin/product/:id', component: productComponent },
+])
+```
+
+```ts
+import 'rxjs/add/operator/take';//take only one value, and no need to destroy
+...
+product = {};
+id;
+constroctor(...){
+    ...
+    this.id = this.route.snapshot.paramMap.get('id');
+    if(id) this.product.get(id).take(1).subscribe(p => this.product = p);
+}
+```
+
+```html
+<input #title='ngModel' [(ngModel)]="product.title" name="">
+```
+
+#### Update Product
+
+```ts
+update(productId, product) {
+    return this.db.object('/product/'+productId).update(product);
+}
+```
+
+in component
+
+```ts
+save(product){
+    if(this.id) this.productServise.update(this.id, product);
+    else this.productServise.create(this.id, product);
+    this.router...
+}
+```
+
+#### Delete Product
+
+```ts
+delete(productId) {
+    return this.db.object('/product/'+productId).remove();
+}
+```
+
+```html
+<button type="button" (click)="delete()">
+```
+
+```ts
+delete(){
+    if(confirm('are u sure?')){
+        this.productServise.delete(this.id)
+        this.router...
+    }
+}
+```
+
+#### Search Product
+
+```html
+<input #query (keyup)="filter(query.value)" ... >
+```
+
+```ts
+product: any[]; // we can make interface for product
+filteredProduct: any[];
+subscription: Subscription;
+constroctor(...){
+    this.subscription = this.productService.getAll.subscribe(product => this.filteredProduct = this.product = product);
+}
+filter(query: string){
+    this.filteredProduct = (query) ? this.product.filter(p => p.title.toLowerCase.includes(query.toLowerCase)): this.product;
+}
+ngOnDestroy() {
+    this.subscription.unsubscribe(); // for update product every time we can see it
+}
+```
+
+#### Data Table
+
+* [angular-4-data-table](https://www.npmjs.com/package/angular-4-data-table) install with `npm install angular-4-data-table --save`
