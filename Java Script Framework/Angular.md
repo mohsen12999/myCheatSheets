@@ -3437,3 +3437,27 @@ in firebse.json
 
 * build `ng build --prod`
 * deploy: `firebase deploy`
+
+### Authentication
+
+* in firebase menu -> Authentication -> signin method -> enable modes
+* in component
+
+```ts
+import { AngularFireAuth } from 'angularfire2/auth';
+import * as firebase form 'firebase';
+...
+constructor(private afAuth: AngularFireAuth){}
+login(){
+    this.afAuth.auth.signInWithRedirect(new firebase.auth.GoogleAuthProvider());
+}
+```
+
+* logout
+
+```ts
+constructor(private afAuth: AngularFireAuth){}
+logout(){
+    this.afAuth.auth.logout();
+}
+```
