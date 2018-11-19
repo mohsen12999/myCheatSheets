@@ -3461,3 +3461,55 @@ logout(){
     this.afAuth.auth.logout();
 }
 ```
+
+#### Display User
+
+```ts
+import * as firebase form 'firebase';
+...
+user: firebase.user;
+constructor(private afAuth: AngularFireAuth){
+    afAuth.authState.subscribe(user => this.user = user);
+    // return null if not login
+}
+```
+
+```html
+<li *ngIf="!user" ...>
+    <a ...>logout</a>
+</li>
+<li *ngIf="user" ...>
+    <a ...>{{ user.displayName }}</a>
+</li>
+```
+
+* use Async Pipe
+
+```ts
+user$: observable<firebase.user>;
+constructor(private afAuth: AngularFireAuth){
+    this.user$ = afAuth.authState;
+}
+```
+
+```html
+<li *ngIf="!(user$ | async)" ...>
+    <a ...>logout</a>
+</li>
+<li *ngIf="user$ | async as user" ...>
+    <a ...>{{ user.displayName }}</a>
+</li>
+```
+
+or
+
+```html
+<ng-template #anonymousUser>
+    <li *ngIf="!(user$ | async)" ...>
+        <a ...>logout</a>
+    </li>
+</ng-template>
+<li *ngIf="user$ | async as user; else anonymousUser" ...>
+    <a ...>{{ user.displayName }}</a>
+</li>
+```
