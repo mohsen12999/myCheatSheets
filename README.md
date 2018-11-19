@@ -18,5 +18,5 @@ Try to save my note as a cheat sheet.
   * [Bash](./Linux/bash.md)
   * [Git](./Linux/git.md)
   * [Cent Os - LAMP config](./Linux/CentOs-LAMP.md)
-* PHP
+* [PHP](./PHP/)
   * [Laravel](./PHP/Laravel.md)
