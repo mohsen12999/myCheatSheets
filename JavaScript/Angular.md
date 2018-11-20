@@ -3935,3 +3935,46 @@ ngOnDestroy() {
     </ng-template>
 </div>
 ```
+
+#### Number of Shopping Cart
+
+```ts
+export interface ShoppingCartItem {
+    product: Product;
+    quantity: number;
+}
+export class ShoppingCart {
+    //items: ShoppingCartItem[];
+    constroctor(public items: ShoppingCartItem[])
+    get totalItemCount() {
+        let count = 0;
+        for (let productId in this.items){
+            count += this.item[productId].quantity;
+        }
+        return count;
+    }
+}
+```
+
+* need to change shopping-cart.service
+
+```ts
+async getCart(){
+    let cartId = await this.getOrCreatCartId();
+    return this.db.object('/shopping-cart/' + cartId).map(x => new ShoppingCart(x.item));
+}
+```
+
+in navbar
+
+```ts
+cart$: Observable<ShoppingCart>;
+ngOnInit(){
+    this.cart$ = await this.shoppingCartService.getCart();
+}
+```
+
+```html
+<span class="badge ..." *ngIf="cart$ | async as cart" >
+    {{ cart.totalItemCount }}
+```
