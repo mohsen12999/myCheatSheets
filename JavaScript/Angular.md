@@ -3774,3 +3774,142 @@ ngOnDestroy() {
 #### Data Table
 
 * [angular-4-data-table](https://www.npmjs.com/package/angular-4-data-table) install with `npm install angular-4-data-table --save`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Shopping Cart
+
+#### Create Shopping Cart
+
+* shoppingcardservice
+
+```ts
+private create(){
+    return this.db.list('/shopping-cart').push({ dateCreated: new Date().getTime() });
+}
+async getCart(){
+    let cartId = await this.getOrCreatCartId();
+    return this.db.object('/shopping-cart/' + cartId);
+}
+private getItem(cartId: string, productId: string){
+    return this.db.object('/shopping-carts' + cartId + '/items/' + productId);
+}
+private async getOrCreatCartId(): Promise<string> {
+    let cartId = localStorage.getItem('cartId');
+    if(cardId) return cartId;
+
+    let result = await this.create();
+    localStorage.setItem('cartId', result.key);
+    return result.key
+}
+async addToCart(product: Product) {
+    this.updateItemQuantity(product, 1);
+}
+async RemoveFromCart(product: Product) {
+    this.updateItemQuantity(product, -1);
+}
+private async updateItemQuantity(product: Product,change:number){
+    let cart = await this.getOrCreatCart();
+    let item$ = getItem(cartId, product.$key);
+    item$.take(1).subscribe(item => {
+        //if(item.$exist()) item$.update({ quantity: item.quantity + 1 });
+        //else item$.set({ product: product, quantity: 1 }); // because of we have not join in fire base db, its better to save product instead of productId
+        item$.update({ product: product, quantity: (item.quantity  || 0) + change });
+    })
+}
+```
+
+use
+
+```html
+<button (click)="addToCart()">...
+```
+
+```ts
+addToCart(product: Product) {
+    this.cardservice.addToCart(this.product);
+}
+```
+
+* in firebase website -> database menu -> rules and publish after change
+
+```json
+"rules":{
+    "categories": {
+        ".read": true
+    },
+    "product": {
+        ".read": true
+    },
+    "shopping-carts": {
+        ".read": true,
+        ".write": true,
+    }
+}
+```
+
+#### Display the Quantity
+
+* in product cart
+
+```ts
+getQuantity() {
+    if(!this.shoppingCart) return 0;
+    let item = this.shoppingCart.items[this.product.$key];
+    return item ? item.quantity : 0;
+}
+```
+
+in productComponent
+
+```ts
+export class ProductComponent implement OnInit, ONDestroy {
+....
+async ngOnInit() {
+    this.subscribtion = (await this.shoppingCartService.getCart()).subscribe(cart => {
+        this.cart = cart;
+    });
+}
+ngOnDestroy() {
+    this.subscribtion.unsubscribe();
+}
+```
+
+#### Cart Footer
+
+```html
+<div *ngIf="showActions" class="card-footer">
+    <button *ngIf="getQuantity() === 0; else updateQuantity" (click)="addToCart()" .... >add to cart</button>
+    <ng-template #updateQuantity>
+        <div class="row no-gutter"> <!-- without negative padding -->
+            <div class="col-2"><button (click)="addToCart()" ....>-</button></div>
+            <div class="col text-center">{{ getQuantity() }}</div>
+            <div class="col-2"><button (click)="removeFromCart()" ....>-</button></div>
+        </div>
+    </ng-template>
+</div>
+```
+
+
+.
+
+
+.
+.
+.
+.
+.
+.
+
