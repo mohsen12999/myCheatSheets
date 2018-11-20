@@ -3600,7 +3600,10 @@ constroctor(private userService: UserService, private auth: AuthService,router: 
         if(user){
             userService.save(user);
             let returnUrl = localStorage.getItem('returnUrl');
-            router.navigateByUrl(returnUrl);
+            if(returnUrl){
+                localStorage.removeItem('returnUrl');
+                router.navigateByUrl(returnUrl);
+            }
         }
     })
 }
@@ -3774,3 +3777,53 @@ ngOnDestroy() {
 #### Data Table
 
 * [angular-4-data-table](https://www.npmjs.com/package/angular-4-data-table) install with `npm install angular-4-data-table --save`
+
+#### Dispalay Products
+
+```html
+<div class="row">
+    <ng-container *ngFor="let p  of products$ | async; let i = index">
+        <div class="col">
+            ...card
+        </div>
+        <div *ngIf="(i + 1) % 2 === 0" class="w-100"></div>
+    </ng-container>
+</div>
+```
+
+#### Filter by Category
+
+```html
+<div class="row">
+    <div class="col-3">
+        <div classs="list-group">
+            <a class="list-group-item list-group-item-action" [class.active]="!category" routerLink="/">All</a>
+            <a *ngFor="let c of categories$ | async" routerLink="/" [queryParams]="{ category: c}" class="list-group-item list-group-item-action" [class.active]="category === c.$key">
+                {{ c.name }}
+            </a>
+        </div>
+    </div>
+    <div class="col">
+    ...show product
+    </div>
+</div>
+```
+
+```ts
+constroctor(route: ActivatedRoute, productServise: ProductServise, categoryServise: CategoryServise) {
+    // this.products$ = productServise.getAll(); //can not use when we have client filtering
+    productServise.getAll().switchMap(products => {
+        this.products = products;
+        return route.queryParamMap;
+    }).subscribe(params => {
+        this.category = params.get('category'); // for highlight link
+        this.filteredProduct = (this.category) ? this.products.filter(p => p.category === this.category) : this.products
+    })
+    this.categories$ = categoryServise.getAll();
+}
+```
+
+* make category show when scroll with bootstrap4 -> .sticky-top
+
+### Create Shopping Cart
+
