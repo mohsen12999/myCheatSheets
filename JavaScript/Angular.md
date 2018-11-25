@@ -4139,5 +4139,41 @@ Module: A container for highly-related component, directive and pipes
     * {module}.module.ts
 
 * TypeScript plugins
-  * Move TS
-  * TypeScript Hero
+  * ESLint
+  * Debug for crome
+  * auto import
+  * Move TS             -> when move refrence file, update all use
+  * TypeScript Hero     -> remove unused import
+
+* export component in module fore use in another modules
+* make new route in tsconfig.json
+
+```json
+"compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+        "shared/*":[
+            "app/shared/*"
+        ]
+    }
+}
+```
+
+#### Shared Module
+
+make shared madule `ng g m shared`
+
+`ctrl + alt + o` -> for sort and remove unused import with TypeScript Hero
+
+* use `RouteModule.forChild` in other modules
+
+* add font-awesome `npm i font-awesome --save`
+* import it in style.css
+
+```css
+@import "~font-awesome/css/font-awesome.css"
+```
+
+#### use scss
+
+* in .angular-cli.json change "style.css" to "style.scss"
