@@ -3978,3 +3978,140 @@ ngOnInit(){
 <span class="badge ..." *ngIf="cart$ | async as cart" >
     {{ cart.totalItemCount }}
 ```
+
+#### Shopping Cart Page
+
+* get all object key in shoppincart class
+
+```ts
+get productIds(){
+    return Object.keys(this.items);
+}
+```
+
+```html
+<ng-container *ngIf="cart$ | async as cart" >
+    <table>
+    <thead><tr>...</tr></thead>
+    <tbody>
+        <tr *ngFor="let productId of cart.productIds" >
+            <td> {{ cart.items[productId].product.title }} </td>
+            <td> {{ cart.items[productId].quantity }} </td>
+        </tr>
+    </tbody>
+    </table>
+</ng-container>
+```
+
+#### Display Total Price
+
+in shoppingCartItem class
+
+```ts
+constroctor(public product: Product, public quantity: number){}
+get totalPrice() {
+    return this.Product.price * this.quantity;
+}
+```
+
+* change shopping cart class
+
+```ts
+items: ShoppingCartItem[] = [];
+constroctor(public itemsMap: { [productId: string]: ShoppingCartItem }){
+    for(let productId in itemsMap){
+        let item = itemsMap[productId];
+        this.item.push(new shoppingCartItem(item.product, item.quantity));
+    }
+}
+get totalPrice() {
+    let sum=0;
+    for(let productId in items){
+        sum += this.items[productId].totalPrice;
+    }
+    return sum;
+}
+```
+
+* change shoppingCartItem class to strore only important prop
+
+```ts
+$key: string;
+title: string;
+imageUrl: string;
+price: number;
+quantity: number;
+constroctor(init?: Partial<shoppingCartItem>){
+    Object.assign(this, init);
+}
+get totalPrice() {
+    return this.price * this.quantity;
+}
+```
+
+in shoppingcart class
+
+```ts
+constroctor(public itemsMap: { [productId: string]: ShoppingCartItem }){
+    for(let productId in itemsMap){
+        let item = itemsMap[productId];
+        l
+        this.item.push(new shoppingCartItem({ ...item, $key: productId }));
+    }
+}
+```
+
+#### Clear Cart
+
+```ts
+async clearCart() {
+    let cartId = wait this.getOrCreatCartId();
+    this.db.object('/shopping-carts/'+cartId+'/items').remove();
+}
+```
+
+### Check out
+
+order class
+
+```ts
+export class Order {
+    datePlaced: number;
+    items: any[];
+    constroctor(public userId: string, public shipping: any, public shoppingCart: ShoppingCart) {
+        this.datePlaced = new Date().getTime();
+        this.items = shoppingCart.cart.items.map(i => {
+            return {
+                product:{
+                    title: i.title,
+                    imageUrl: i.image,
+                    price: i.price
+                },
+                quantity: i.quantity,
+                totalPrice: i.totalPrice
+            }
+        })
+    }
+}
+```
+
+in check out component
+
+```ts
+async placeOrder() {
+    let order = new Order(this.userId, this.shipping, this.cart);
+    let result = await this.orderService.storeOrder(order);
+    //this.shoppingCartService.clearCart();
+    this.router.navigate(['/order-success', result.key]);
+}
+```
+
+orderService
+
+```ts
+storeOrder(order) {
+    let result = this.db.list('/orders').push(order);
+    this.shoppingCartService.clearCart();
+    return result;
+}
+```
