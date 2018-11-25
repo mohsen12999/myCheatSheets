@@ -4115,3 +4115,29 @@ storeOrder(order) {
     return result;
 }
 ```
+
+order table
+
+```html
+<ul class="list-group list-group-flush"> <!-- without border -->
+...
+<li class="list-group-item font-weight-bold"> <!-- without border -->
+```
+
+### Modularization
+
+Module: A container for highly-related component, directive and pipes
+
+* Maintainability
+* Extensibility
+
+* app
+  * {module}
+    * component
+    * service
+    * models
+    * {module}.module.ts
+
+* TypeScript plugins
+  * Move TS
+  * TypeScript Hero
