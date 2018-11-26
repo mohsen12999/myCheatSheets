@@ -18,3 +18,12 @@ npm start
 `npm test`: Starts the test runner.
 
 `npm run eject`: Removes this tool and copies build dependencies, configuration files and scripts into the app directory. If you do this, you can’t go back!
+
+* React: a JavaScript library for building user interface
+* Component: a piece of user interface
+  * javascript class with `state`:data and `render`:method
+  * output of render is React element, a simple javascript element for virtual dom
+* install nodejs
+* `npm i -g create-react-app`
+* add extention for vscode
+  * simple React Snippets

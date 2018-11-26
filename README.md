@@ -3,6 +3,7 @@
 Try to save my note as a cheat sheet.
 
 * if `sudo` not work, use `torsocks`
+* install tor and run tor.service before use torsocks
 
 ## link to Sheets
 
