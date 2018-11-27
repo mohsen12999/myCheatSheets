@@ -171,3 +171,93 @@ render() {
     );
 }
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Assign Event handler
+
+in Counters
+
+```jsx
+handleDelete = counterId => {
+    const counters = this.state.counters.filter(c => c.id !== counterId);
+    // this.setState({ counters: counters});
+    this.setState({ counters });
+}
+render() {
+    return(
+        <Counter onDelete={ this.handleDelete } />
+    )
+}
+```
+
+in Counter
+
+```jsx
+render() {
+    return(
+        <button onClick={ () => this.prop.onDelete(this.prop.id) } ></button>
+    )
+}
+```
+
+### Remove local State
+
+* reset button
+
+```jsx
+onReset = () => {
+    const counters = this.state.counters.map(c => {
+        c.value = 0;
+        return c;
+    });
+    this.setState({ counters });
+}
+```
+
+* but child element not change, need to remove their state
+
