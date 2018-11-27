@@ -171,3 +171,82 @@ render() {
     );
 }
 ```
+
+### Passing Event Arg
+
+```jsx
+handleIncreament = (arg) => {
+    this.setState({ count: this.state.count + 1 });
+}
+// doHandleIncreament = () => {
+//     this.handleIncreament({ id: 1 });
+// }
+render() {
+    return (
+        <div>
+            <span >{ this.state.count }</span>
+            <button onClick={ this.doHandleIncreament }>increase</button>
+            <button onClick={ () => this.handleIncreament({ id: 1 }) }>increase</button>
+        </div>
+    );
+}
+```
+
+### Compose Component
+
+* counters component
+
+```jsx
+state = {
+    counters: [
+        { id: 1, value: 0 }
+        { id: 2, value: 0 }
+        { id: 3, value: 0 }
+        { id: 4, value: 0 }
+    ]
+}
+render() {
+    return (
+        <div>
+            { this.state.counters.map(counter => <Counter key="counter.id" value="counter.value" />) }
+        </div>
+    );
+}
+```
+
+* counter component
+
+```jsx
+state = {
+    count: this.props.value
+}
+render() {
+    return (
+        <div>
+            { this.state.counters.map(counter => <Counter key="counter.id" value="counter.value" selected="true" />) }
+        </div>
+    );
+}
+```
+
+### Passing Children
+
+send information between tags -> `this.props.children`
+
+```jsx
+<Counter>
+    <h4>title</h4>
+</Counter>
+```
+
+### Debugging React App
+
+* React Developer Tools for browser -> new tab in developer tool
+* `$r` -> instanse of first component in debugger
+
+### Prop vs State
+
+* state is local
+* props is read only
+
+* the component that own a piece of state, should be the one modifying it.
