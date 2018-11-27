@@ -53,3 +53,121 @@ ReactDom.render(ele, document.getElementById('root'));
   * use imrc & cc to create component
 * import component in index.js
 * jsx need to have one parent element, we can use `React.Fragment` tag fir it
+
+```jsx
+class Counter extends Component {
+    state = {
+        count = 1;
+    };
+    render() {
+        return (
+            <div>
+                <span>{ this.state.count }</span>
+                <span>{ this.formatCount() }</span>
+                <button>increase</button>
+            </div>
+        );
+    }
+    formatCount() {
+        //return this.state.count === 0 ? 'zero':this.state.count;
+        const { count } = this.state;
+        //return count === 0 ? 'zero':count;
+        return count === 0 ? <h1>Zero</h1>:count;
+    }
+}
+```
+
+* can not use 'class' in jsx -> className
+
+```jsx
+styles = {
+    fontSize: 10 ,//or '10px'
+    fontWeight: bold
+}
+render() {
+    return (
+        <div>
+            <span style={this.styles} className="badge">{ this.formatCount() }</span>
+            <button style={{fontSize: 20}}>increase</button>
+        </div>
+    );
+}
+```
+
+### render class dynamicly
+
+```jsx
+render() {
+    let classes = "badge m-2 bagde-";
+    classes += (this.state.count === 0)?"warning":"primary";
+    return (
+        <div>
+            <span style={this.styles} className={classes}>{ this.formatCount() }</span>
+            <button style={{fontSize: 20}}>increase</button>
+        </div>
+    );
+}
+```
+
+* select line -> right click -> refactor...
+
+### Rendering List
+
+```jsx
+state = {
+    tags: ['tag1','tag2','tag3']
+}
+render() {
+    return (
+        <ul>
+            { this.state.tag.map(tag => <li key={tag}>{ tag }</li>) }
+        </ul>
+    );
+}
+```
+
+* condition
+
+```jsx
+renderTag(){
+    if(this.state.tags.length == 0){
+        // return 'no tag!';
+        // return null;
+        return <p>there are no tag</p>;
+    }
+    return <ul>{ this.state.tag.map(tag => <li key={tag}>{ tag }</li>) }</ul>
+}
+```
+
+* one way condition in javascript 'true && "hi"'->"hi"
+
+```jsx
+render() {
+    return (
+        { this.state.tags.length == 0 && <p>there are no tag</p>} // render tag when array empty
+    )
+}
+```
+
+### Handle Event
+
+```jsx
+// first way
+// constroctor() {
+//     super();
+//     this.handleIncreament = this.handleIncreament.bind(this);
+// }
+// handleIncreament() {}
+// new way
+handleIncreament = () => {
+    this.setState({ count: this.state.count+1 })
+}
+render() {
+    return (
+        <div>
+            <span >{ this.state.count }</span>
+            <button onClick={ this.handleIncreament }>increase</button>
+        </div>
+    );
+}
+```
