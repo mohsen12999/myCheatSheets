@@ -292,4 +292,142 @@ onReset = () => {
 }
 ```
 
-* but child element not change, need to remove their state
+* but child element not change, need to remove their state and use master component state for that -> remove local event handler and send propperties and events to master with prop
+
+Counter
+
+```jsx
+<button onClick={() => this.props.onIncrement(this.prop.counter)}></button>
+```
+
+Counters
+
+```jsx
+handleIncreament = counter => {
+    const counters = [...this.state.counters];
+    const index = counters.indexOf(counter);
+    counters[index] = {...counters};
+    counters[index].value++;
+    this.setState(counters);
+}
+render() {
+    return (
+        <Counter onIncrement={this.handleIncreament} />
+    );
+}
+```
+
+* Multiple Component In Sync: need have same parent and read one state
+
+### Stateless Functional Components
+
+* if we havent any state and functions we can use function instead of class -> shortcut `sfc`
+
+```jsx
+const Navbar = (props) => {
+    return (
+        <nav>
+            <a href="">Navbar</a>
+            <span>{props.totalCounters}</span>
+        </nav>
+    )
+}
+```
+
+### Destructuring Arguments
+
+```jsx
+const Navbar = ({totalCounters}) => {
+    return (
+        <nav>
+            <a href="">Navbar</a>
+            <span>{totalCounters}</span> // instead of props.totalCounters
+        </nav>
+    )
+}
+```
+
+```jsx
+render() {
+    const { onReset, counters, OnDelete, onIncrement } = this.props;
+    return (
+        <button onClick={onReset}> // instead of this.props.onReset
+            reset
+        </button>
+        ...
+    )
+}
+```
+
+### Lifecycle Hooks
+
+important lifecycle hooks:
+
+* Mount: when component created and insert in dom
+  * constructor -> mostly set the state
+  * render
+  * componentDidMount
+* Update: when State or Props change
+  * render
+  * componentDidUpdate
+* UnMount
+  * componentWillUnmount
+
+#### Mounting Phase
+
+* constructor: call one and best place for set state
+
+```jsx
+constroctur() {
+    super();
+    this.state = something;
+    // not use this.setState
+}
+```
+
+```jsx
+constroctur(props) {
+    super(props);
+    this.state = this.props.something;
+}
+```
+
+* render -> render function
+* componentDidMount: best place to ajax call for read from server
+
+```jsx
+componentDidMount() {
+    // ajax call
+    this.setState({ });
+}
+```
+
+* we can use lifecycle hook only for class and not for stateless function
+* make component from parent to child
+
+#### Update Phase
+
+* render parent to child
+* change only change element of dom
+
+```jsx
+componentDidUpdate() { // after the component was updated
+    // compare the data to old ones and if change request ajax to server
+}
+```
+
+```jsx
+componentDidUpdate(prevProp, prevState) {
+    if(prevProp.counter.value !== this.props.counter.value) {
+        // Ajax call and get new data from server
+    }
+}
+```
+
+#### UnMount Phase
+
+```jsx
+componentDidUnmount() { // before component remove from dom
+    // clean up such as timer or listener prevent memory leak
+}
+```
