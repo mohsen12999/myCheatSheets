@@ -66,7 +66,7 @@ right click -> setting -> shared drives
 
 `docker run --rm -it -p 8080:80 -v c:\users\mohsen\mysite:/usr/share/nginx/html nginx`
 
-see site in http://localhost:8080
+see site in [local host port 8080](http://localhost:8080)
 
 #### copy file to container
 
@@ -86,7 +86,7 @@ see site in http://localhost:8080
 
 * see list of file
 
-see site in http://localhost:8080
+see site in [local host port 8080](http://localhost:8080)
 
 #### custome image
 
@@ -96,7 +96,7 @@ see site in http://localhost:8080
 
 `docker run -d -p 8090:80 --name mysite mysite:nginx`
 
-see in http://localhost:8090
+see in [local host port 8090](http://localhost:8090)
 
 `docker exec mysite ls /usr/share/nginx/html`
 
