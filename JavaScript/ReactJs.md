@@ -27,9 +27,11 @@ npm start
   * output of render is React element, a simple javascript element for virtual dom
 * install nodejs
 * `npm i -g create-react-app`
+
 * add extention for vscode
   * simple React Snippets -> shortcut like imrc (import react componrnt) & cc (class component)
   * prettier-code formatter -> goto file -> perferences -> setting -> usersetting -> "editor.formatOnsetting": true
+
 * `create-react-app [app-name]`
 * `npm start`
 * babel is a compiler for jsx (javascript xml) [babel compiler online](https://babeljs.io/repl)
