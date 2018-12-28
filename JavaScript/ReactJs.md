@@ -433,3 +433,10 @@ componentDidUnmount() { // before component remove from dom
     // clean up such as timer or listener prevent memory leak
 }
 ```
+
+[more info from react lifecycle](https://reactjs.org/docs/react-component.html)
+
+### other
+
+* [modal dialog component for React](https://github.com/reactjs/react-moda)
+* [animations for React component](https://github.com/reactjs/react-transition-group/tree/master)
