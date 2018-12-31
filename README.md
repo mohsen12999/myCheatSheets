@@ -7,7 +7,7 @@ Try to save my note as a cheat sheet.
 
 ## link to Sheets
 
-* .net
+* [.net](/.net/)
   * [Entity Framework](./.net/EntityFramework.md)
 * [JavaScript](./JavaScript/)
   * [Node](./JavaScript/Node.md)
