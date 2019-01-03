@@ -22,3 +22,4 @@ Try to save my note as a cheat sheet.
   * [Cent Os - LAMP config](./Linux/CentOs-LAMP.md)
 * [PHP](./PHP/)
   * [Laravel](./PHP/Laravel.md)
+* [Python](./Python/)
