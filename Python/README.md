@@ -62,8 +62,8 @@ print(numbers[0::3]) # start to end with step of 3 -> only number
 ```py
 print("Hello"*5) # print Hello 5 time
 today = "friday"
-print("day" in today) # return true
-print("parrot" in "bird") # return false
+print("day" in today) # return True
+print("parrot" in "bird") # return False
 ```
 
 ```py
@@ -106,14 +106,14 @@ if 16 <= age <= 65: # equal to if age >= 16 and age <=65:
 if (age<16) or (age>65):
     print("enjoy your free time")
 
-x = "false"
+x = "False"
 if x:
-    print("x is true or have none zero value") # its run
+    print("x is True or have none zero value") # its run
 else
-    print("x is false or zero or None or empty string or empty list or empty tuple or empty mapping , ...")
+    print("x is False or zero or None or empty string or empty list or empty tuple or empty mapping , ...")
 
-print(not false) # return true
-print(not true) # return false
+print(not False) # return True
+print(not True) # return False
 # if not(age<18)
 ```
 
@@ -150,4 +150,211 @@ for i in range(1,13):
     for j in range(1,13):
         print("{1} times {0} is {2}".format(i,j,i*j))
     print("=======================")
+```
+
+```py
+shopping_list = ["milk", "pasta", "eggs", "spam", "bread", "rice" ]
+for item in shopping_list:
+    if item == "spam":
+        continue # back to top of the loop
+    print("Buy "+item)
+
+meal = ["egg", "beacon","spam","sausages"]
+for item in meal:
+    if item == "span":
+        nasty_food_item = item
+        break # break the loop
+else:
+    print("I'll have a plate of that, then, please") # if dont break in loop go here
+if nasty_food_item: # if we have'nt go to if we have error here
+    print("Can't I have anything without spam in it")
+```
+
+## Augumented Assignment
+
+* `+=`, `-=`, `*=`, `/=`, `**=`, `%=`
+
+```py
+# long string
+input = "ddfdfdfdfdffgdg g fgdfg df" \
+        "dfdfdffd  djdfd"
+input = ("ddfdfdfdfdffgdg g fgdfg df"
+         "dfdfdffd  djdfd")
+```
+
+## While Loop
+
+```py
+i = 0
+while i<10:
+    print("i is now {}".format(i))
+    i += 1
+
+while True:
+    print("infinit loop")
+
+available_exits = ["east", "north east", "south" ]
+chosen_exit=""
+while chosen_exit not in available_exits:
+    chosen_exit = input("please choose a direction: ")
+print("arent you glad you get out of there!")
+
+while chosen_exit not in available_exits:
+    chosen_exit = input("please choose a direction: ")
+    if chosen_exit == "quit":
+        print("Game over")
+        break
+else:
+    print("arent you glad you get out of there!")
+```
+
+```py
+import random
+
+highest = 10
+answer = randeom.randint(1, highest)
+
+print("please guess a number between 1 and {}".format(highest))
+guess = 0 # initial number and outside of valid range
+while guess != answer:
+    guess = int(input())
+    if guess < answer:
+        print("please guess higher")
+    elif guess > answer:
+        print("please guess lowe")
+    else:
+        print("well done, you guess it")
+```
+
+## List
+
+```py
+ipAddress = "127.0.0.1"
+ipAddress.count(".")
+len(ipAddress)
+```
+
+```py
+parrot_list = ["non pinin", "no more", "a stiff"]
+parrot_list.append("A Norwegian Blue")
+
+even = [2, 4, 6, 8]
+add = [1,3,5,7,9]
+numbers = even + odd
+numbers.sort() # have no output
+print(numbers)
+sorted_numbers = sorted(number)
+if sorted_numbers == numbers: # must have same member and same order
+    print("the lists are equal")
+
+numbers.sort(reverse=True)
+print(sorted_numbers == numbers) # False
+print(sorted_numbers in numbers) # True
+```
+
+```py
+list_1 = []
+list_2 = list()
+if list_1 == list_2: # both are empty list
+    print("the lists are equal")
+print(list("Hello")) # ["H", "e", "l", "l", "o"]
+
+even = [2,4,6,8]
+another = list(even)
+print(even in another) # False
+print(even == another) # True
+```
+
+```py
+even = [2, 4, 6, 8]
+add = [1,3,5,7,9]
+numbers = [even,odd]
+for number_set in numbers:
+    print(number_set)
+    for value in number_set:
+        print(value)
+```
+
+```py
+menu=[]
+menu.append(["egg","spam","beacon"])
+menu.append(["egg","sausage","beacon"])
+menu.append(["egg","spam"])
+menu.append(["egg","spam","sausage","beacon"])
+for meal in menu:
+    if not "spam" in meal:
+        print(meal)
+```
+
+## Iterators
+
+```py
+string = "1234567890"
+my_iterator = itr(string)
+print(my_iterator) #<str_itrator ...
+print(next(my_iterator)) # 1
+print(next(my_iterator)) # 2
+
+for char in string: # python convert string to itr(string)
+    print(char)
+```
+
+```py
+my_list = ["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]
+my_iterator = itr(my_list)
+for i in range(0, len(my_list)):
+    next_item = next(my_iterator)
+    print(next_item)
+```
+
+## Range
+
+```py
+range(100) #range(0,100)
+my_list = list(range(10)) # [0,...,9]
+even = list(range(0,10,2))
+odd = list(range(1,10,2))
+print(range(0, 5, 2)==range(0,6,2)) # True
+r=range(0,100)
+for i in r[::-2]: #range(99,0,-2)
+    print(i) # 99 97 95 ...
+
+string = "nohtyp"
+print(string[::-1]) # reverse string
+```
+
+## Tuple
+
+```py
+t = "a", "b", "c" # its tuple
+t2 = ("a", "b", "c")
+mettalica = "Ride the Lightening", "Mettalica", 1984
+print(mettalica)
+print(mettalica[0])
+# mettalica[0] = "Master of Puppets" # can not change
+mettalica = mettalica[0], "Master of Puppets",mettalica[2]
+```
+
+```py
+a=12
+b=13
+a,b=b,a # swap
+
+mettalica = "Ride the Lightening", "Mettalica", 1984
+title, artist, year = mettalica # unpack tuples
+
+imelda = "More Mayhem", "Imelda May", 2011, {(1,"pulling the Rug"),(2,"Psycho"),(3,"Meyhem")}
+title, artist, year, tracks = imelda
+
+imelda2 = "More Mayhem", "Imelda May", 2011, {[(1,"pulling the Rug"),(2,"Psycho"),(3,"Meyhem")]} # make list
+imelda2[3].append((6,"Eternity")) # add to list in tuple
+```
+
+## Binary
+
+[decimal computer](http://www.bbc.com/news/technology-20155028)
+
+```py
+for i in range(17)
+    print("{0:>2} in binary is {0:>08b}.format(i)")
 ```
