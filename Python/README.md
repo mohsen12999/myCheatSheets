@@ -358,3 +358,61 @@ imelda2[3].append((6,"Eternity")) # add to list in tuple
 for i in range(17)
     print("{0:>2} in binary is {0:>08b}.format(i)")
 ```
+
+## Hexadecimal & Octal
+
+```py
+for i in range(17)
+    print("{0:>2} in binary is {0:>02x}.format(i)")
+
+hex=0x20 #hexadecimal number
+oct=0o26 #Octal number
+bin=b010100101 #binary
+```
+
+## Dictionary
+
+```py
+fruit={"apple":"red sweet fruit", "orange":"citrus fruit"}
+print(fruit)
+print(fruit["apple"])
+print(fruit.get("apple"))
+print(fruit.get("apple","we dont have apple"))
+fruit["pear"]="an odd shape fruit" #insert new member
+fruit["apple"]="red or yellow sweet fruit" #update member
+fruit.clear() #remove all
+
+if "grape" in fruit: #search in key
+    print("we have grape")
+for snack in fruit:
+    print(snack + " is "+ fruit[snack])
+
+key_list=fruit.keys()
+for snack in sorted(fruit.keys()): #list sort by key
+    print(snack + " is "+ fruit[snack])
+
+values=fruit.values()
+
+f_tuple=tuple(fruit.items())
+
+st=", ".join(fruit.keys()) #make string of keys
+
+veg={"spinach":"green one"}
+veg.update(fruit) #add fruit to end of veg
+
+fruit=fruit.copy()
+```
+
+## Sets
+ 
+```py
+farm_animals={"sheep","cow","hen"} #first way
+wild_animals=set(["lion","wolf","hare","tiger"])#second way
+farm_animal.add("horse")
+a={} #empty dictionary
+a2=set() #empty set
+farm_animals.union(wild_animals) # add only new member
+farm_animals.intersection(wild_animals) # get only mamber both have
+farm_animals.diffrent(wild_animals)
+farm_animals.diffrent_update(wild_animals)
+```
