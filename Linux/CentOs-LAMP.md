@@ -113,3 +113,40 @@ disable selinux
 vi /etc/sysconfig/selinux => SELINUX=disabled
 reboot
 ```
+
+---------------------------------------------
+
+## Compress
+
+```sh
+tar -cvzf jpegarchive.tar.gz /path/to/images/*.jpg
+tar -czvf archive.tar.gz /home/ubuntu --exclude=/home/ubuntu/Downloads --exclude=/home/ubuntu/.cache
+tar --exclude=./.git --exclude=./.idea --exclude=./.env --exclude=./composer.*  --exclude=./.editorconfig --exclude=./git* -czvf archive.tar.gz .
+```
+
+```sh
+tar -xvf filename.tar
+```
+
+## make db and db user
+
+```sh
+CREATE DATABASE mydbnamedb;
+CREATE USER 'myusername' IDENTIFIED BY 'user-password';
+GRANT ALL PRIVILEGES ON mydbnamedb.* TO 'myusername';
+```
+
+## Run Sql
+
+* add `use databasebame;` in first line of sql file
+
+```sh
+mysql -u username -p password database_name < /path/to/your/file.sql
+mysql>source /path/to/your/file.sql
+```
+
+## Backup Sql
+
+```sh
+mysqldump -u root -p mydbnamedb >mydb_$(date +"%Y%m%d").sql
+```
