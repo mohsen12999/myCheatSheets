@@ -20,6 +20,7 @@ Try to save my note as a cheat sheet.
   * [Bash](./Linux/bash.md)
   * [Git](./Linux/git.md)
   * [Cent Os - LAMP config](./Linux/CentOs-LAMP.md)
+* Lisp(./Lisp/)
 * [PHP](./PHP/)
   * [Laravel](./PHP/Laravel.md)
 * [Python](./Python/)

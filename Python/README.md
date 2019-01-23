@@ -325,6 +325,8 @@ print(string[::-1]) # reverse string
 
 ## Tuple
 
+* A tuple is a collection which is ordered and unchangeable.
+
 ```py
 t = "a", "b", "c" # its tuple
 t2 = ("a", "b", "c")
@@ -372,6 +374,8 @@ bin=b010100101 #binary
 
 ## Dictionary
 
+* A dictionary is a collection which is unordered, changeable and indexed.
+
 ```py
 fruit={"apple":"red sweet fruit", "orange":"citrus fruit"}
 print(fruit)
@@ -404,7 +408,9 @@ fruit=fruit.copy()
 ```
 
 ## Sets
- 
+
+* A set is a collection which is unordered and unindexed
+
 ```py
 farm_animals={"sheep","cow","hen"} #first way
 wild_animals=set(["lion","wolf","hare","tiger"])#second way
@@ -414,5 +420,34 @@ a2=set() #empty set
 farm_animals.union(wild_animals) # add only new member
 farm_animals.intersection(wild_animals) # get only mamber both have
 farm_animals.diffrent(wild_animals)
-farm_animals.diffrent_update(wild_animals)
+farm_animals.diffrent_update(wild_animals) # equqal to farm_animal-wild_animal
+
+farm_animal.discard("cow")
+farm_animal.remove("hen")
+farm_animal.discard("not_member") # no error
+
+if "not_member" in farm_animal:
+    farm_animal.discard("not_member") #for no error
+
+try:
+    farm_animal.discard("not_member")
+except KeyError:
+    print("its not a member")
+
+if even.issubset(number)::
+    print("subset")
+if number.issuperset(even):
+    print("superset")
+
+even = frozenset(range(0,100,2)) # cant add or remove member
+# even.add(3) have error
+```
+
+## Text File 061
+
+```py
+jabber=open("text.txt")
+for line in jabber:
+    print("line")
+jabber.close()
 ```

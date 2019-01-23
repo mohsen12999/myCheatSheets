@@ -21,7 +21,7 @@ php artisan serve
 php artisan make:controller [PostController]
 
 //Route::resource('photo','PhotoController')
-php artisan make:controller --resource [PostController]
+php artisan make:controller --resource [PostController or Admin/PostController]
 ```
 
 ## Migration
