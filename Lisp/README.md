@@ -67,6 +67,7 @@ use function:
 ```lisp
 (fib 30)
 ```
+
 ### Anonymous Functions
 
 #### Application
