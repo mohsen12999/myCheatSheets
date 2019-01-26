@@ -2,6 +2,25 @@
 
 * use Anaconda for having package of python library and editor like jupiter and spider. add to path when install anaconda.
 
+see python version
+
+```sh
+python --version
+```
+
+run python program
+
+```sh
+python helloworld.py
+```
+
+python command line, `exit()` for exit;
+
+```sh
+python
+python3
+```
+
 ```py
 __author__='mohsen'
 ```
@@ -15,6 +34,8 @@ print("Hello"+"world!")
 print("double qoute can use ' in it")
 print('single qoute can use " in it')
 # comment
+"""This is a
+multiline docstring."""
 name = "ali"
 print("hello "+name)
 print("\t\n\"")
@@ -77,6 +98,78 @@ print("My age is %d %s, %d %s" % (age, "years",6,"months")) # %d for digit and %
 print("Pi is approximately %12f" %(22/7)) # 12 space for number =>{0:12}
 print("Pi is approximately %12.50f" %(22/7)) # 50 decimal point =>{0:12.50}
 # we can use {} and python use variable outomatically. we can alseo use {:4} and more
+```
+
+## Number
+
+```py
+x = 1    # int
+x1 = 35656222554887711
+x2 = -3255522
+
+y = 2.8  # float
+y1 = 35e3
+y2 = 12E4
+y3 = -87.7e100
+
+z = 1j   # complex
+z1 = 3+5j
+z2 = -5j
+
+print(type(x))
+print(type(y))
+print(type(z))
+```
+
+## casting
+
+```py
+x1 = int(2.8) # x1 will be 2
+x2 = int("3") # x2 will be 3
+
+y1 = float("3") # y1 will be 3.0
+
+s1 = str("s1") # s1 will be 's1'
+s2 = str(2)    # s2 will be '2'
+s3 = str(3.0)  # s3 will be '3.0'
+```
+
+## String
+
+```py
+a = "Hello, World!"
+print(a[1]) # e
+print(b[2:5])
+print(a.strip()) # returns "Hello, World!"
+print(len(a))
+print(a.lower())
+print(a.upper())
+print(a.replace("H", "J"))
+print(a.split(",")) # returns ['Hello', ' World!']
+
+print("Enter your name:")
+x = input()
+print("Hello, " + x)
+```
+
+## Operators
+
+* Arithmetic: `+`, `-`, `*`, `/`, `//`, `**`, `%`
+* Augumented Assignment: `+=`, `-=`, `*=`, `/=`, `//=`, `**=`, `%=`
+* Comparison Operators: `==`, `!=`, `>`, `<`, `>=`, `<=`
+* Logical Operators: `and`, `or`, `not`
+* Identity Operators: `is`, `is not`
+  * `is` Returns true if both variables are the same object
+* Membership Operators: `in`, `not in`
+  * `in` Returns True if a sequence with the specified value is present in the object
+* Bitwise Operators: `&`, `|`, `^`(XOR), `~`(NOT),`<<`, `>>`
+
+```py
+# long string
+input = "ddfdfdfdfdffgdg g fgdfg df" \
+        "dfdfdffd  djdfd"
+input = ("ddfdfdfdfdffgdg g fgdfg df"
+         "dfdfdffd  djdfd")
 ```
 
 ## if statement
@@ -170,18 +263,6 @@ if nasty_food_item: # if we have'nt go to if we have error here
     print("Can't I have anything without spam in it")
 ```
 
-## Augumented Assignment
-
-* `+=`, `-=`, `*=`, `/=`, `**=`, `%=`
-
-```py
-# long string
-input = "ddfdfdfdfdffgdg g fgdfg df" \
-        "dfdfdffd  djdfd"
-input = ("ddfdfdfdfdffgdg g fgdfg df"
-         "dfdfdffd  djdfd")
-```
-
 ## While Loop
 
 ```py
@@ -226,7 +307,66 @@ while guess != answer:
         print("well done, you guess it")
 ```
 
+## Iterators
+
+```py
+string = "1234567890"
+my_iterator = itr(string)
+print(my_iterator) #<str_itrator ...
+print(next(my_iterator)) # 1
+print(next(my_iterator)) # 2
+
+for char in string: # python convert string to itr(string)
+    print(char)
+```
+
+```py
+my_list = ["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]
+my_iterator = itr(my_list)
+for i in range(0, len(my_list)):
+    next_item = next(my_iterator)
+    print(next_item)
+```
+
+## Range
+
+```py
+range(100) #range(0,100)
+my_list = list(range(10)) # [0,...,9]
+even = list(range(0,10,2))
+odd = list(range(1,10,2))
+print(range(0, 5, 2)==range(0,6,2)) # True
+r=range(0,100)
+for i in r[::-2]: #range(99,0,-2)
+    print(i) # 99 97 95 ...
+
+string = "nohtyp"
+print(string[::-1]) # reverse string
+```
+
+## Binary
+
+[decimal computer](http://www.bbc.com/news/technology-20155028)
+
+```py
+for i in range(17)
+    print("{0:>2} in binary is {0:>08b}.format(i)")
+```
+
+## Hexadecimal & Octal
+
+```py
+for i in range(17)
+    print("{0:>2} in binary is {0:>02x}.format(i)")
+
+hex=0x20 #hexadecimal number
+oct=0o26 #Octal number
+bin=b010100101 #binary
+```
+
 ## List
+
+* A list is a collection which is ordered and changeable.
 
 ```py
 ipAddress = "127.0.0.1"
@@ -286,41 +426,14 @@ for meal in menu:
         print(meal)
 ```
 
-## Iterators
-
 ```py
-string = "1234567890"
-my_iterator = itr(string)
-print(my_iterator) #<str_itrator ...
-print(next(my_iterator)) # 1
-print(next(my_iterator)) # 2
-
-for char in string: # python convert string to itr(string)
-    print(char)
-```
-
-```py
-my_list = ["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]
-my_iterator = itr(my_list)
-for i in range(0, len(my_list)):
-    next_item = next(my_iterator)
-    print(next_item)
-```
-
-## Range
-
-```py
-range(100) #range(0,100)
-my_list = list(range(10)) # [0,...,9]
-even = list(range(0,10,2))
-odd = list(range(1,10,2))
-print(range(0, 5, 2)==range(0,6,2)) # True
-r=range(0,100)
-for i in r[::-2]: #range(99,0,-2)
-    print(i) # 99 97 95 ...
-
-string = "nohtyp"
-print(string[::-1]) # reverse string
+thislist = ["apple", "banana", "cherry"]
+thislist.insert(1, "orange")
+thislist.remove("banana")
+thislist.pop() # The pop() method removes the specified index, (or the last item if index is not specified)
+del thislist[0]
+thislist.clear()
+thislist = list(("apple", "banana", "cherry")) # Using the list() constructor to make a List
 ```
 
 ## Tuple
@@ -352,24 +465,11 @@ imelda2 = "More Mayhem", "Imelda May", 2011, {[(1,"pulling the Rug"),(2,"Psycho"
 imelda2[3].append((6,"Eternity")) # add to list in tuple
 ```
 
-## Binary
-
-[decimal computer](http://www.bbc.com/news/technology-20155028)
-
 ```py
-for i in range(17)
-    print("{0:>2} in binary is {0:>08b}.format(i)")
-```
-
-## Hexadecimal & Octal
-
-```py
-for i in range(17)
-    print("{0:>2} in binary is {0:>02x}.format(i)")
-
-hex=0x20 #hexadecimal number
-oct=0o26 #Octal number
-bin=b010100101 #binary
+thistuple = ("apple", "banana", "cherry")
+print(len(thistuple))
+del thistuple
+thistuple = tuple(("apple", "banana", "cherry")) # Using the tuple() method to make a tuple
 ```
 
 ## Dictionary
