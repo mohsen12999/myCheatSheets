@@ -57,11 +57,199 @@
 (write(+ (* (/ 9 5) 60) 32)) ;; =>(60 * 9 / 5) + 32
 ```
 
+## Data Types
+
+* Scalar types − for example, number types, characters, symbols etc.
+* Data structures − for example, lists, vectors, bit-vectors, and strings.
+
+* `type-of` function returns the data type of a given object.
+
+```lisp
+(setq x 10)
+(setq y 34.567)
+(setq ch nil)
+(setq n 123.78)
+(setq bg 11.0e+4)
+(setq r 124/2)
+
+(print x)
+(print y)
+(print n)
+(print ch)
+(print bg)
+(print r)
+
+(print (type-of x))
+```
+
+## Decision Making
+
+### cond
+
+```lisp
+(setq a 10)
+(cond ((> a 20)
+   (format t "~% a is greater than 20"))
+   (t (format t "~% value of a is ~d " a)))
+;; value of a is 10
+```
+
+### if
+
+```lisp
+(setq a 10)
+(if (> a 20)
+   (format t "~% a is less than 20"))
+(format t "~% value of a is ~d " a)
+;; value of a is 10
+
+(setq a 10)
+(if (> a 20)
+   then (format t "~% a is less than 20"))
+(format t "~% value of a is ~d " a)
+;; a is less than 20
+;; value of a is 10
+
+(setq a 100)
+(if (> a 20)
+   (format t "~% a is greater than 20") 
+   (format t "~% a is less than 20"))
+(format t "~% value of a is ~d " a)
+;; a is greater than 20
+;; value of a is 100 
+```
+
+### when
+
+```lisp
+(setq a 100)
+(when (> a 20)
+   (format t "~% a is greater than 20"))
+(format t "~% value of a is ~d " a)
+;; a is greater than 20
+;; value of a is 100 
+```
+
+### case
+
+```lisp
+(setq day 4)
+(case day
+(1 (format t "~% Monday"))
+(2 (format t "~% Tuesday"))
+(3 (format t "~% Wednesday"))
+(4 (format t "~% Thursday"))
+(5 (format t "~% Friday"))
+(6 (format t "~% Saturday"))
+(7 (format t "~% Sunday")))
+;; Thursday
+```
+
+## Loops
+
+### loop
+
+```lisp
+(setq a 10)
+(loop 
+   (setq a (+ a 1))
+   (write a)
+   (terpri)
+   (when (> a 15) (return a))
+)
+;; 11
+;; 12
+;; 13
+;; 14
+;; 15
+;; 16
+```
+
+### loop for
+
+```lisp
+(loop for x in '(tom dick harry)
+   do (format t " ~s" x)
+)
+;; TOM DICK HARRY
+
+(loop for a from 10 to 15
+   do (print a)
+)
+;; 10 
+;; 11 
+;; 12 
+;; 13 
+;; 14 
+;; 15 
+
+(loop for x from 1 to 10
+   if(evenp x)
+   do (print x)
+)
+;; 2 
+;; 4 
+;; 6 
+;; 8 
+;; 10
+```
+
+### do
+
+```lisp
+(do ((x 0 (+ 2 x)) ;; (variable1    value1   updated-value1)
+   (y 20 ( - y 2)))
+   ((= x y)(- x y))
+   (format t "~% x = ~d  y = ~d" x y)
+)
+;; x = 0  y = 20
+;; x = 2  y = 18
+;; x = 4  y = 16
+;; x = 6  y = 14
+;; x = 8  y = 12
+```
+
+### dotimes
+
+```lisp
+(dotimes (n 11)
+   (print n) (prin1 (* n n))
+)
+;; 0 0
+;; 1 1
+;; 2 4
+;; 3 9
+;; 4 16
+;; 5 25
+;; 6 36
+;; 7 49
+;; 8 64
+;; 9 81
+;; 10 100
+```
+
+### dolist
+
+```lisp
+(dolist (n '(1 2 3 4 5 6 7 8 9))
+   (format t "~% Number: ~d Square: ~d" n (* n n))
+)
+;; Number: 1 Square: 1
+;; Number: 2 Square: 4
+;; Number: 3 Square: 9
+;; Number: 4 Square: 16
+;; Number: 5 Square: 25
+;; Number: 6 Square: 36
+;; Number: 7 Square: 49
+;; Number: 8 Square: 64
+;; Number: 9 Square: 81
+```
+
 ## Functions
 
 ### Named Functions
 
-define function:
+define function: `(defun name (parameter-list) "Optional documentation string." body)`
 
 ```lisp
 (defun fib (n)
@@ -138,6 +326,21 @@ We can also use multiple-value-bind to assign each return value to a variable:
 
 ```
 
+```lisp
+(setq x 100)
+(setq y 200)
+(format t "x = ~2d y = ~2d" x y)
+;; x = 100 y = 200
+
+(let ((x 'a) (y 'b)(z 'c))
+(format t "x = ~a y = ~a z = ~a" x y z))
+;; x = A y = B z = C
+
+(prog ((x '(a b c))(y '(1 2 3))(z '(p q 10)))
+(format t "x = ~a y = ~a z = ~a" x y z))
+;; x = (A B C) y = (1 2 3) z = (P Q 10)
+```
+
 ### Dynamic Variables
 
 * Dynamic variables are sort of like global variables, but more useful: they are dynamically scoped. You define them either with `defvar` or `defparameter`, the differences being:
@@ -160,6 +363,63 @@ We can also use multiple-value-bind to assign each return value to a variable:
 ```
 
 * when you redefine the value of a dynamic variable using let, the variable is bound to the new value inside the body of the let, and the old value is ‘restored’ afterwards.
+
+### Constants
+
+```lisp
+(defconstant PI 3.141592)
+(defun area-circle(rad)
+   (terpri)
+   (format t "Radius: ~5f" rad)
+   (format t "~%Area: ~10f" (* PI rad rad)))
+(area-circle 10)
+```
+
+## Operators
+
+### Arithmetic Operations
+
+```lisp
+(+A B) ;; A+B
+(- A B) ;; A-B
+(* A B) ;; A*B
+(/ B A) ;; A/B
+(mod B A ) ;; A%B
+(incf A 3) ;; A+=3
+(decf A 4) ;; A-=4
+```
+
+### Comparison Operations
+
+```lisp
+(= A B)
+(/= A B)
+(> A B)
+(< A B)
+(>= A B)
+(<= A B)
+(max A B)
+(min A B) 
+```
+
+### Logical Operations
+
+```lisp
+(and A B)
+(or A B)
+(not A) 
+```
+
+### Bitwise Operations
+
+```lisp
+(logand a b) ;; AND
+(logior a b) ;; INCLUSIVE OR
+(logxor a b) ;; EXCLUSIVE OR
+(lognor a b) ;; NOT
+(logeqv a b) ;; EQUIVALENCE or exclusive nor
+```
+
 
 ## List
 
