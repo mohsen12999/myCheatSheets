@@ -140,7 +140,7 @@ s3 = str(3.0)  # s3 will be '3.0'
 a = "Hello, World!"
 print(a[1]) # e
 print(b[2:5])
-print(a.strip()) # returns "Hello, World!"
+print(a.strip()) # like trim, returns "Hello, World!"
 print(len(a))
 print(a.lower())
 print(a.upper())
@@ -174,6 +174,8 @@ input = ("ddfdfdfdfdffgdg g fgdfg df"
 
 ## if statement
 
+* `==`, `!=`, `>`, `<`, `>=`, `<=`
+
 ```py
 name = input("Please enter your name: ")
 age = int(input("Hoew old are you, {}?".format(name)))
@@ -199,6 +201,9 @@ if 16 <= age <= 65: # equal to if age >= 16 and age <=65:
 if (age<16) or (age>65):
     print("enjoy your free time")
 
+if a > b and c > a:
+  print("Both conditions are True")
+  
 x = "False"
 if x:
     print("x is True or have none zero value") # its run
@@ -208,6 +213,16 @@ else
 print(not False) # return True
 print(not True) # return False
 # if not(age<18)
+```
+
+### Short Hand
+
+```py
+if a > b: print("a is greater than b")
+
+print("A") if a > b else print("B") 
+
+print("A") if a > b else print("=") if a == b else print("B") 
 ```
 
 ## for loop
@@ -307,25 +322,13 @@ while guess != answer:
         print("well done, you guess it")
 ```
 
-## Iterators
-
 ```py
-string = "1234567890"
-my_iterator = itr(string)
-print(my_iterator) #<str_itrator ...
-print(next(my_iterator)) # 1
-print(next(my_iterator)) # 2
-
-for char in string: # python convert string to itr(string)
-    print(char)
-```
-
-```py
-my_list = ["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]
-my_iterator = itr(my_list)
-for i in range(0, len(my_list)):
-    next_item = next(my_iterator)
-    print(next_item)
+i = 0
+while i < 6:
+  i += 1
+  if i == 3:
+    continue
+  print(i)
 ```
 
 ## Range
@@ -543,11 +546,906 @@ even = frozenset(range(0,100,2)) # cant add or remove member
 # even.add(3) have error
 ```
 
-## Text File 061
+## Function
 
 ```py
-jabber=open("text.txt")
-for line in jabber:
-    print("line")
-jabber.close()
+def my_function():
+  print("Hello from a function")
+
+my_function()
+```
+
+### Parameters
+
+```py
+def my_function(fname):
+  print(fname + " Refsnes")
+
+my_function("Emil")
+```
+
+### Default Parameter Value
+
+```py
+def my_function(country = "Norway"):
+  print("I am from " + country)
+
+my_function("Sweden")
+my_function()
+```
+
+### Return Values
+
+```py
+def my_function(x):
+  return 5 * x
+
+print(my_function(3))
+```
+
+### Recursion
+
+```py
+def tri_recursion(k):
+  if(k>0):
+    result = k+tri_recursion(k-1)
+    print(result)
+  else:
+    result = 0
+  return result
+
+print("\n\nRecursion Example Results")
+tri_recursion(6)
+```
+
+## Lambda
+
+* lambda arguments : expression
+
+```py
+x = lambda a : a + 10
+print(x(5))
+
+x = lambda a, b : a * b
+print(x(5, 6))
+```
+
+```py
+def myfunc(n):
+  return lambda a : a * n
+
+mydoubler = myfunc(2)
+print(mydoubler(11))
+
+mytripler = myfunc(3)
+print(mytripler(11))
+```
+
+## Class
+
+```py
+class MyClass:
+  x = 5
+
+p1 = MyClass()
+print(p1.x) 
+```
+
+```py
+class Person:
+  def __init__(self, name, age):
+    self.name = name
+    self.age = age
+
+p1 = Person("John", 36)
+
+print(p1.name)
+print(p1.age)
+```
+
+```py
+class Person:
+  def __init__(self, name, age):
+    self.name = name
+    self.age = age
+
+  def myfunc(self):
+    print("Hello my name is " + self.name)
+
+p1 = Person("John", 36)
+p1.myfunc()
+```
+
+## Iterators
+
+```py
+string = "1234567890"
+my_iterator = itr(string)
+print(my_iterator) #<str_itrator ...
+print(next(my_iterator)) # 1
+print(next(my_iterator)) # 2
+
+for char in string: # python convert string to itr(string)
+    print(char)
+```
+
+```py
+my_list = ["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]
+my_iterator = itr(my_list)
+for i in range(0, len(my_list)):
+    next_item = next(my_iterator)
+    print(next_item)
+```
+
+### Create an Iterator
+
+```py
+class MyNumbers:
+  def __iter__(self):
+    self.a = 1
+    return self
+
+  def __next__(self):
+    x = self.a
+    self.a += 1
+    return x
+
+myclass = MyNumbers()
+myiter = iter(myclass)
+
+print(next(myiter))
+print(next(myiter))
+print(next(myiter))
+print(next(myiter))
+print(next(myiter))
+```
+
+### StopIteration
+
+```py
+class MyNumbers:
+  def __iter__(self):
+    self.a = 1
+    return self
+
+  def __next__(self):
+    if self.a <= 20:
+      x = self.a
+      self.a += 1
+      return x
+    else:
+      raise StopIteration
+
+myclass = MyNumbers()
+myiter = iter(myclass)
+
+for x in myiter:
+  print(x)
+```
+
+## Modules
+
+* A file containing a set of functions you want to include in your application.
+
+### Create a Module
+
+```py
+# mymodule.py
+def greeting(name):
+  print("Hello, " + name)
+person1 = {
+  "name": "John",
+  "age": 36,
+  "country": "Norway"
+} 
+
+# use in app
+import mymodule
+mymodule.greeting("Jonathan")
+a = mymodule.person1["age"]
+```
+
+### Re-naming a Module
+
+```py
+import mymodule as mx
+
+a = mx.person1["age"]
+print(a)
+```
+
+### Import From Module
+
+```py
+# mymodule
+def greeting(name):
+  print("Hello, " + name)
+
+person1 = {
+  "name": "John",
+  "age": 36,
+  "country": "Norway"
+}
+
+# use
+from mymodule import person1
+
+print (person1["age"])
+```
+
+### dir
+
+* list all the function names (or variable names) in a module.
+
+```py
+import platform
+
+x = dir(platform)
+print(x)
+```
+
+## Datetime
+
+```py
+import datetime
+
+x = datetime.datetime.now()
+print(x) # 2019-02-09 12:06:04.546695
+print(x.year) # 2016
+print(x.strftime("%A")) # Saturday
+print(x.strftime("%B")) # February
+print(x.strftime("%c")) # Sat Feb  9 12:11:43 2019
+print(x.strftime("%x")) # 02/09/19
+print(x.strftime("%X")) # 12:11:43
+
+x2 = datetime.datetime(2020, 5, 17)
+```
+
+## JSON
+
+```py
+import json
+
+# some JSON:
+x =  '{ "name":"John", "age":30, "city":"New York"}'
+
+# parse x:
+y = json.loads(x)
+
+# the result is a Python dictionary:
+print(y["age"])
+```
+
+```py
+import json
+
+# a Python object (dict):
+x = {
+  "name": "John",
+  "age": 30,
+  "city": "New York"
+}
+
+# convert into JSON:
+y = json.dumps(x)
+
+# the result is a JSON string:
+print(y)
+```
+
+```py
+import json
+
+print(json.dumps({"name": "John", "age": 30}))
+print(json.dumps(["apple", "bananas"]))
+print(json.dumps(("apple", "bananas")))
+print(json.dumps("hello"))
+print(json.dumps(42))
+print(json.dumps(31.76))
+print(json.dumps(True))
+print(json.dumps(False))
+print(json.dumps(None)) 
+```
+
+```py
+import json
+
+x = {
+  "name": "John",
+  "age": 30,
+  "married": True,
+  "divorced": False,
+  "children": ("Ann","Billy"),
+  "pets": None,
+  "cars": [
+    {"model": "BMW 230", "mpg": 27.5},
+    {"model": "Ford Edge", "mpg": 24.1}
+  ]
+}
+
+print(json.dumps(x))
+```
+
+```py
+json.dumps(x, indent=4)
+json.dumps(x, indent=4, separators=(". ", " = "))
+json.dumps(x, indent=4, sort_keys=True)
+```
+
+## Regex
+
+* `findall` Returns a list containing all matches
+* `search` Returns a Match object if there is a match anywhere in the string
+* `split` Returns a list where the string has been split at each match
+* `sub` Replaces one or many matches with a string
+
+```py
+import re
+
+txt = "The rain in Spain"
+x = re.search("^The.*Spain$", txt) 
+```
+
+* `[]`  A set of characters 	"[a-m]" 	
+* `\` 	Signals a special sequence (can also be used to escape special characters) 	"\d"
+* `.` 	Any character (except newline character) 	"he..o"
+* `^` 	Starts with 	"^hello"
+* `$` 	Ends with 	"world$"
+* `*` 	Zero or more occurrences 	"aix*" 	
+* `+` 	One or more occurrences 	"aix+"
+* `{}` 	Excactly the specified number of occurrences 	"al{2}"
+* `|` 	Either or 	"falls|stays" 	
+* `()` 	Capture and group
+
+* `\A` 	Returns a match if the specified characters are at the beginning of the string 	"\AThe" 	
+* `\b` 	Returns a match where the specified characters are at the beginning or at the end of a word 	r"\bain"    r"ain\b" 	
+* `\B` 	Returns a match where the specified characters are present, but NOT at the beginning (or at the end) of a word 	r"\Bain"    r"ain\B" 	
+* `\d` 	Returns a match where the string contains digits (numbers from 0-9) 	"\d" 	
+* `\D` 	Returns a match where the string DOES NOT contain digits 	"\D" 	
+* `\s` 	Returns a match where the string contains a white space character 	"\s" 	
+* `\S` 	Returns a match where the string DOES NOT contain a white space character 	"\S" 	
+* `\w` 	Returns a match where the string contains any word characters (characters from a to Z, digits from 0-9, and the underscore _ character) 	"\w" 	
+* `\W` 	Returns a match where the string DOES NOT contain any word characters 	"\W" 	
+* `\Z` Returns a match if the specified characters are at the end of the string 	"Spain\Z"
+
+* `[arn]` 	Returns a match where one of the specified characters (a, r, or n) are present 	
+* `[a-n]` 	Returns a match for any lower case character, alphabetically between a and n 	
+* `[^arn]` 	Returns a match for any character EXCEPT a, r, and n 	
+* `[0123]` 	Returns a match where any of the specified digits (0, 1, 2, or 3) are present 	
+* `[0-9]` 	Returns a match for any digit between 0 and 9 	
+* `[0-5][0-9]` 	Returns a match for any two-digit numbers from 00 and 59 	
+* `[a-zA-Z]` 	Returns a match for any character alphabetically between a and z, lower case OR upper case 	
+* `[+]` 	In sets, +, *, ., |, (), $,{} has no special meaning, so [+] means: return a match for any + character in the string
+
+### findall
+
+```py
+import re
+
+str = "The rain in Spain"
+x = re.findall("ai", str)
+print(x) #['ai', 'ai'] 
+```
+
+### search
+
+```py
+import re
+
+str = "The rain in Spain"
+x = re.search("\s", str)
+
+print("The first white-space character is located in position:", x.start())
+# The first white-space character is located in position: 3
+```
+
+### split
+
+```py
+import re
+
+str = "The rain in Spain"
+x = re.split("\s", str)
+print(x) # ['The', 'rain', 'in', 'Spain']
+```
+
+```py
+import re
+
+str = "The rain in Spain"
+x = re.split("\s", str, 1) # maxsplit
+print(x) # ['The', 'rain in Spain'] 
+```
+
+### sub
+
+```py
+import re
+
+str = "The rain in Spain"
+x = re.sub("\s", "9", str)
+print(x) # The9rain9in9Spain 
+```
+
+```py
+import re
+
+str = "The rain in Spain"
+x = re.sub("\s", "9", str, 2)
+print(x) # The9rain9in Spain 
+```
+
+### Match Object
+
+* an object containing information about the search and the result
+  * `.span()` returns a tuple containing the start-, and end positions of the match.
+  * `.string` returns the string passed into the function
+  * `.group()` returns the part of the string where there was a match
+
+```py
+import re
+
+str = "The rain in Spain"
+x = re.search(r"\bS\w+", str)
+print(x.span()) # (12, 17)
+print(x.string) # The rain in Spain 
+print(x.group()) # Spain
+```
+
+## PIP
+
+* PIP is a package manager for Python packages, or modules if you like.
+
+```sh
+pip install camelcase
+pip unistall camelcase
+pip list # list all the packages installed on your system
+```
+
+## Try Except
+
+* The `try` block lets you test a block of code for errors.
+* The `except` block lets you handle the error.
+* The `finally` block lets you execute code, regardless of the result of the try- and except blocks.
+
+```py
+try:
+  print(x)
+except:
+  print("An exception occurred") # may x not defined
+```
+
+```py
+try:
+  print(x)
+except NameError:
+  print("Variable x is not defined")
+except:
+  print("Something else went wrong")
+```
+
+```py
+try:
+  print("Hello")
+except:
+  print("Something went wrong")
+else:
+  print("Nothing went wrong")
+```
+
+```py
+try:
+  print(x)
+except:
+  print("Something went wrong")
+finally:
+  print("The 'try except' is finished")
+```
+
+```py
+try:
+  f = open("demofile.txt")
+  f.write("Lorum Ipsum")
+except:
+  print("Something went wrong when writing to the file")
+finally:
+  f.close()
+```
+
+## File
+
+* `r` - Read - Default value. Opens a file for reading, error if the file does not exist
+* `a` - Append - Opens a file for appending, creates the file if it does not exist
+* `w` - Write - Opens a file for writing, creates the file if it does not exist
+* `x` - Create - Creates the specified file, returns an error if the file exists
+
+* `t` - Text - Default value. Text mode
+* `b` - Binary - Binary mode (e.g. images)
+
+```py
+f = open("demofile.txt") # open a file for reading equel to
+f = open("demofile.txt", "rt")
+```
+
+```py
+f = open("demofile.txt", "r")
+print(f.read()) # returns the whole text
+print(f.read(5)) # how many character you want
+print(f.readline()) # read the first lines:
+```
+
+```py
+f = open("demofile.txt", "r")
+for x in f: # Loop through the file line by line
+  print(x) 
+```
+
+```py
+f = open("demofile.txt", "w") # w" method will overwrite the entire file.
+f.write("Woops! I have deleted the content!") 
+```
+
+```py
+f = open("myfile.txt", "x") # Create a file called "myfile.txt"
+```
+
+### Delete a File
+
+```py
+import os
+os.remove("demofile.txt")
+```
+
+### Check if File exist
+
+```py
+import os
+if os.path.exists("demofile.txt"):
+  os.remove("demofile.txt")
+else:
+  print("The file does not exist") 
+```
+
+### Delete Folder
+
+```py
+import os
+os.rmdir("myfolder") 
+```
+
+## MySQL
+
+* download and install [MySql](https://www.mysql.com/downloads/.)
+* use `MySQL Connector` to connent to mysql database
+
+```sh
+# Download and install "MySQL Connector"
+python -m pip install mysql-connector
+```
+
+```py
+import mysql.connector
+
+mydb = mysql.connector.connect(
+  host="localhost",
+  user="yourusername",
+  passwd="yourpassword"
+)
+
+print(mydb) 
+
+mycursor = mydb.cursor()
+
+mycursor.execute("CREATE DATABASE mydatabase") # create data base
+
+mycursor.execute("SHOW DATABASES")
+
+for x in mycursor:
+  print(x) # Return a list of your system's databases
+```
+
+```py
+import mysql.connector
+
+mydb = mysql.connector.connect(
+  host="localhost",
+  user="yourusername",
+  passwd="yourpassword",
+  database="mydatabase"
+) # connect to database "mydatabase" 
+
+mycursor = mydb.cursor()
+
+mycursor.execute("CREATE TABLE customers (name VARCHAR(255), address VARCHAR(255))")
+
+mycursor.execute("CREATE TABLE customers (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), address VARCHAR(255))") 
+
+mycursor.execute("ALTER TABLE customers ADD COLUMN id INT AUTO_INCREMENT PRIMARY KEY") 
+
+mycursor.execute("SHOW TABLES")
+
+for x in mycursor:
+  print(x)
+
+# Insert Into Table
+sql = "INSERT INTO customers (name, address) VALUES (%s, %s)"
+val = ("John", "Highway 21")
+mycursor.execute(sql, val)
+
+mydb.commit()
+
+# Insert Multiple Rows
+sql = "INSERT INTO customers (name, address) VALUES (%s, %s)"
+val = [
+  ('Peter', 'Lowstreet 4'),
+  ('Amy', 'Apple st 652'),
+  ('Hannah', 'Mountain 21'),
+]
+
+mycursor.executemany(sql, val)
+
+mydb.commit()
+
+# Get Inserted ID
+print("1 record inserted, ID:", mycursor.lastrowid) 
+
+# Select From a Table
+mycursor.execute("SELECT * FROM customers")
+
+myresult = mycursor.fetchall()
+
+for x in myresult:
+  print(x)
+
+# Selecting Columns
+mycursor.execute("SELECT name, address FROM customers")
+
+myresult = mycursor.fetchall()
+
+for x in myresult:
+  print(x) 
+
+# fetchone() method will return the first row of the result
+mycursor.execute("SELECT * FROM customers")
+
+myresult = mycursor.fetchone()
+
+print(myresult)
+
+# Select With a Filter
+sql = "SELECT * FROM customers WHERE address ='Park Lane 38'"
+
+mycursor.execute(sql)
+
+myresult = mycursor.fetchall()
+
+for x in myresult:
+  print(x)
+
+# Wildcard Characters %
+sql = "SELECT * FROM customers WHERE address LIKE '%way%'"
+
+mycursor.execute(sql)
+
+myresult = mycursor.fetchall()
+
+for x in myresult:
+  print(x) 
+
+# Prevent SQL Injection %s
+sql = "SELECT * FROM customers WHERE address = %s"
+adr = ("Yellow Garden 2", )
+
+mycursor.execute(sql, adr)
+
+myresult = mycursor.fetchall()
+
+for x in myresult:
+  print(x) 
+
+# Order By
+sql = "SELECT * FROM customers ORDER BY name" # ORDER BY name DESC
+
+mycursor.execute(sql)
+
+myresult = mycursor.fetchall()
+
+for x in myresult:
+  print(x)
+
+# Delete Record
+sql = "DELETE FROM customers WHERE address = 'Mountain 21'"
+
+mycursor.execute(sql)
+
+mydb.commit()
+
+print(mycursor.rowcount, "record(s) deleted")
+
+# Delete a Table
+sql = "DROP TABLE customers" # "DROP TABLE IF EXISTS customers"
+
+mycursor.execute(sql) 
+
+# Update Table
+sql = "UPDATE customers SET address = 'Canyon 123' WHERE address = 'Valley 345'"
+
+mycursor.execute(sql)
+
+mydb.commit()
+
+print(mycursor.rowcount, "record(s) affected")
+
+# Limit
+mycursor.execute("SELECT * FROM customers LIMIT 5") # LIMIT 5 OFFSET 2
+
+myresult = mycursor.fetchall()
+
+for x in myresult:
+  print(x) 
+
+# Join
+sql = "SELECT \
+  users.name AS user, \
+  products.name AS favorite \
+  FROM users \
+  INNER JOIN products ON users.fav = products.id"
+
+mycursor.execute(sql)
+
+myresult = mycursor.fetchall()
+
+for x in myresult:
+  print(x) 
+```
+
+## MongoDB
+
+* MongoDB stores data in JSON-like documents, which makes the database very flexible and scalable.
+* download a free [MongoDB](https://www.mongodb.com/)
+* use `PyMongo` to connent to Mongo database
+
+```sh
+# Download and install "PyMongo"
+python -m pip install pymongo
+```
+
+```py
+import pymongo
+
+myclient = pymongo.MongoClient("mongodb://localhost:27017/")
+
+mydb = myclient["mydatabase"] # In MongoDB, a database is not created until it gets content!
+
+# list of your system's databases
+print(myclient.list_database_names())
+
+# Creating a Collection
+mycol = mydb["customers"] # a collection is not created until it gets content!
+
+print(mydb.list_collection_names())
+
+# Insert Into Collection
+mydict = { "name": "John", "address": "Highway 37" }
+
+x = mycol.insert_one(mydict)
+
+print(x.inserted_id) 
+
+# Insert Multiple Documents
+mylist = [
+  { "name": "Amy", "address": "Apple st 652"},
+  { "name": "Hannah", "address": "Mountain 21"},
+  { "name": "Michael", "address": "Valley 345"},
+]
+
+x = mycol.insert_many(mylist)
+
+#print list of the _id values of the inserted documents:
+print(x.inserted_ids)
+
+# Insert Multiple Documents, with Specified IDs
+mylist = [
+  { "_id": 1, "name": "John", "address": "Highway 37"},
+  { "_id": 2, "name": "Peter", "address": "Lowstreet 27"},
+  { "_id": 3, "name": "Amy", "address": "Apple st 652"},
+]
+
+x = mycol.insert_many(mylist)
+
+#print list of the _id values of the inserted documents:
+print(x.inserted_ids)
+
+# Find
+x = mycol.find_one() # returns the first occurrence in the selection.
+print(x) 
+
+# find all
+for x in mycol.find():
+  print(x) 
+
+# Only Some Fields, 1 include , 0 exclude
+for x in mycol.find({},{ "_id": 0, "name": 1, "address": 1 }):
+  print(x) 
+
+# Filter the Result
+myquery = { "address": "Park Lane 38" }
+
+mydoc = mycol.find(myquery)
+
+for x in mydoc:
+  print(x) 
+
+# Advanced Query
+myquery = { "address": { "$gt": "S" } }
+
+mydoc = mycol.find(myquery)
+
+for x in mydoc:
+  print(x)
+
+# Filter With Regular Expressions
+myquery = { "address": { "$regex": "^S" } }
+
+mydoc = mycol.find(myquery)
+
+for x in mydoc:
+  print(x) 
+
+# sort
+mydoc = mycol.find().sort("name") # sort("name", 1)=>ascending & sort("name", -1)=>descending 
+
+for x in mydoc:
+  print(x) 
+
+# delete
+myquery = { "address": "Mountain 21" }
+
+mycol.delete_one(myquery) 
+
+# Delete Many Documents
+myquery = { "address": {"$regex": "^S"} }
+
+x = mycol.delete_many(myquery)
+
+print(x.deleted_count, " documents deleted.") 
+
+# Delete All Documents in a Collection
+x = mycol.delete_many({})
+
+print(x.deleted_count, " documents deleted.") 
+
+# Delete Collection
+mycol.drop() 
+
+# Update Collection
+myquery = { "address": "Valley 345" }
+newvalues = { "$set": { "address": "Canyon 123" } }
+
+mycol.update_one(myquery, newvalues)
+
+#print "customers" after the update:
+for x in mycol.find():
+  print(x) 
+
+# Update Many
+myquery = { "address": { "$regex": "^S" } }
+newvalues = { "$set": { "name": "Minnie" } }
+
+x = mycol.update_many(myquery, newvalues)
+
+print(x.modified_count, "documents updated.") 
+
+# Limit
+myresult = mycol.find().limit(5)
+
+#print the result:
+for x in myresult:
+  print(x) 
+```
+
+## How to Remove Duplicates From a Python List
+
+```py
+mylist = list(dict.fromkeys(mylist))
 ```
