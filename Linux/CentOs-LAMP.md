@@ -41,16 +41,20 @@ mkdir /etc/httpd/sites-enabled
 
 vi /etc/httpd/conf/httpd.conf =>[last line]=> IncludeOptional sites-enabled/*.conf
 
-vi /etc/httpd/sites-available/mohsenshabanian.conf 
+vi /etc/httpd/sites-available/mohsenshabanian.conf
+```
 
+```conf
 <VirtualHost *:80>
   ServerName www.mohsenshabanian.com
   ServerAlias mohsenshabanian.com
-  DocumentRoot /home/mohsenshabanian/public_html 
-  ErrorLog /home/mohsenshabanian/error.log 
-  CustomLog /home/mohsenshabanian/requests.log combined 
+  DocumentRoot /home/mohsenshabanian/public_html
+  ErrorLog /home/mohsenshabanian/error.log
+  CustomLog /home/mohsenshabanian/requests.log combined
 </VirtualHost>
+```
 
+```sh
 ln -s /etc/httpd/sites-available/itse.conf /etc/httpd/sites-enabled/itse.conf
 ```
 
