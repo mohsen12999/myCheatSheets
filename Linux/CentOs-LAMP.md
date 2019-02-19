@@ -133,7 +133,7 @@ reboot
 ```sh
 tar -cvzf jpegarchive.tar.gz /path/to/images/*.jpg
 tar -czvf archive.tar.gz /home/ubuntu --exclude=/home/ubuntu/Downloads --exclude=/home/ubuntu/.cache
-tar --exclude=./.git --exclude=./.idea --exclude=./.env --exclude=./composer.*  --exclude=./.editorconfig --exclude=./git* -czvf archive.tar.gz .
+tar --exclude=./.git --exclude=./.idea --exclude=./.env --exclude=./.editorconfig --exclude=./git* -czvf archive.tar.gz .
 ```
 
 ```sh
