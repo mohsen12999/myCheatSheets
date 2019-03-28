@@ -220,9 +220,9 @@ print(not True) # return False
 ```py
 if a > b: print("a is greater than b")
 
-print("A") if a > b else print("B") 
+print("A") if a > b else print("B")
 
-print("A") if a > b else print("=") if a == b else print("B") 
+print("A") if a > b else print("=") if a == b else print("B")
 ```
 
 ## for loop
@@ -631,7 +631,7 @@ class MyClass:
   x = 5
 
 p1 = MyClass()
-print(p1.x) 
+print(p1.x)
 ```
 
 ```py
@@ -740,7 +740,7 @@ person1 = {
   "name": "John",
   "age": 36,
   "country": "Norway"
-} 
+}
 
 # use in app
 import mymodule
@@ -847,7 +847,7 @@ print(json.dumps(42))
 print(json.dumps(31.76))
 print(json.dumps(True))
 print(json.dumps(False))
-print(json.dumps(None)) 
+print(json.dumps(None))
 ```
 
 ```py
@@ -886,39 +886,39 @@ json.dumps(x, indent=4, sort_keys=True)
 import re
 
 txt = "The rain in Spain"
-x = re.search("^The.*Spain$", txt) 
+x = re.search("^The.*Spain$", txt)
 ```
 
-* `[]`  A set of characters 	"[a-m]" 	
-* `\` 	Signals a special sequence (can also be used to escape special characters) 	"\d"
-* `.` 	Any character (except newline character) 	"he..o"
-* `^` 	Starts with 	"^hello"
-* `$` 	Ends with 	"world$"
-* `*` 	Zero or more occurrences 	"aix*" 	
-* `+` 	One or more occurrences 	"aix+"
-* `{}` 	Excactly the specified number of occurrences 	"al{2}"
-* `|` 	Either or 	"falls|stays" 	
-* `()` 	Capture and group
+* `[]`  A set of characters  "[a-m]"
+* `\`  Signals a special sequence (can also be used to escape special characters) "\d"
+* `.` Any character (except newline character) "he..o"
+* `^` Starts with "^hello"
+* `$` Ends with "world$"
+* `*` Zero or more occurrences "aix*"
+* `+` One or more occurrences "aix+"
+* `{}` Excactly the specified number of occurrences "al{2}"
+* `|` Either or "falls|stays"
+* `()` Capture and group
 
-* `\A` 	Returns a match if the specified characters are at the beginning of the string 	"\AThe" 	
-* `\b` 	Returns a match where the specified characters are at the beginning or at the end of a word 	r"\bain"    r"ain\b" 	
-* `\B` 	Returns a match where the specified characters are present, but NOT at the beginning (or at the end) of a word 	r"\Bain"    r"ain\B" 	
-* `\d` 	Returns a match where the string contains digits (numbers from 0-9) 	"\d" 	
-* `\D` 	Returns a match where the string DOES NOT contain digits 	"\D" 	
-* `\s` 	Returns a match where the string contains a white space character 	"\s" 	
-* `\S` 	Returns a match where the string DOES NOT contain a white space character 	"\S" 	
-* `\w` 	Returns a match where the string contains any word characters (characters from a to Z, digits from 0-9, and the underscore _ character) 	"\w" 	
-* `\W` 	Returns a match where the string DOES NOT contain any word characters 	"\W" 	
-* `\Z` Returns a match if the specified characters are at the end of the string 	"Spain\Z"
+* `\A` Returns a match if the specified characters are at the beginning of the string "\AThe"
+* `\b` Returns a match where the specified characters are at the beginning or at the end of a word r"\bain"    r"ain\b"
+* `\B` Returns a match where the specified characters are present, but NOT at the beginning (or at the end) of a word r"\Bain"    r"ain\B"
+* `\d` Returns a match where the string contains digits (numbers from 0-9) "\d"
+* `\D` Returns a match where the string DOES NOT contain digits "\D"
+* `\s` Returns a match where the string contains a white space character "\s"
+* `\S` Returns a match where the string DOES NOT contain a white space character "\S"
+* `\w` Returns a match where the string contains any word characters (characters from a to Z, digits from 0-9, and the underscore _ character) "\w"
+* `\W` Returns a match where the string DOES NOT contain any word characters "\W"
+* `\Z` Returns a match if the specified characters are at the end of the string "Spain\Z"
 
-* `[arn]` 	Returns a match where one of the specified characters (a, r, or n) are present 	
-* `[a-n]` 	Returns a match for any lower case character, alphabetically between a and n 	
-* `[^arn]` 	Returns a match for any character EXCEPT a, r, and n 	
-* `[0123]` 	Returns a match where any of the specified digits (0, 1, 2, or 3) are present 	
-* `[0-9]` 	Returns a match for any digit between 0 and 9 	
-* `[0-5][0-9]` 	Returns a match for any two-digit numbers from 00 and 59 	
-* `[a-zA-Z]` 	Returns a match for any character alphabetically between a and z, lower case OR upper case 	
-* `[+]` 	In sets, +, *, ., |, (), $,{} has no special meaning, so [+] means: return a match for any + character in the string
+* `[arn]` Returns a match where one of the specified characters (a, r, or n) are present
+* `[a-n]` Returns a match for any lower case character, alphabetically between a and n
+* `[^arn]` Returns a match for any character EXCEPT a, r, and n
+* `[0123]` Returns a match where any of the specified digits (0, 1, 2, or 3) are present
+* `[0-9]` Returns a match for any digit between 0 and 9
+* `[0-5][0-9]` Returns a match for any two-digit numbers from 00 and 59
+* `[a-zA-Z]` Returns a match for any character alphabetically between a and z, lower case OR upper case
+* `[+]` In sets, +, *, ., |, (), $,{} has no special meaning, so [+] means: return a match for any + character in the string
 
 ### findall
 
@@ -927,7 +927,7 @@ import re
 
 str = "The rain in Spain"
 x = re.findall("ai", str)
-print(x) #['ai', 'ai'] 
+print(x) #['ai', 'ai']
 ```
 
 ### search
@@ -957,7 +957,7 @@ import re
 
 str = "The rain in Spain"
 x = re.split("\s", str, 1) # maxsplit
-print(x) # ['The', 'rain in Spain'] 
+print(x) # ['The', 'rain in Spain']
 ```
 
 ### sub
@@ -967,7 +967,7 @@ import re
 
 str = "The rain in Spain"
 x = re.sub("\s", "9", str)
-print(x) # The9rain9in9Spain 
+print(x) # The9rain9in9Spain
 ```
 
 ```py
@@ -975,7 +975,7 @@ import re
 
 str = "The rain in Spain"
 x = re.sub("\s", "9", str, 2)
-print(x) # The9rain9in Spain 
+print(x) # The9rain9in Spain
 ```
 
 ### Match Object
@@ -991,7 +991,7 @@ import re
 str = "The rain in Spain"
 x = re.search(r"\bS\w+", str)
 print(x.span()) # (12, 17)
-print(x.string) # The rain in Spain 
+print(x.string) # The rain in Spain
 print(x.group()) # Spain
 ```
 
@@ -1082,12 +1082,12 @@ print(f.readline()) # read the first lines:
 ```py
 f = open("demofile.txt", "r")
 for x in f: # Loop through the file line by line
-  print(x) 
+  print(x)
 ```
 
 ```py
 f = open("demofile.txt", "w") # w" method will overwrite the entire file.
-f.write("Woops! I have deleted the content!") 
+f.write("Woops! I have deleted the content!")
 ```
 
 ```py
@@ -1108,14 +1108,14 @@ import os
 if os.path.exists("demofile.txt"):
   os.remove("demofile.txt")
 else:
-  print("The file does not exist") 
+  print("The file does not exist")
 ```
 
 ### Delete Folder
 
 ```py
 import os
-os.rmdir("myfolder") 
+os.rmdir("myfolder")
 ```
 
 ## file & Directories
@@ -1156,7 +1156,7 @@ mydb = mysql.connector.connect(
   passwd="yourpassword"
 )
 
-print(mydb) 
+print(mydb)
 
 mycursor = mydb.cursor()
 
@@ -1176,15 +1176,15 @@ mydb = mysql.connector.connect(
   user="yourusername",
   passwd="yourpassword",
   database="mydatabase"
-) # connect to database "mydatabase" 
+) # connect to database "mydatabase"
 
 mycursor = mydb.cursor()
 
 mycursor.execute("CREATE TABLE customers (name VARCHAR(255), address VARCHAR(255))")
 
-mycursor.execute("CREATE TABLE customers (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), address VARCHAR(255))") 
+mycursor.execute("CREATE TABLE customers (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), address VARCHAR(255))")
 
-mycursor.execute("ALTER TABLE customers ADD COLUMN id INT AUTO_INCREMENT PRIMARY KEY") 
+mycursor.execute("ALTER TABLE customers ADD COLUMN id INT AUTO_INCREMENT PRIMARY KEY")
 
 mycursor.execute("SHOW TABLES")
 
@@ -1211,7 +1211,7 @@ mycursor.executemany(sql, val)
 mydb.commit()
 
 # Get Inserted ID
-print("1 record inserted, ID:", mycursor.lastrowid) 
+print("1 record inserted, ID:", mycursor.lastrowid)
 
 # Select From a Table
 mycursor.execute("SELECT * FROM customers")
@@ -1227,7 +1227,7 @@ mycursor.execute("SELECT name, address FROM customers")
 myresult = mycursor.fetchall()
 
 for x in myresult:
-  print(x) 
+  print(x)
 
 # fetchone() method will return the first row of the result
 mycursor.execute("SELECT * FROM customers")
@@ -1254,7 +1254,7 @@ mycursor.execute(sql)
 myresult = mycursor.fetchall()
 
 for x in myresult:
-  print(x) 
+  print(x)
 
 # Prevent SQL Injection %s
 sql = "SELECT * FROM customers WHERE address = %s"
@@ -1265,7 +1265,7 @@ mycursor.execute(sql, adr)
 myresult = mycursor.fetchall()
 
 for x in myresult:
-  print(x) 
+  print(x)
 
 # Order By
 sql = "SELECT * FROM customers ORDER BY name" # ORDER BY name DESC
@@ -1289,7 +1289,7 @@ print(mycursor.rowcount, "record(s) deleted")
 # Delete a Table
 sql = "DROP TABLE customers" # "DROP TABLE IF EXISTS customers"
 
-mycursor.execute(sql) 
+mycursor.execute(sql)
 
 # Update Table
 sql = "UPDATE customers SET address = 'Canyon 123' WHERE address = 'Valley 345'"
@@ -1306,7 +1306,7 @@ mycursor.execute("SELECT * FROM customers LIMIT 5") # LIMIT 5 OFFSET 2
 myresult = mycursor.fetchall()
 
 for x in myresult:
-  print(x) 
+  print(x)
 
 # Join
 sql = "SELECT \
@@ -1320,7 +1320,7 @@ mycursor.execute(sql)
 myresult = mycursor.fetchall()
 
 for x in myresult:
-  print(x) 
+  print(x)
 ```
 
 ## MongoDB
@@ -1354,7 +1354,7 @@ mydict = { "name": "John", "address": "Highway 37" }
 
 x = mycol.insert_one(mydict)
 
-print(x.inserted_id) 
+print(x.inserted_id)
 
 # Insert Multiple Documents
 mylist = [
@@ -1382,15 +1382,15 @@ print(x.inserted_ids)
 
 # Find
 x = mycol.find_one() # returns the first occurrence in the selection.
-print(x) 
+print(x)
 
 # find all
 for x in mycol.find():
-  print(x) 
+  print(x)
 
 # Only Some Fields, 1 include , 0 exclude
 for x in mycol.find({},{ "_id": 0, "name": 1, "address": 1 }):
-  print(x) 
+  print(x)
 
 # Filter the Result
 myquery = { "address": "Park Lane 38" }
@@ -1398,7 +1398,7 @@ myquery = { "address": "Park Lane 38" }
 mydoc = mycol.find(myquery)
 
 for x in mydoc:
-  print(x) 
+  print(x)
 
 # Advanced Query
 myquery = { "address": { "$gt": "S" } }
@@ -1414,33 +1414,33 @@ myquery = { "address": { "$regex": "^S" } }
 mydoc = mycol.find(myquery)
 
 for x in mydoc:
-  print(x) 
+  print(x)
 
 # sort
-mydoc = mycol.find().sort("name") # sort("name", 1)=>ascending & sort("name", -1)=>descending 
+mydoc = mycol.find().sort("name") # sort("name", 1)=>ascending & sort("name", -1)=>descending
 
 for x in mydoc:
-  print(x) 
+  print(x)
 
 # delete
 myquery = { "address": "Mountain 21" }
 
-mycol.delete_one(myquery) 
+mycol.delete_one(myquery)
 
 # Delete Many Documents
 myquery = { "address": {"$regex": "^S"} }
 
 x = mycol.delete_many(myquery)
 
-print(x.deleted_count, " documents deleted.") 
+print(x.deleted_count, " documents deleted.")
 
 # Delete All Documents in a Collection
 x = mycol.delete_many({})
 
-print(x.deleted_count, " documents deleted.") 
+print(x.deleted_count, " documents deleted.")
 
 # Delete Collection
-mycol.drop() 
+mycol.drop()
 
 # Update Collection
 myquery = { "address": "Valley 345" }
@@ -1450,7 +1450,7 @@ mycol.update_one(myquery, newvalues)
 
 #print "customers" after the update:
 for x in mycol.find():
-  print(x) 
+  print(x)
 
 # Update Many
 myquery = { "address": { "$regex": "^S" } }
@@ -1458,14 +1458,14 @@ newvalues = { "$set": { "name": "Minnie" } }
 
 x = mycol.update_many(myquery, newvalues)
 
-print(x.modified_count, "documents updated.") 
+print(x.modified_count, "documents updated.")
 
 # Limit
 myresult = mycol.find().limit(5)
 
 #print the result:
 for x in myresult:
-  print(x) 
+  print(x)
 ```
 
 ## How to Remove Duplicates From a Python List

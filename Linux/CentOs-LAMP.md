@@ -3,8 +3,10 @@
 ```sh
 yum update -y
 yum install httpd mariadb mariadb-server php php-mysql -y
+systemctl start firewalld
 systemctl start httpd.service
 systemctl start mariadb.service
+systemctl enable firewalld
 systemctl enable httpd.service
 systemctl enable mariadb.service
 firewall-cmd --permanent --zone=public --add-service=http
@@ -41,16 +43,20 @@ mkdir /etc/httpd/sites-enabled
 
 vi /etc/httpd/conf/httpd.conf =>[last line]=> IncludeOptional sites-enabled/*.conf
 
-vi /etc/httpd/sites-available/mohsenshabanian.conf 
+vi /etc/httpd/sites-available/mohsenshabanian.conf
+```
 
+```conf
 <VirtualHost *:80>
   ServerName www.mohsenshabanian.com
   ServerAlias mohsenshabanian.com
-  DocumentRoot /home/mohsenshabanian/public_html 
-  ErrorLog /home/mohsenshabanian/error.log 
-  CustomLog /home/mohsenshabanian/requests.log combined 
+  DocumentRoot /home/mohsenshabanian/public_html
+  ErrorLog /home/mohsenshabanian/error.log
+  CustomLog /home/mohsenshabanian/requests.log combined
 </VirtualHost>
+```
 
+```sh
 ln -s /etc/httpd/sites-available/itse.conf /etc/httpd/sites-enabled/itse.conf
 ```
 
@@ -66,7 +72,7 @@ vi /etc/hosts
 chown apache:apache -R /home/
 ```
 
-install composer (from site)
+install composer [(from site)](https://getcomposer.org/download/)
 
 ```sh
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
@@ -77,7 +83,13 @@ mv composer.phar /usr/local/bin/composer
 ### install php7.2
 
 ```sh
+yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+yum install yum-utils
+yum install http://rpms.remirepo.net/enterprise/remi-release-7.rpm
 yum-config-manager --enable remi-php72
+yum install php72 php72-php-fpm php72-php-mysqlnd php72-php-opcache php72-php-xml php72-php-xmlrpc php72-php-gd php72-php-mbstring php72-php-json php-zip
+php72 -v
+
 yum install php72
 yum install php php-common php-opcache php-mcrypt php-cli php-gd php-curl php-mysql -y
 
@@ -121,7 +133,7 @@ reboot
 ```sh
 tar -cvzf jpegarchive.tar.gz /path/to/images/*.jpg
 tar -czvf archive.tar.gz /home/ubuntu --exclude=/home/ubuntu/Downloads --exclude=/home/ubuntu/.cache
-tar --exclude=./.git --exclude=./.idea --exclude=./.env --exclude=./composer.*  --exclude=./.editorconfig --exclude=./git* -czvf archive.tar.gz .
+tar --exclude=./.git --exclude=./.idea --exclude=./.env --exclude=./.editorconfig --exclude=./git* -czvf archive.tar.gz .
 ```
 
 ```sh
