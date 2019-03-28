@@ -8,6 +8,11 @@
 
 [Lighthouse](https://github.com/googlechrome/lighthouse) analyzes web apps and web pages, collecting modern performance metrics and insights on developer best practices.
 
+[Workbox](https://developers.google.com/web/tools/workbox/) is a set of libraries and Node modules that make it easy to cache assets
+
+[PWA Starter Kit](https://pwa-starter-kit.polymer-project.org/)
+
+
 ## Fetch & Promises
 
 ```js
