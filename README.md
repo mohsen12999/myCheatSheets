@@ -24,3 +24,5 @@ Try to save my note as a cheat sheet.
 * [PHP](./PHP/)
   * [Laravel](./PHP/Laravel.md)
 * [Python](./Python/)
+  * [Django](./Python/Django.md)
+* [Rust](./Rust/)
