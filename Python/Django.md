@@ -7,8 +7,8 @@
 * Python includes a lightweight database called SQLite.
 * install pip 
 * install virtualenv: `pip install virtualenv`
-  * `virtualenv ENV` for add
-  * `source /path/to/ENV/bin/activate` for use
+  * `virtualenv venv` for add
+  * `source /path/to/venv/bin/activate` for use
 * install Django: `pip install Django`
   * `django-admin startproject projectname .` for make django project
   * `python3 manage.py runserver` for run and see in browser
@@ -62,11 +62,11 @@ urlpatterns = [
 ```py
 from django.db import models
 
-class product(models.Model):
-  name = models.CharField(max_lenght=255)
+class Product(models.Model):
+  name = models.CharField(max_length=255)
   price = models.FloatField()
-	stock = models.IntegerField()
-	image_url = models.CharField(max_lenght=2083) # max size for link
+  stock = models.IntegerField()
+  image_url = models.CharField(max_length=2083) # max size for link
 ```
 
 * add app to migration list -> main folder `setttings.py` -> in `INSTALLED_APPS` add config class of app from app folder apps.py like `products.apps.ProductConfig` 
@@ -100,15 +100,51 @@ from django.contrib import admin
 from .models import Product
 
 class ProductAdmin(admin.ModelAdmin):
-	list_display = ('name', 'price', 'stock')
+  list_display = ('name', 'price', 'stock')
 
 admin.site.register(Product, ProductAdmin)
 ```
 
 ## Template
-5:48
 
+* add folder `templates` in app folder
+* add `index.html` for index
 
+```html
+<h1>Products</h1>
+<ul>
+    {% for product in products %}
+        <li>{{ product.name }} (${{ product.price }})</li>
+    {% endfor %}
+</ul>
+```
+
+* `views.py`  in app folder
+
+```py
+from django.http import HttpResponse
+from django.shortcuts import render
+from .models import Product
+
+def index(request):
+  products = Product.objects.all()
+  return render(request,'index.html', { 'products': products })
+
+  # Product.objects.filter()
+  # Product.objects.get()
+  # Product.objects.save()
+```
+
+## add bootstrap (Base Template)
+
+* add `base.html` in template folder
+* copy [Starter template from bootstrap site](https://getbootstrap.com/docs/4.3/getting-started/introduction/#starter-template) to it
+* add `{% block content %}{% endblock %}` for content span
+* add `{% extends 'base.html' %}` first line of other template and content between `{% block content %}` & `{% endblock %}`
+
+* for use template between base template for all app
+  * make `templates` folder in root folder and make base template
+  * in main folder `setting.py` -> TEMPLATES ->'DIRS':[os.path.join(BASE_DIR, 'templates')]
 
 
 
