@@ -181,22 +181,241 @@ fn main() {
 
 * offline search `rustup doc --std`, and can search in search span on top
 
+```rs
+let pi: f64 = 3.1416;
+let x = pi/2.0;
+let cosine = x.cos();
+```
+
+```
+fn main() {
+    let x = 2.0 * std::f64::consts::PI;
+    let abs_difference = (x.cos() - 1.0).abs();
+    assert!(abs_difference < 1e-10); // cousin of assert_eq!
+}
+```
+
+```rs
+use std::f64::consts;
+
+fn main() {
+    let x = 2.0 * consts::PI;
+    let abs_difference = (x.cos() - 1.0).abs();
+    assert!(abs_difference < 1e-10);
+}
+```
+
+## Arrays and Slices
+
+```rs
+fn main() {
+    let arr = [10, 20, 30, 40];
+    let first = arr[0];
+    println!("first {}", first);
+
+    for i in 0..4 {
+        println!("[{}] = {}", i,arr[i]);
+    }
+    println!("length {}", arr.len());
+}
+```
+
+*  type of an array includes its size, like [&i32; 4]
+
+```rs
+// read as: slice of i32
+fn sum(values: &[i32]) -> i32 {
+    let mut res = 0;
+    for i in 0..values.len() {
+        res += values[i]
+    }
+    res
+}
+
+fn main() {
+    let arr = [10,20,30,40];
+    // send array as slice
+    let res = sum(&arr);
+    println!("sum {}", res);
+}
+```
+
+* A C programmer pronounces & as 'address of'; a Rust programmer pronounces it 'borrow'.
+
+## Slicing and Dicing
+
+```rs
+fn main() {
+    let ints = [1, 2, 3];
+    let floats = [1.1, 2.1, 3.1];
+    let strings = ["hello", "world"];
+    let ints_ints = [[1, 2], [10, 20]]; // array of array
+    println!("ints {:?}", ints);
+    println!("floats {:?}", floats);
+    println!("strings {:?}", strings);
+    println!("ints_ints {:?}", ints_ints);
+}
+```
+
+* make slice of array
+
+```rs
+fn main() {
+    let ints = [1, 2, 3, 4, 5];
+    let slice1 = &ints[0..2];
+    let slice2 = &ints[1..];  // open range!
+
+    println!("ints {:?}", ints);
+    println!("slice1 {:?}", slice1);
+    println!("slice2 {:?}", slice2);
+}
+```
+## Optional Values
+
+* Slices, like arrays, can be indexed. Rust knows the size of an array at compile-time, but the size of a slice is only known at run-time. So s[i] can cause an out-of-bounds error when running and will panic. -> use `get`
+
+```rs
+fn main() {
+    let ints = [1, 2, 3, 4, 5];
+    let slice = &ints;
+    let first = slice.get(0);
+    let last = slice.get(5);
+
+    println!("first {:?}", first);
+    println!("last {:?}", last);
+}
+// first Some(1)
+// last None
+```
+
+```rs
+    println!("first {} {}", first.is_some(), first.is_none());
+    println!("last {} {}", last.is_some(), last.is_none());
+    println!("first value {}", first.unwrap());
+
+// first true false
+// last false true
+// first value 1
+
+    let maybe_last = slice.get(5);
+    let last = if maybe_last.is_some() {
+        *maybe_last.unwrap()
+    } else {
+        -1
+    };
+```
+
+* Note the `*` - the precise type inside the `Some` is `&i32`, which is a reference. We need to dereference this to get back to a `i32` value.
+
+```rs
+    let last = *slice.get(5).unwrap_or(&-1);
+```
+
+* You can think of Option as a box which may contain a value, or nothing (None).
+* It is very common for Rust functions/methods to return such maybe-boxes. [option](https://doc.rust-lang.org/std/option/enum.Option.html)
+
+## Vectors
+
+* `vec` re-sizeable arrays
+
+```rs
+fn main() {
+    let mut v = Vec::new();
+    v.push(10);
+    v.push(20);
+    v.push(30);
+
+    let first = v[0];  // will panic if out-of-range
+    let maybe_first = v.get(0);
+
+    println!("v is {:?}", v);
+    println!("first is {}", first);
+    println!("maybe_first is {:?}", maybe_first);
+}
+// v is [10, 20, 30]
+// first is 10
+// maybe_first is Some(10)
+```
+
+```rs
+fn dump(arr: &[i32]) {
+    println!("arr is {:?}", arr);
+}
+
+fn main() {
+    let mut v = Vec::new();
+    v.push(10);
+    v.push(20);
+    v.push(30);
+
+    dump(&v);
+
+    let slice = &v[1..];
+    println!("slice is {:?}", slice);
+}
+```
+
+## Iterators
+
+```rs
+fn main() {
+    let mut iter = 0..3;
+    assert_eq!(iter.next(), Some(0));
+    assert_eq!(iter.next(), Some(1));
+    assert_eq!(iter.next(), Some(2));
+    assert_eq!(iter.next(), None);
+}
+```
+
+```rs
+fn main() {
+    let arr = [10, 20, 30];
+    for i in arr.iter() {
+        println!("{}", i);
+    }
+
+    // slices will be converted implicitly to iterators...
+    let slice = &arr;
+    for i in slice {
+        println!("{}", i);
+    }
+}
+```
+
+```rs
+fn main() {
+    let sum: i32  = (0..5).sum();
+    println!("sum was {}", sum);
+
+    let sum: i64 = [10, 20, 30].iter().sum();
+    println!("sum was {}", sum);
+}
+```
+
+* The `windows` method gives you an iterator of slices - overlapping windows of values Or `chunks`:
+
+```rs
+fn main() {
+    let ints = [1, 2, 3, 4, 5];
+    let slice = &ints;
+
+    for s in slice.windows(2) {
+        println!("window {:?}", s);
+    }
+// window [1, 2]
+// window [2, 3]
+// window [3, 4]
+// window [4, 5]
+
+    for s in slice.chunks(2) {
+        println!("chunks {:?}", s);
+    }
+// chunks [1, 2]
+// chunks [3, 4]
+// chunks [5]
+}
+
+```
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+https://stevedonovan.github.io/rust-gentle-intro/1-basics.html#more-about-vectors
