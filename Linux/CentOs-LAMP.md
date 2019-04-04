@@ -162,3 +162,41 @@ mysql>source /path/to/your/file.sql
 ```sh
 mysqldump -u root -p mydbnamedb >mydb_$(date +"%Y%m%d").sql
 ```
+
+---------------------------------------------
+
+## Send Mail
+
+```sh
+yum install m4 mailx sendmail sendmail-cf dovecot
+vi etc/mail/sendmail.mc
+```
+
+add `dnl` before 'DAEMON_OPTIONS(`Port=smtp,Addr=127.0.0.1, Name=MTA')dnl'
+
+```sh
+vi etc/mail/local-host-names
+```
+
+insert host name - each in a seprate line
+
+```sh
+systemctl restart sendmail
+```
+
+```sh
+vi /etc/dovecot/conf.d/10-auth.conf
+```
+
+uncomment and change `disable_plaintext_auth = no`
+
+```sh
+vi /etc/dovecot/conf.d/10-mail.conf
+```
+
+uncomment `mail_location = mbox:~/mail:INBOX=/var/mail/%u`
+
+```sh
+systemctl restart dovecot
+m4 /etc/mail/sendmail.mc > /etc/mail/sendmail.cf
+```
