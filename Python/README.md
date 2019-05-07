@@ -307,6 +307,9 @@ else:
 ```py
 import random
 
+# random.random() => 0 to 1
+# random.choise(list) => return a random member of list
+
 highest = 10
 answer = randeom.randint(1, highest)
 
@@ -992,9 +995,11 @@ print(x.string) # The rain in Spain
 print(x.group()) # Spain
 ```
 
-## PIP
+## PyPI & PIP
 
-* PIP is a package manager for Python packages, or modules if you like.
+* `PyPI` Python Package Index for find , install and publish python packages
+
+* `PIP` is a package manager for Python packages, or modules if you like.
 
 ```sh
 pip install camelcase
@@ -1111,6 +1116,25 @@ else:
 ```py
 import os
 os.rmdir("myfolder")
+```
+
+## file & Directories
+
+* absolute path -> in windows `c:\Program Files\Microsoft\` , linux `/user/local/bin/`
+* relative path
+
+```py
+from pathlib import Path
+
+# path = Path() -> current folder
+path = Path("ecommerce") # ecommerce folder in current path
+if(path.exists()):
+  path.mkdir() # rmdir() for remove folder
+
+# path.glob('*') # all files and directories
+# path.glob('*.*') # all files
+for file in path.glob('*.py'): # all py files
+  print(file)
 ```
 
 ## MySQL
@@ -1449,3 +1473,159 @@ for x in myresult:
 ```py
 mylist = list(dict.fromkeys(mylist))
 ```
+
+## Work with Excel file
+
+```py
+import openpyxsl as xl
+
+wb = xl.load_workbook("file.xlsx") # open file
+sheet = wb['Sheet1']
+cell = sheet['a1']
+cell = sheet.cell(1, 1)
+print(cell.value)
+
+for row in range(2, sheet.max_row+1):
+  cell = sheet.cell(row, 3)
+  corrected_price = cell.value * 0.9
+  corrected_price_cell = sheet.cell(row, 4)
+  corrected_price_cell.value = corrected_price
+
+# wb.save() -> overwrite file
+wb.save("file2.xlsx")
+```
+
+* Draw chart
+
+```py
+import openpyxsl as xl
+from openpyxsl.chart import Barchart, Refrence
+
+wb = xl.load_workbook("file2.xlsx")
+sheet = wb['Sheet1']
+
+# Refrence(sheet,min_row=2,max_row=sheet.max_row) -> all column
+values = Refrence(sheet, min_row=2, max_row=sheet.max_row, min_col=4, max_col=4)
+chart = Barchart()
+chart.add_data(values)
+sheet.add_chart(chart,'e2')
+```
+
+## Machin learn 
+
+* Librery
+  * Numpy
+  * Pandas
+  * MatPlotLib
+  * Scikit-Learn
+
+* jupyter and anaconda
+  * green border for edit mode cell and blue for command mode cell
+  * `h` for shortcut lisy
+  * `tab` for intellisense and `shift + tab` for more information
+  * `ctrl + /` for comment line
+
+```sh
+jupyter notebook
+```
+
+* dataset from [kaggle](https://www.kaggle.com/) -> serach video game sales and get data set csv file
+
+
+```py
+import pandas as pd
+
+df = pd.read_csv(vgsale.csv) # return dataframe
+df.shape
+df.describe()
+df.values()
+```
+
+* http://bit.ly/music-csv
+
+```py
+import pandas as pd
+from sklearn.tree import DesitionTreeClassifier
+
+music_data = pd.read_csv('music.csv') # return dataframe
+X = music_data.drop(columns=['genre']) # remove data
+Y = music_data['genre']
+
+model = DesitionTreeClassifier()
+model.fit(X,Y)
+predictions = model.predict([ [21,1], [22,0] ])
+```
+
+* test model
+
+
+```py
+import pandas as pd
+from sklearn.tree import DesitionTreeClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+
+music_data = pd.read_csv('music.csv') # return dataframe
+X = music_data.drop(columns=['genre']) # remove data
+Y = music_data['genre']
+X_train, X_test, Y_train, Y_test =train_test_split(X, Y, test_size=0.2)
+
+model = DesitionTreeClassifier()
+model.fit(X_train,Y_train)
+predictions = model.predict([ X_test ])
+
+score = accuracy_score(Y_test,predictions)
+```
+
+* save model
+
+```py
+import pandas as pd
+from sklearn.tree import DesitionTreeClassifier
+from sklearn.externals import joblib
+
+music_data = pd.read_csv('music.csv') # return dataframe
+X = music_data.drop(columns=['genre']) # remove data
+Y = music_data['genre']
+
+model = DesitionTreeClassifier()
+model.fit(X,Y)
+
+joblib.dump(model,'music_recommender.joblib')
+
+predictions = model.predict([ [21,1], [22,0] ])
+```
+
+* load model
+
+```py
+import pandas as pd
+from sklearn.tree import DesitionTreeClassifier
+from sklearn.externals import joblib
+
+model = joblib.load('music_recommender.joblib')
+```
+
+* visual size of model
+
+```py
+import pandas as pd
+from sklearn.tree import DesitionTreeClassifier
+from sklearn import tree
+
+music_data = pd.read_csv('music.csv') # return dataframe
+X = music_data.drop(columns=['genre']) # remove data
+Y = music_data['genre']
+
+model = DesitionTreeClassifier()
+model.fit(X,Y)
+
+tree.export_graphviz(model, out_file='music_recommender.dot',
+                     feature_names=['age','gender'],
+                     class_names=sorted(Y.unique()),
+                     label='all',
+                     rounded=True,
+                     filled=True)
+```
+
+* can see in visual studio code with `Graphviz (dot) language support for Visual Studio Code` by `Stephanvs`
