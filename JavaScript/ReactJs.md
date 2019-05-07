@@ -440,3 +440,42 @@ componentDidUnmount() { // before component remove from dom
 
 * [modal dialog component for React](https://github.com/reactjs/react-moda)
 * [animations for React component](https://github.com/reactjs/react-transition-group/tree/master)
+
+## Hook
+
+* function instead of class
+* use `setState`
+
+```js
+const [varName, changeVarFunc] = setState(defaultValue)
+```
+
+* `useEffect` instead of lifecycle
+
+```js
+useEffect(() => {
+    // componentDidMount function
+},[])
+
+useEffect(() => {
+    return {() => {
+        // componentDisMount function
+    }}
+},[])
+
+useEffect(() => {
+    return {() => {
+        // componentDidUpdate function
+    }}
+},[varsName])
+```
+
+* `useContext`
+* `React.memo` prevent unnessesery rendering, instead of componentShouldUpdate
+
+```js
+//export default app
+export default React.memo(app,(prevProp,nextProp)={
+    return prevProp.name === nextProp.name;
+})
+```
