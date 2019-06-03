@@ -458,6 +458,12 @@ if [[ "$1" == '--' ]]; then shift; fi
 echo Hello World!
 ```
 
+## `.sh file: /bin/bash^M: bad interpreter`
+
+* `vi file`
+* `:set ff=unix`
+* `:wq`
+
 ## Refrense
 
 * [devhints](https://devhints.io/bash)

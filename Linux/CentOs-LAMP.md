@@ -200,3 +200,62 @@ uncomment `mail_location = mbox:~/mail:INBOX=/var/mail/%u`
 systemctl restart dovecot
 m4 /etc/mail/sendmail.mc > /etc/mail/sendmail.cf
 ```
+
+---------------------------------------------
+
+## backup database
+
+```sh
+#!/bin/bash
+
+#TITLE: backup database
+#From: https://gist.github.com/tleish/1c6e788c84f59200446b
+
+#CRON:
+# min  hr mday month wday command
+# 15   3  *    *     *    /root/_backup/backup.sh
+
+#DataBase
+user=root
+password=
+
+backup_path="/root/_backup_db"
+date=$(date +"%d-%b-%Y")
+
+# Set default file permissions
+umask 177
+
+# Dump database into SQL file
+mysqldump --user=$user --password=$password dbname > $backup_path/dbname-$date.sql
+
+# Delete files older than 30 days
+find $backup_path/* -mtime +30 -exec rm {} \;
+```
+
+## backup files
+
+```sh
+#!/bin/bash
+
+#TITLE: backup files
+#From: https://help.ubuntu.com/lts/serverguide/backup-shellscripts.html.en
+
+#CRON:
+# min  hr mday month wday command
+# 15   3  *    *     *    /root/_backup/backup.sh
+
+#DataBase
+backup_files="/home/user/Download/ /home/user/Document/"
+
+backup_path="/home/user/_backupfiles/"
+date=$(date +"%d-%b-%Y")
+
+# Set default file permissions
+umask 177
+
+# Backup the files using tar.
+tar czfP $backup_path/archive_file-$date $backup_files
+
+# Delete files older than 90 days
+find $backup_path/* -mtime +90 -exec rm {} \;
+```
