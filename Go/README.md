@@ -8,6 +8,7 @@ go version
 ```
 
 ```go
+// #Main.go
 package main
 
 import "fmt"
@@ -15,6 +16,25 @@ import "fmt"
 func main() {
     fmt.Println("Hello, فارسی")
 }
+```
+
+## Run Or Build
+
+```sh
+go run Main.go
+# run in virtual server
+```
+
+```sh
+go build Main.go
+# make exe file
+```
+
+## Go Tour
+
+```sh
+go get golang.org/x/tour
+tour
 ```
 
 ## Refrences
