@@ -64,6 +64,8 @@ ln -s /etc/httpd/sites-available/itse.conf /etc/httpd/sites-enabled/itse.conf
 vi /etc/hosts
 ```
 
+* https://www.digitalocean.com/community/tutorials/how-to-set-up-apache-virtual-hosts-on-centos-7
+
 ---------------------------------------------
 
 ## Laravel Config
@@ -87,7 +89,7 @@ yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.r
 yum install yum-utils
 yum install http://rpms.remirepo.net/enterprise/remi-release-7.rpm
 yum-config-manager --enable remi-php72
-yum install php72 php72-php-fpm php72-php-mysqlnd php72-php-opcache php72-php-xml php72-php-xmlrpc php72-php-gd php72-php-mbstring php72-php-json php-zip
+yum install php72 php72-php-fpm php72-php-mysqlnd php72-php-opcache php72-php-xml php72-php-xmlrpc php72-php-gd php72-php-mbstring php72-php-json php-zip httpd mariadb mariadb-server
 php72 -v
 
 yum install php72
@@ -133,7 +135,7 @@ reboot
 ```sh
 tar -cvzf jpegarchive.tar.gz /path/to/images/*.jpg
 tar -czvf archive.tar.gz /home/ubuntu --exclude=/home/ubuntu/Downloads --exclude=/home/ubuntu/.cache
-tar --exclude=./.git --exclude=./.idea --exclude=./.env --exclude=./.editorconfig --exclude=./git* -czvf archive.tar.gz .
+tar --exclude=./.git --exclude=./.idea --exclude=./.env --exclude=./.editorconfig --exclude=./git* --exclude=./*.tar.gz -czvf archive.tar.gz .
 ```
 
 ```sh
