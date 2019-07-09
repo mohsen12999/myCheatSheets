@@ -290,6 +290,7 @@ fmt.Printf(len(statePopulation))
 ```
 
 ```go
+// Struct
 type Doctor struct {
   number int
   actorName string
@@ -324,23 +325,201 @@ anotherDoctor := aDoctor
 anotherDoctor.name = "Tom Baker"
 fmt.Printf(aDoctor) // {John Pertwee}
 fmt.Printf(anotherDoctor) // {Tom Baker}
+
+type Animal struct {
+  Name  string
+  Origin  string
+}
+type Bird struct {
+  Animal
+  SpeedKPH  float32
+  CanFly  bool
+}
+b := Bird{}
+b.Name = "Emu" // inherit from animal
+b.CanFly = false
+fmt.Println(b.Name)
+b := Bird{
+  Animal: Animal{Name:"",Origin=""},
+  SpeedKPH: 48,
+  CanFly: false
+}
+
+// Struct tag -> use reflect package to see tag, need other package for validation
+import (
+  "fmt"
+  "reflect"
+)
+type Animal struct {
+  Name  string `required max:"100"`
+  Origin  string
+}
+t := reflect.TypeOf(Animal{})
+field, _ := t.FieldByName("Name")
+fmt.Println(field.Tag)
 ```
 
-2:38:21
+## If & Switch
 
+```go
+if true {
+  fmt.Println("true")
+}
 
+if pop , ok := statePopulation["Tehran"]; ok {
+  fmt.Printf("Tehran Population: %v",pop)
+}
 
+if n < g {
+  fmt.Println("n < g")
+}
+if n == g {
+  fmt.Println("n == g")
+}
+if n >= g {
+  fmt.Println("n >= g")
+}
 
+if g < 1 || g > 100 {
+  fmt.Println("out of range")
+}
+if g >= 1 && g <= 100 {
+  fmt.Println("in the range")
+}
 
+if g < 1 || g > 100 {
+  fmt.Println("out of range")
+} else {
+  fmt.Println("in the range")
+}
 
+switch n {
+  case 1:
+    fmt.Println("one")
+  case 2:
+    fmt.Println("two")
+  case 3,4,4:
+    fmt.Println("other")
+  default:
+    fmt.Println("not one or two or other")
+}
 
+i := 10
+switch {
+  case i <= 10 :
+    fmt.Println("less than 10")
+  case i <= 20 :
+    fmt.Println("less than 20")
+  default:
+    fmt.Println("greater  than 20")
+}
+// only do first case
+// no need break to prevent fallthrough
 
+// no tag switch
+i := 10
+switch {
+  case i <= 10 :
+    fmt.Println("less than 10")
+    fallthrough
+  case i <= 20 :
+    fmt.Println("less than 20")
+  default:
+    fmt.Println("greater  than 20")
+}
+// only do first & second case
 
+var i interface{} = 1
+switch i.(type) {
+  case int:
+    fmt.Println("i is an int")
+    break // break out early
+    fmt.Println("not see this")
+  case float64:
+    fmt.Println("i is an int")
+  case string:
+    fmt.Println("i is an string")
+  case [3]int:
+    fmt.Println("i is an [3]int")
+  default:
+    fmt.Println("i is another type")
+}
+// i is an int
+```
 
+## Loop
 
+```go
+for i := 0; i < 5; i++ {
+  fmt.Println(i)
+}
 
+for i,j := 0, 0; i < 5;i,j = i+1,j+2{
+  fmt.Println(i,j)
+}
 
+i := 0
+for i < 5 {
+  fmt.Println(i)
+  i++
+}
 
+i := 0
+for {
+  fmt.Println(i)
+  i++
+  if i == 5 {
+    break
+  }
+}
+
+for i := 0; i < 10; i++ {
+  if i % 2 == 0 {
+    continue
+  }
+  fmt.Println(i)
+}
+for i := 0; i < 3; i++ {
+  for i := 0; i < 3; i++ {
+    fmt.Println(i*j)
+  }
+}
+
+for i := 0; i < 10; i++ {
+  for i := 0; i < 310; i++ {
+    fmt.Println(i*j)
+    if i % 2 == 0 {
+      // break -> only break inner loop
+      break Loop // break and go to label
+    }
+  }
+}
+Loop: // label
+
+// Slice
+s := []int{1,2,3}
+for k,v := range s {
+  fmt.Println(k,v) // print key and value
+}
+
+// Map
+cityPopulation := map[string]int{
+  "Ramsar": 75000,
+  "Rasht":  1000000,
+  "Tehran": 12000000
+}
+for k,v := range cityPopulation {
+  fmt.Println(k,v) // print key and value
+}
+
+// string
+s := "Hello Go!"
+for k,v := range s {
+  fmt.Println(k,v,string(v)) // print key and value
+}
+```
+
+3:41:31
 
 ## Refrences
 
