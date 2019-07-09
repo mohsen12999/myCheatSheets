@@ -515,8 +515,278 @@ for k,v := range cityPopulation {
 // string
 s := "Hello Go!"
 for k,v := range s {
-  fmt.Println(k,v,string(v)) // print key and value
+  fmt.Println(k,v,string(v)) // print key, code and char
 }
+```
+
+## Defer, Panic & Recover
+
+```go
+defer fmt.Println("defer")
+// run after the end of function before return value
+
+defer fmt.Println("defer 1")
+defer fmt.Println("defer 2")
+// defer execute from last one to start LIFO (last in, first out)
+
+a := "start"
+defer fmt.Println(a)
+a = "end"
+// start -> get arg when send to defer
+```
+
+```go
+package main
+
+import (
+  "fmt"
+  "io/ioutil"
+  "log"
+  "net/http"
+)
+
+func main() {
+  res, err := http.Get("http://www.google.com/robots.txt")
+  if err != nil {
+    log.Fatal(err)
+  }
+  defer res.Body.Close() // close befor open but run at the end
+  robots, err := ioutil.ReadAll(res.Body)
+  
+  if err != nil {
+    log.Fatal(err)
+  }
+  fmt.Printf("%s", robots)
+}
+```
+
+```go
+// panic -> can't countinue
+a,b := 1, 0
+ans := a / b
+
+// Make panic
+panic("someting bad happend")
+```
+
+```go
+package main
+
+import "net/http"
+
+func main() {
+  http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request){
+    w.Write([]byte("Hello Go!"))
+  })
+  err := http.ListenAndServe(":8080", nil)
+  if err != nil {
+    panic(err.Error())
+  }
+}
+```
+
+* `panic` happen after open `defer`
+
+```go
+package main
+
+import "fmt"
+import "log"
+
+func main() {
+  fmt.Println("start")
+  defer func() { // ananymous function
+    if err := recover(); err != nil { // recover get panic, if no panic return nil
+      log.Println("Error:", err)
+    }
+  }() // call function in defer
+  panic("something happen")
+  fmt.Println("end") // not run this line
+}
+// program not panic, only see panic statement
+```
+
+```go
+package main
+
+import (
+  "fmt"
+  "log"
+)
+
+func main() {
+  fmt.Println("start")
+  paniker()
+  fmt.Println("end") // run at the end
+}
+func paniker() {
+  fmt.Println("about to panic")
+  defer func() {
+    if err := recover(); err != nil {
+      log.Println("Error:", err)
+      // panic(err) -> if you can't handle error
+    }
+  }()
+  panic("something happen")
+  fmt.Println("done panicking") // not run
+}
+```
+
+## Pointer
+
+```go
+var a int = 42
+var b *int = &a
+fmt.Println(&a, b) // return address of memory
+fmt.Println(a, *b)
+
+a := [3]int{1, 2, 3}
+b := &a[0]
+c := &a[1]
+fmt.Printf("%v %p %p",a ,b ,c) // [1 2 3] 0x1040a124 0x1040a128
+// for achange pointer arithmetic must use unsafe package
+```
+
+```go
+package main
+
+import "fmt"
+
+type myStruct struct {
+  foo int
+}
+func main() {
+  var ms *myStruct // pointer to struct
+  ms = &myStruct{foo: 42}
+  fm.Println(ms) // &{42} -> &:holding a address of object
+
+  var ms2 *myStruct
+  fm.Println(ms) // -> <nil>
+  ms2 = new(myStruct) // -> use new function
+  fm.Println(ms) // &{0} -> default value
+  ms.foo = 42 // or use (*ms).foo = 42
+  fm.Println(ms.foo) // 42
+}
+```
+
+```go
+// Array
+a := [3]int{1, 2, 3}
+b := a // copy (clone) a to b
+b[1] = 42
+fm.Println(a, b) // [1 2 3] [1 42 3]
+
+// Slice
+a := []int{1, 2, 3}
+b := a // copy adress a to b -> same thing
+b[1] = 42
+fm.Println(a, b) // [1 42 3] [1 42 3]
+
+// Map
+a := map[string]string{"foo":"bar", "baz":"buz"}
+b := a  // copy adress a to b -> same thing
+```
+
+## Function
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+  sayMessage("Hello Go!")
+}
+func sayMessage(msg string) {
+  fmt.Println(msg)
+}
+
+func sayMessage(greeting, name string){ // same as (greeting string, name string)
+  fmt.Println(greeting, name)
+}
+
+func sayMessage(greeting, name *string){ // send with pointer -> can change
+  fmt.Println(*greeting, *name)
+}
+
+// sum(1, 2, 3, 4, 5)
+func sum(values ...int) { // only as last parameters & make it Slice
+  fmt.Println(values)
+  result := 0
+  for _, v := range values {
+    result += v
+  }
+  fmt.Println("The sum of values: ", result)
+}
+
+// sum("The sum of values: ",1, 2, 3, 4, 5)
+func sum(msg string, values ...int) { // only as last parameters & make it Slice
+  fmt.Println(values)
+  result := 0
+  for _, v := range values {
+    result += v
+  }
+  fmt.Println(msg, result)
+}
+
+// s := sum(1, 2, 3, 4, 5)
+func sum(values ...int) int { // return value
+  result := 0
+  for _, v := range values {
+    result += v
+  }
+  return result
+}
+
+// s := sum(1, 2, 3, 4, 5)
+// fmt.Println(*s)
+func sum(values ...int) *int { // return pointer
+  result := 0
+  for _, v := range values {
+    result += v
+  }
+  return &result
+}
+
+func sum(values ...int) (result int) { // return pointer
+  for _, v := range values {
+    result += v
+  }
+  return
+}
+
+// d ,err := devide(5.0,3.0)
+// if err != nil { ... }
+func devide(a, b float64) (float64, error) {
+  if b == 0.0 {
+    // panic("Cannot provide zero as second parameter")
+    return 0.0, fmt.Errorf("Cannot divide by zero")
+  }
+  return a / b , nil
+}
+
+// Ananyoumos function
+func() {
+  fmt.Println("Hello Go!")
+}() // invoke function
+
+i := 10
+func(i int) {
+  fmt.Println(i)
+}(i)
+
+// var f func()
+f := func() {
+  fmt.Println("Hello Go!")
+}
+f()
+// var f func(string,string,int) (int, error)
+```
+
+## Interface
+
+```go
+
 ```
 
 3:41:31
