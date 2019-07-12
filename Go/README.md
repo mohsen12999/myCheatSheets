@@ -1276,13 +1276,96 @@ func logger() {
 
 ## Context
 
-```go
+* work like channel, must be a first arg and named ctx
+* make context from parent context except background.
+* background is a parent of all context and define in main
+* parnt context kill child but not effect on its parent
 
+```go
+func leaf2() {
+  select {
+    case <- time.After(7 * time.Second):
+      fmt.Println("ok - end of leaf 1")
+    case <- ctx.Done():
+      fmt.Println(ctx.Err())
+      fmt.Println("Close -leaf1 closed by ctx")
+  }
+
+  fmt.Println("leaf 1")
+}
+
+func leaf2() {
+  select {
+    case <- time.After(3 * time.Second):
+      fmt.Println("ok - end of leaf 2")
+    case <- ctx.Done():
+      fmt.Println(ctx.Err())
+      fmt.Println("Close -leaf2 closed by ctx")
+  }
+
+  fmt.Println("leaf 2")
+}
+
+func branch(ctx context.Context) {
+  ctx2, cnl := context.WithCancel(ctx) // return new context and cancel func
+
+  go leaf1(ctx2)
+  go leaf2(ctx2)
+
+  time.Sleep(5 * time.Second)
+  fmt.Println("end of Branch")
+  cnl() // send signal to close
+}
+
+func main() {
+  ctx := context.Background()
+
+  go branch(ctx)
+
+  // prevent close
+  ch := make(chan os.Signal)
+  signal.Notify(ch)
+  <-ch
+}
 ```
 
 ```go
-
+// define
+ctx := context.WithValue(context.Background(), k, "Go")
+// use
+if v := ctx.Value(k); v != nil {
+  fmt.Println("found value:", v)
+  return
+}
 ```
+
+```go
+// use context in library
+req, err := http.NewRequest("GET","http://google.com")
+if err != nil {
+  panic(err)
+}
+
+req = rea.WithContext(ctx) // can close from outside
+
+cli := &http.Client{}
+resp, err := cli.Do(req)
+if err != nil {
+  panic(err)
+}
+
+fmt.Println("Status:",resp.Status)
+```
+
+```go
+type key string // define type -> only for this package (lowercase) and can access to it from outside of package
+// use
+ctx := context.WithValue(ctx, key("string"), 10)
+//
+fmt.Println(ctx.Value(key("string")))
+```
+
+* [more info about contex](https://golang.org/pkg/context/)
 
 ## Refrences
 
