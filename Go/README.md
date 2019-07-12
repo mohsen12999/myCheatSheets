@@ -262,7 +262,7 @@ b := append(a[:2],a[3:]...) // remove ele index #2 but change a
 ## Maps & Structs
 
 ```go
-// Maps -> no order garanty
+// Maps -> no order Guarantee
 cityPopulation := map[string]int{
   "Ramsar": 75000,
   "Rasht":  1000000,
@@ -785,11 +785,504 @@ f()
 
 ## Interface
 
+* interface dont describe data, describe behavior
+
+```go
+type Writer interface{
+  Write([]byte) (int, error)
+}
+
+type ConsoleWriter struct {}
+
+func (cw ConsoleWriter) Write(data []byte) (int, error) {
+  n, err := fmt.Println(string(data))
+  return n, err
+}
+
+func main() {
+  var w Writer = ConsoleWriter{}
+  w.Write([]byte("Hello Go!"))
+}
+```
+
+```go
+func main() {
+  myInt := IntCounter(0)
+  var inc Incrementer = &myInt
+  for i := 0; i < 10; i++ {
+    fmt.Println(inc.Increment())
+  }
+}
+
+type Incrementer interface{
+  Increment() int
+}
+
+type IntCounter int
+
+func (ic *Incrementer) Increment() int {
+  *ic++
+  return int(*ic)
+}
+```
+
+```go
+package main
+import (
+  "fmt"
+  "bytes"
+  "io"
+)
+
+func main() {
+  var wc WriterCloser = NewBufferWriterCloser() // return pointer
+  wc.Write([]byte("Hello Listener, this is test")) // return 8 char in every line
+  wc.Close() // return the last character if they are less than 8
+
+  bwc := wc.(*BufferWriterCloser) // type convertion
+  fmt.Println(bwc) // memory address
+
+  // bwc := wc.(io.Reader) -> can not convert
+  r, ok := wc.(io.Reader)
+  if ok {
+    fmt.Println(r)
+  } else {
+    fmt.Println("Convertion Failed")
+  }
+}
+
+type Writer interface {
+  Write([]byte) (int, error)
+}
+type Closer interface {
+  Close() error
+}
+type WriterCloser interface {
+  Writer
+  Close
+}
+type BufferWriterCloser struct {
+  buffer *bytes.Buffer
+}
+func (bwc BufferWriterCloser) Write(data []byte) (int, error){
+  n, err = bwc.buffer.Write(data)
+  if err != nil {
+    return 0, err
+  }
+
+  v := make([]byte, 8)
+  for bwc.buffer.len() > 8 {
+    _, err := bwc.buffer.read(v)
+    if err != nil {
+      return 0, err
+    }
+    _, err := fmt.Println(string(v))
+    if err != nil {
+      return 0, err
+    }
+  }
+  return n, nil
+}
+func (bwc BufferWriterCloser) Close(data []byte) error {
+  or bwc.buffer.len() > 0 {
+    data := bwc.buffer.Next(8)
+    _, err := fmt.Println(string(v))
+    if err != nil {
+      return err
+    }
+  }
+  return nil
+}
+func NewBufferWriterCloser() *BufferWriterCloser{
+  return &BufferWriterCloser{
+    buffer: bytes.NewBuffer([]byte{})
+  }
+}
+```
+
+```go
+// Empty interface
+var myObj interface{} // -> everything can cast obj from it, when need to work with multiple things
+
+var i interface{} = 1
+switch i.(type) {
+  case int:
+    fmt.Println("i is an int")
+    break // break out early
+    fmt.Println("not see this")
+  case float64:
+    fmt.Println("i is an int")
+  case string:
+    fmt.Println("i is an string")
+  case [3]int:
+    fmt.Println("i is an [3]int")
+  default:
+    fmt.Println("i is another type")
+}
+```
+
+* try to use many, small interfaces
+* Design function and methods to recieve interfaces whenever possible
+
+```go
+// type convertion
+bwc := wc.(*BufferWriterCloser)
+  fmt.Println(bwc) // memory address
+
+  // bwc := wc.(io.Reader) -> can not convert
+  r, ok := wc.(io.Reader)
+  if ok {
+    fmt.Println(r)
+  } else {
+    fmt.Println("Convertion Failed")
+  }
+```
+
+## Go Routhins
+
+```go
+func main() {
+  go sayHello()
+  time.sleep(400*time.Millisecond) // whitout this cant see sayHello -> kill before run
+}
+func sayHello() {
+  fmt.Println("Hello Go!")
+}
+```
+
+```go
+func main() {
+  msg := "Hello Go!"
+  go func() {
+    fmt.Println(msg)
+  }()
+  msg := "Goodbye"
+  time.sleep(100 * time.Millisecond)
+} // Goodbye -> not Guarantee -> for solving that problem we can send data directly
+
+func main() {
+  msg := "Hello Go!"
+  go func(msg string) { // prevent race condition
+    fmt.Println(msg)
+  }(msg)
+  msg := "Goodbye"
+  time.sleep(100 * time.Millisecond)
+} // Hello Go!
+```
+
+```go
+import (
+  "fmt"
+  "sync"
+)
+
+var wg = sync.WaitGroup{} // sync multiple go routhin
+
+func main() {
+  msg := "Hello Go!"
+  wg.Add(1)
+  go func(msg string) {
+    fmt.Println(msg)
+    wg.Done()
+  }(msg)
+  msg := "Goodbye"
+  wg.Wait()
+}
+```
+
+```go
+import (
+  "fmt"
+  "sync"
+)
+
+var wg = sync.WaitGroup{}
+var counter = 0
+
+func main() {
+  for i := 0; i < 10;i++ {
+    wg.Add(2)
+    go sayHello()
+    go increment()
+  }
+  wg.Wait()
+}
+
+func sayHello() {
+  fmt.Printf("Hello #%v\n", counter)
+  wg.Done()
+}
+
+func increment() {
+  counter++
+  wg.Done()
+}
+// the result change every time
+```
+
+```go
+import (
+  "fmt"
+  "runtime"
+  "sync"
+)
+
+var wg = sync.WaitGroup{}
+var counter = 0
+var m = sync.RWMutex{} // read/write mutax -> one time can access to a piece of code
+
+func main() {
+  runtime.GOMAXPROCS(100)
+  for i := 0; i < 10;i++ {
+    wg.Add(2)
+    m.RLock()
+    go sayHello()
+    m.Lock()
+    go increment()
+  }
+  wg.Wait()
+}
+
+func sayHello() {
+  fmt.Printf("Hello #%v\n", counter)
+  m.RUnlock()
+  wg.Done()
+}
+
+func increment() {
+  counter++
+  m.Unlock()
+  wg.Done()
+}
+```
+
+```go
+fmt.Printf("Threads: %v\n",runtime.GOMAXPROCS(-1)) // show available threads -> by default show os threads = cpu core
+runtime.GOMAXPROCS(100) // set program run thread to 100
+// use when program need use a lot of syncronize routhine
+// more threads can increase performance, but too many can slow it down
+```
+
+* Don't creat gorouthines in libraries -> let consumer control concurrency
+* always know how to end end gorouthines -> avoid subtle memory leaks
+* check for gorouthines race condition -> use `-race` when run or build program
+
+## Channels
+
+```go
+ch := make(chan int)
+wg.add(2) // sync.WaitGroup
+go func() {
+  i := <- ch // recieve data from channel
+  fmt.Println(i)
+  wg.Done()
+}()
+go func() {
+  ch <- 42 // send data to channel
+  wg.Done()
+}()
+wg.Wait()
+```
+
+```go
+ch := make(chan int)
+go func() {
+  i := <- ch // recieve data from channel
+  fmt.Println(i)
+  wg.Done()
+}()
+
+for j := 0; j < 5; j++ {
+  wg.add(2) // sync.WaitGroup
+  go func() {
+    ch <- 42 // send data to channel
+    wg.Done()
+  }()
+}
+wg.Wait()
+// get Deadlock because send 5 time but recieve 1 time -> can't buffer in channel
+```
+
+```go
+ch := make(chan int)
+wg.add(2) // sync.WaitGroup
+go func() {
+  i := <- ch  // recieve 42
+  fmt.Println(i)
+  ch <- 27 // send 27
+  wg.Done()
+}()
+go func() {
+  ch <- 42 // send 42
+  fmt.Println(<- ch) // recieve 27
+  wg.Done()
+}()
+wg.Wait()
+// 42
+// 27
+// both reader/writer
+```
+
+```go
+ch := make(chan int)
+wg.add(2) // sync.WaitGroup
+go func(ch <-chan int) { // recieve only channel
+  i := <- ch  // recieve 42
+  fmt.Println(i)
+  wg.Done()
+}(ch)
+go func(ch chan<- int) { // send only channel
+  ch <- 42 // send 42
+  wg.Done()
+}(ch)
+wg.Wait()
+```
+
+```go
+// buffer
+ch := make(chan int, 50) // get 50 buffer for channel
+wg.add(2) // sync.WaitGroup
+go func(ch <-chan int) { // recieve only channel
+  i := <- ch  // recieve 42
+  fmt.Println(i)
+  wg.Done()
+}(ch)
+go func(ch chan<- int) { // send only channel
+  ch <- 42 // send 42
+  ch <- 27 // send 27 -> whitout buffer get deadlock, now we lost it
+  wg.Done()
+}(ch)
+wg.Wait()
+// 42
+```
+
+```go
+ch := make(chan int, 50) // get 50 buffer for channel
+wg.add(2) // sync.WaitGroup
+go func(ch <-chan int) { // recieve only channel
+  for i := range ch {
+    fmt.Println(i)
+  }
+  wg.Done()
+}(ch)
+go func(ch chan<- int) { // send only channel
+  ch <- 42 // send 42
+  ch <- 27 // send 27
+  close(ch) // prevent deadlock for loop
+  wg.Done()
+}(ch)
+wg.Wait()
+// 42
+// 27
+```
+
+* can't send to closed channel, it make panic
+
+```go
+ch := make(chan int, 50) // get 50 buffer for channel
+wg.add(2) // sync.WaitGroup
+go func(ch <-chan int) { // recieve only channel
+  for {
+    if i, ok := <- ch; ok {
+      fmt.Println(i)
+    } else {
+      break
+    }
+  }
+  wg.Done()
+}(ch)
+go func(ch chan<- int) { // send only channel
+  ch <- 42 // send 42
+  ch <- 27 // send 27
+  close(ch) // prevent deadlock for loop
+  wg.Done()
+}(ch)
+wg.Wait()
+// 42
+// 27
+```
+
+```go
+const (
+  logInfo = "INFO"
+  logWarning = "WARNING"
+  logError = "ERROR"
+)
+
+type logEntry struct {
+  time time.Time
+  severity string
+  message string
+}
+
+var logCh = make(chan logEntry, 50)
+
+func main() {
+  go logger()
+  // for prevent deadlock
+  defer func() {
+    close(logCh)
+  }()
+  logCh <- logEntry{time.Now(), logInfo, "App is starting"}
+
+  logCh <- logEntry{time.Now(), logInfo, "App shutting down"}
+  time.Sleep(100 * time.Millisecond)
+}
+
+func logger() {
+  for entry := range logCh {
+    fmt.Printf("%v - [%v]%v\n", entry.time.Format("2006-01-02T15:04:05"), entry.severity, entry.message)
+  }
+}
+
+```
+
+```go
+// use select
+const (
+  logInfo = "INFO"
+  logWarning = "WARNING"
+  logError = "ERROR"
+)
+
+type logEntry struct {
+  time time.Time
+  severity string
+  message string
+}
+
+var logCh = make(chan logEntry, 50)
+var doneCh = make(chan struct{}) // can't send or recieve data -> signal only channel
+
+func main() {
+  go logger()
+  logCh <- logEntry{time.Now(), logInfo, "App is starting"}
+
+  logCh <- logEntry{time.Now(), logInfo, "App shutting down"}
+  time.Sleep(100 * time.Millisecond)
+  doneCh <- struct{}{}
+}
+
+// use select for prevent deadlock instead of defer
+func logger() {
+  select {
+    case entry <- logCh:
+      fmt.Printf("%v - [%v]%v\n", entry.time.Format("2006-01-02T15:04:05"), entry.severity, entry.message)
+    case <- doneCh
+      break
+  }
+}
+```
+
+## Context
+
 ```go
 
 ```
 
-3:41:31
+```go
+
+```
 
 ## Refrences
 
