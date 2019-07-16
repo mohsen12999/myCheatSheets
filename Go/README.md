@@ -1367,6 +1367,118 @@ fmt.Println(ctx.Value(key("string")))
 
 * [more info about contex](https://golang.org/pkg/context/)
 
+## Database
+
+* [`database/sql`](https://golang.org/pkg/database/sql/) -> only support sql database by Golang
+* [database driver list](https://golang.org/s/sqldrivers)
+
+```go
+// use postgres -> lib/pq = https://github.com/lib/pq
+import (
+  "database/sql"
+  _ "github.com/lib/pq" // blank import -> port but not use directly
+)
+
+func main(){
+  conn, err := sql.Open("postgres","user=postgres password=1234 dbname=demo sslmode=disable")
+  if err != nil {
+    panic(err)
+  }
+  defer conn.Close()
+}
+
+conn.SetMaxIdleConns(5)
+conn.SetMaxOpenConns(30)
+conn.SetConnMaxLifetime() // max time for a connection
+
+conn.Stats() // database info
+
+_ , err = conn.Exec("INSERT INTO  tableName (field_string, field2_string, field3_bson) VALUES ('Ali', 'Saeedi', '{}')")
+if err != nil {
+  panic(err)
+}
+_ , err = conn.Exec(`INSERT INTO  tableName ("field_string", "field2_string", "field3_bson") VALUES ($1, $2, $3)`,"Ali", "Saeedi", "{}") // prevent sql injection, better using ` (back tick)
+if err != nil {
+  panic(err)
+}
+
+// with context
+_ , err = conn.ExecContext(context.TODO(), `INSERT INTO  tableName ("field_string", "field2_string", "field3_bson") VALUES ($1, $2, $3)`,"Ali", "Saeedi", "{}")
+
+err = conn.Ping() // check connection to db
+if err != nil {
+  panic(err)
+}
+
+
+res , err := conn.Exec("INSERT INTO  tableName (field_string, field2_string, field3_bson) VALUES ('Ali', 'Saeedi', '{}')")
+if err != nil {
+  panic(err)
+}
+// res.LastInsertId() -> not work in postgres and make error
+fmt.Println(res.RowsAffected())
+
+rows, err := conn.Query("SELECT * FROM tableName")
+// rows, err := conn.Query("SELECT field_string, field2_string, field3_bson FROM tableName WHERE id = $1", 9) -> better use column name to read correctly
+if err != nil {
+  // log.Fatal() -> not good because defer not executed
+  panic(err)
+}
+for rows.Next() {
+  var (
+    id  int64
+    name  string
+    last  string
+    data  string
+  )
+  if err := rows.Scan(&id, &name, &last, &data); err != nil { // must read all data
+    panic(err)
+  }
+  fmt.Println(id, name, last, data)
+  // rows.ColumnTypes -> return all row column types
+  // rows.Column -> return all row column name
+}
+
+_ , err = conn.Exec(`INSERT INTO  tableName ("field_string", "field2_string", "field3_bson") VALUES ($1, $2, $3)`,"Ali", nil, "{}") // write null data -> cant read in string
+if err != nil {
+  panic(err)
+}
+// for nullable -> sql.NullBool, sql.NullFloat64, sql.NullInt64, sql.NullString
+var (
+    id  int64
+    name  string
+    last  sql.NullString // nullable{String string, valid bool} -> if null: valid=false
+    data  string
+  )
+if last.Valid {
+  fmt.Println(id, name, last.String, data)
+} else {
+  fmt.Println(id, name, "<NULL>", data)
+}
+// for other struct type we can use and implement Scanner and Valuer interface for struct 
+
+// for one or zero row
+row, err := conn.QueryRow("SELECT field_string, field2_string, field3_bson FROM tableName WHERE id = $1", 9) // not need next to read
+if err != nil {
+  panic(err)
+}
+row.Scan(&id, &name, &last, &data)
+
+// transaction
+tx, err := conn.Begin()
+if err != nil {
+  panic(err)
+}
+// most close transaction with Commit/Rollback at the end
+tx.Commit()
+tx.Rollback()
+
+// prepare statement
+stmt, err := conn.Prepare()
+// run multipletme with differnt parameter
+stmt.Close() // must close at the end
+```
+
 ## Refrences
 
 * [Golang](www.golang.org)
