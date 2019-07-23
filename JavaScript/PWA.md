@@ -12,6 +12,11 @@
 
 [PWA Starter Kit](https://pwa-starter-kit.polymer-project.org/)
 
+[PWA other templates](https://pwa-starter-kit.polymer-project.org/overview#other-templates)
+
+[Books PWA](https://github.com/PolymerLabs/books)
+
+[Shop PWA](https://github.com/Polymer/shop)
 
 ## Fetch & Promises
 
@@ -83,7 +88,7 @@ self.addEventListener('install', function(event) {
 
 ### Activation
 
-Once a service worker has successfully installed, it transitions into the activation stage. 
+Once a service worker has successfully installed, it transitions into the activation stage.
 
 * If there are any open pages controlled by the previous service worker, the new service worker enters a waiting state. The new service worker only activates when there are no longer any pages loaded that are still using the old service worker.
 
