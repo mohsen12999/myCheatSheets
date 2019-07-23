@@ -18,6 +18,10 @@
 
 [Shop PWA](https://github.com/Polymer/shop)
 
+[Progressive Web Apps](https://developers.google.com/web/progressive-web-apps/)
+
+[Progressive Web App Checklist](https://developers.google.com/web/progressive-web-apps/checklist)
+
 ## Fetch & Promises
 
 ```js
