@@ -308,7 +308,7 @@ else:
 import random
 
 # random.random() => 0 to 1
-# random.choise(list) => return a random member of list
+# random.choice(list) => return a random member of list
 
 highest = 10
 answer = randeom.randint(1, highest)

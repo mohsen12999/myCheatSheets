@@ -23,6 +23,7 @@ Try to save my note as a cheat sheet.
 * Lisp(./Lisp/)
 * [PHP](./PHP/)
   * [Laravel](./PHP/Laravel.md)
+  * [Symfony](./PHP/Symfony.md)
 * [Python](./Python/)
   * [Django](./Python/Django.md)
 * [Rust](./Rust/)
