@@ -21,24 +21,25 @@ npm start
 
 ## Mosh
 
-* React: a JavaScript library for building user interface
-* Component: a piece of user interface
-  * javascript class with `state`:data and `render`:method
-  * output of render is React element, a simple javascript element for virtual dom
-* install nodejs
-* `npm i -g create-react-app`
+- React: a JavaScript library for building user interface
+- Component: a piece of user interface
+  - javascript class with `state`:data and `render`:method
+  - output of render is React element, a simple javascript element for virtual dom
+- install nodejs
+- `npm i -g create-react-app`
 
-* add extention for vscode
-  * simple React Snippets -> shortcut like imrc (import react componrnt) & cc (class component)
-  * prettier-code formatter -> goto file -> perferences -> setting -> usersetting -> "editor.formatOnsetting": true
+- add extention for vscode
 
-* `create-react-app [app-name]`
-* `npm start`
-* babel is a compiler for jsx (javascript xml) [babel compiler online](https://babeljs.io/repl)
+  - simple React Snippets -> shortcut like imrc (import react componrnt) & cc (class component)
+  - prettier-code formatter -> goto file -> perferences -> setting -> usersetting -> "editor.formatOnsetting": true
+
+- `create-react-app [app-name]`
+- `npm start`
+- babel is a compiler for jsx (javascript xml) [babel compiler online](https://babeljs.io/repl)
 
 ### Hello World
 
-* in src -> index.js
+- in src -> index.js
 
 ```js
 import React from 'react';
@@ -49,12 +50,12 @@ ReactDom.render(ele, document.getElementById('root'));
 
 ### First component
 
-* install bootstrap: `npm i bootstrap`
-* import in index.js: import `import 'bootstrap/dist/css/bootstrap.css'`
-* in src make folder 'components' -> counter.jsx
-  * use imrc & cc to create component
-* import component in index.js
-* jsx need to have one parent element, we can use `React.Fragment` tag fir it
+- install bootstrap: `npm i bootstrap`
+- import in index.js: import `import 'bootstrap/dist/css/bootstrap.css'`
+- in src make folder 'components' -> counter.jsx
+  - use imrc & cc to create component
+- import component in index.js
+- jsx need to have one parent element, we can use `React.Fragment` tag fir it
 
 ```jsx
 class Counter extends Component {
@@ -79,7 +80,7 @@ class Counter extends Component {
 }
 ```
 
-* can not use 'class' in jsx -> className
+- can not use 'class' in jsx -> className
 
 ```jsx
 styles = {
@@ -111,7 +112,7 @@ render() {
 }
 ```
 
-* select line -> right click -> refactor...
+- select line -> right click -> refactor...
 
 ### Rendering List
 
@@ -128,7 +129,7 @@ render() {
 }
 ```
 
-* condition
+- condition
 
 ```jsx
 renderTag(){
@@ -141,7 +142,7 @@ renderTag(){
 }
 ```
 
-* one way condition in javascript 'true && "hi"'->"hi"
+- one way condition in javascript 'true && "hi"'->"hi"
 
 ```jsx
 render() {
@@ -196,7 +197,7 @@ render() {
 
 ### Compose Component
 
-* counters component
+- counters component
 
 ```jsx
 state = {
@@ -216,7 +217,7 @@ render() {
 }
 ```
 
-* counter component
+- counter component
 
 ```jsx
 state = {
@@ -237,21 +238,21 @@ send information between tags -> `this.props.children`
 
 ```jsx
 <Counter>
-    <h4>title</h4>
+  <h4>title</h4>
 </Counter>
 ```
 
 ### Debugging React App
 
-* React Developer Tools for browser -> new tab in developer tool
-* `$r` -> instanse of first component in debugger
+- React Developer Tools for browser -> new tab in developer tool
+- `$r` -> instanse of first component in debugger
 
 ### Prop vs State
 
-* state is local
-* props is read only
+- state is local
+- props is read only
 
-* the component that own a piece of state, should be the one modifying it.
+- the component that own a piece of state, should be the one modifying it.
 
 ### Assign Event handler
 
@@ -282,19 +283,19 @@ render() {
 
 ### Remove local State
 
-* reset button
+- reset button
 
 ```jsx
 onReset = () => {
-    const counters = this.state.counters.map(c => {
-        c.value = 0;
-        return c;
-    });
-    this.setState({ counters });
-}
+  const counters = this.state.counters.map(c => {
+    c.value = 0;
+    return c;
+  });
+  this.setState({ counters });
+};
 ```
 
-* but child element not change, need to remove their state and use master component state for that -> remove local event handler and send propperties and events to master with prop
+- but child element not change, need to remove their state and use master component state for that -> remove local event handler and send propperties and events to master with prop
 
 Counter
 
@@ -319,34 +320,34 @@ render() {
 }
 ```
 
-* Multiple Component In Sync: need have same parent and read one state
+- Multiple Component In Sync: need have same parent and read one state
 
 ### Stateless Functional Components
 
-* if we havent any state and functions we can use function instead of class -> shortcut `sfc`
+- if we havent any state and functions we can use function instead of class -> shortcut `sfc`
 
 ```jsx
-const Navbar = (props) => {
-    return (
-        <nav>
-            <a href="">Navbar</a>
-            <span>{props.totalCounters}</span>
-        </nav>
-    )
-}
+const Navbar = props => {
+  return (
+    <nav>
+      <a href="">Navbar</a>
+      <span>{props.totalCounters}</span>
+    </nav>
+  );
+};
 ```
 
 ### Destructuring Arguments
 
 ```jsx
-const Navbar = ({totalCounters}) => {
-    return (
-        <nav>
-            <a href="">Navbar</a>
-            <span>{totalCounters}</span> // instead of props.totalCounters
-        </nav>
-    )
-}
+const Navbar = ({ totalCounters }) => {
+  return (
+    <nav>
+      <a href="">Navbar</a>
+      <span>{totalCounters}</span> // instead of props.totalCounters
+    </nav>
+  );
+};
 ```
 
 ```jsx
@@ -365,19 +366,19 @@ render() {
 
 important lifecycle hooks:
 
-* Mount: when component created and insert in dom
-  * constructor -> mostly set the state
-  * render
-  * componentDidMount
-* Update: when State or Props change
-  * render
-  * componentDidUpdate
-* UnMount
-  * componentWillUnmount
+- Mount: when component created and insert in dom
+  - constructor -> mostly set the state
+  - render
+  - componentDidMount
+- Update: when State or Props change
+  - render
+  - componentDidUpdate
+- UnMount
+  - componentWillUnmount
 
 #### Mounting Phase
 
-* constructor: call one and best place for set state
+- constructor: call one and best place for set state
 
 ```jsx
 constroctur() {
@@ -394,8 +395,8 @@ constroctur(props) {
 }
 ```
 
-* render -> render function
-* componentDidMount: best place to ajax call for read from server
+- render -> render function
+- componentDidMount: best place to ajax call for read from server
 
 ```jsx
 componentDidMount() {
@@ -404,13 +405,13 @@ componentDidMount() {
 }
 ```
 
-* we can use lifecycle hook only for class and not for stateless function
-* make component from parent to child
+- we can use lifecycle hook only for class and not for stateless function
+- make component from parent to child
 
 #### Update Phase
 
-* render parent to child
-* change only change element of dom
+- render parent to child
+- change only change element of dom
 
 ```jsx
 componentDidUpdate() { // after the component was updated
@@ -438,19 +439,19 @@ componentDidUnmount() { // before component remove from dom
 
 ### other
 
-* [modal dialog component for React](https://github.com/reactjs/react-moda)
-* [animations for React component](https://github.com/reactjs/react-transition-group/tree/master)
+- [modal dialog component for React](https://github.com/reactjs/react-moda)
+- [animations for React component](https://github.com/reactjs/react-transition-group/tree/master)
 
 ## Hook
 
-* function instead of class
-* use `setState`
+- function instead of class
+- use `setState`
 
 ```js
-const [varName, changeVarFunc] = setState(defaultValue)
+const [varName, changeVarFunc] = setState(defaultValue);
 ```
 
-* `useEffect` instead of lifecycle
+- `useEffect` instead of lifecycle
 
 ```js
 useEffect(() => {
@@ -470,8 +471,8 @@ useEffect(() => {
 },[varsName])
 ```
 
-* `useContext`
-* `React.memo` prevent unnessesery rendering, instead of componentShouldUpdate
+- `useContext`
+- `React.memo` prevent unnessesery rendering, instead of componentShouldUpdate
 
 ```js
 //export default app
@@ -479,3 +480,13 @@ export default React.memo(app,(prevProp,nextProp)={
     return prevProp.name === nextProp.name;
 })
 ```
+
+## React Frameworks
+
+- [Material-ui](https://material-ui.com/)
+- [semantic-ui](https://react.semantic-ui.com)
+- [Bit](https://bit.dev/)
+- [Blueprint](https://blueprintjs.com)
+- [Evergreen](https://evergreen.segment.com)
+- [Ant Design](https://ant.design)
+- [React Bootstrap](https://react-bootstrap.github.io/)
