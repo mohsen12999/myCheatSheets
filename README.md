@@ -7,8 +7,10 @@ Try to save my note as a cheat sheet.
 
 ## link to Sheets
 
-* [.net](/.net/)
-  * [Entity Framework](./.net/EntityFramework.md)
+* [C#](/Csharp/)
+  * [Entity Framework](./Csharp/EntityFramework.md)
+  * [Sql Server](./Csharp/SqlServer.md)
+  * [.net](./Csharp/dotnet.md)
 * [JavaScript](./JavaScript/)
   * [Node](./JavaScript/Node.md)
   * [Express JS](./JavaScript/ExpressJs.md)
