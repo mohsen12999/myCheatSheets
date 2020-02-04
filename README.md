@@ -7,8 +7,10 @@ Try to save my note as a cheat sheet.
 
 ## link to Sheets
 
-* [.net](/.net/)
-  * [Entity Framework](./.net/EntityFramework.md)
+* [C#](/Csharp/)
+  * [Entity Framework](./Csharp/EntityFramework.md)
+  * [Sql Server](./Csharp/SqlServer.md)
+  * [.net](./Csharp/dotnet.md)
 * [JavaScript](./JavaScript/)
   * [Node](./JavaScript/Node.md)
   * [Express JS](./JavaScript/ExpressJs.md)
@@ -20,7 +22,8 @@ Try to save my note as a cheat sheet.
   * [Bash](./Linux/bash.md)
   * [Git](./Linux/git.md)
   * [Cent Os - LAMP config](./Linux/CentOs-LAMP.md)
-* Lisp(./Lisp/)
+* [Lisp](./Lisp/)
+* [Qt](./Qt/)
 * [PHP](./PHP/)
   * [Laravel](./PHP/Laravel.md)
   * [Symfony](./PHP/Symfony.md)
