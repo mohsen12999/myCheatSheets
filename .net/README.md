@@ -21,3 +21,13 @@
   * save: `await _alphaCache.SetSync()`
 
 * Stackexchange redis package
+
+## Test
+
+* TDD: Test Driven Development (aka Test Driven Design)
+* [Modern Dev Practices Unit Testing high](https://www.youtube.com/watch?v=4averylLdjQ&t=276s)
+  * xunit
+  * xunit.runner.visualstudio
+  * moq
+* [xunit](https://xunit.net/)
+* MSpec Visual Studio Test Adapter [Machine.VSTestAdapter](https://marketplace.visualstudio.com/items?itemName=JonathanWilkins.MachineVSTestAdapter)

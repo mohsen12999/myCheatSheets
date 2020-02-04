@@ -490,3 +490,10 @@ export default React.memo(app,(prevProp,nextProp)={
 - [Evergreen](https://evergreen.segment.com)
 - [Ant Design](https://ant.design)
 - [React Bootstrap](https://react-bootstrap.github.io/)
+
+## VS Code extention
+
+- ESLint
+- Prettier - Code Formatter
+- Visual Studio IntelliCode
+- Simple React Snippets
