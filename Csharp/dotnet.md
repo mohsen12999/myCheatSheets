@@ -156,3 +156,7 @@ public void IsPrime_ValuesLessThan2_ReturnFalse(int value)
   [Creating Web API in ASP.NET Core 2.0](https://www.codingame.com/playgrounds/35462/creating-web-api-in-asp-net-core-2-0/part-3---integration-tests)
   [Build a TDD Restful WebAPI for a Blog using dotnet core](https://dev.to/adegokesimi/build-a-tdd-restful-webapi-for-a-blog-using-dotnet-core-5fo8)
   [Beginning Test-Driven Development in .NET Core](https://fullstackmark.com/post/8/beginning-test-driven-development-in-net-core)
+  [elmah](https://elmah.ir)
+  [30 Days of TDD: Day One – What is TDD and Why Should I Use It?](http://blogs.telerik.com/james-bender/posts.aspx/13-09-09/30-days-tdd-day-one-what-is-tdd)
+
+
