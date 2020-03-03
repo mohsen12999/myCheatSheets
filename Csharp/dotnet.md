@@ -109,6 +109,17 @@ public void IsPrime_ValuesLessThan2_ReturnFalse(int value)
 }
 ```
 
+```
+[Test]
+[ExpectedException(typeof(ArgumentException))]
+public void ShouldGetAnArgumentException()
+{
+    // expect for Exception to success testing
+}
+```
+
+* SetUp, TestFixtureSetUp‌ -> make construct method for test class
+
 #### MSTest
 
 ```cs
@@ -148,7 +159,8 @@ public void IsPrime_ValuesLessThan2_ReturnFalse(int value)
 ### Integration tests
 
 - [Integration tests in ASP.NET Core](https://docs.microsoft.com/en-us/aspnet/core/test/integration-tests?view=aspnetcore-3.1#test-app-prerequisites)
-- System Under Test -> "SUT"
+- System Under Test -> `SUT`
+- class under test or code under test -> `CUT`
 
 ## to see
 
@@ -159,4 +171,35 @@ public void IsPrime_ValuesLessThan2_ReturnFalse(int value)
   [elmah](https://elmah.ir)
   [30 Days of TDD: Day One – What is TDD and Why Should I Use It?](http://blogs.telerik.com/james-bender/posts.aspx/13-09-09/30-days-tdd-day-one-what-is-tdd)
 
+## Solid
+
+- Single Responsibility Principle
+- Open/Close Principle -> open for extension, but closed for modification
+- Liskov Substitution Principle -> Objects in a program should be replaceable with instances of their subtypes without altering the correctness of that program
+- Interface Segregation Principle -> Many client-specific interfaces are better than one general-purpose interface
+- Dependency Inversion Principle -> depend upon abstractions, [not] concretions
+
+## DI Framewrok
+
+- `DI Framewrok` -> Dependency Injection, like:
+  - [Ninject](http://www.ninject.org/)
+  - [Structure Map](http://ww1.structuremap.net/)
+  - [Microsoft Unity](https://github.com/unitycontainer/unity)
+
+- ninject main parts:
+  - The Application - your program
+  - The Kernel/Container - the interface for ninject
+  - The Provider - the rules for creat class
+  - The Created Class - Instance of class make by Kernel
+
+- [ninject cheat sheet](https://lukewickstead.wordpress.com/2013/01/18/ninject-cheat-sheet/)
+
+## Refactoring
+
+TDD - `Red, Green, Refactor`
+  - Red: faild - writing test
+  - Green: pass - write code to pass test
+  - Refactor: improve code better again and again
+
+- readable, flexible, optimal ,...
 
