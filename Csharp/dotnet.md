@@ -109,7 +109,7 @@ public void IsPrime_ValuesLessThan2_ReturnFalse(int value)
 }
 ```
 
-```
+```cs
 [Test]
 [ExpectedException(typeof(ArgumentException))]
 public void ShouldGetAnArgumentException()
@@ -119,7 +119,17 @@ public void ShouldGetAnArgumentException()
 ```
 
 * SetUp, TestFixtureSetUp‌ -> make construct method for test class
+* SetUp -> make new object for every test, TestFixtureSetUp‌ -> make one for all
 
+```cs
+private ClassName _className;
+
+[SetUp]
+public void SetupClassNameTests()
+{
+	_className = new ClassName()
+}
+```
 #### MSTest
 
 ```cs
@@ -202,4 +212,50 @@ TDD - `Red, Green, Refactor`
   - Refactor: improve code better again and again
 
 - readable, flexible, optimal ,...
+- DRY - `Don’t Repeat Yourself`
+
+## Mocking
+
+
+* Fakes – is an object that has some sort of actual working mechanism inside that returns a predictable result, but doesn’t implement the actual production logic.
+* Stubs – is an object that will return a specific result based on a specific set of input. If I tell my stub to return “John Doe” whenever I ask it for the person with ID number 42, than that’s what it will do. However when I ask a stub for a person with an ID number 41, it doesn’t know what to do.
+* Mocks – is a much more sophisticated version of a Stub. It will still return values like a stub, but it can also be programmed with expectations in terms of how many times each method should be called, in which order and with what data. Mocks provide features that ensure that our code under test is using it’s dependencies in a very specific way.
+* Spy – is type of mock that takes an object and instead of creating a new mock object replaces the methods that the tester wants to mock. Spies are great for testing legacy (non TDD code) but you must be very careful as missing something that should have been mocked can have disastrous results
+* Dummy – is an object that can be passed as a replacement for another object, but is never used. Dummies are essentially placeholders.
+
+* for do thats we have `Mocking Frameworks` such as `JustMock` or `JustMock` Lite
+
+```cs
+using Telerik.JustMock
+// ...
+var orderDataService = Mock.Create<iorderdataservice>(); // make for injection dependency for making object
+Mock.Arrange(() => orderDataService.Save(Arg.IsAny<order>()))
+	.Returns(expectedOrderId)
+	.OccursOnce(); // only execute one time
+OrderService orderService = new OrderService(orderDataService); // making object  
+// ...
+Mock.Assert(orderDataService); //check rule for mock -> occure one time
+```
+
+* `OccursNever()` -> never reach some place in code
+* `InOrder()` -> run in order we write here
+
+## Defects
+
+- defects are really just requirements that have yet to be discovered.
+- “zombie” defect: a defect that has been “fixed” on several occasions but always seems to find a way to come back.
+
+## Other Tests
+
+- Integration Tests - is similar to unit testing but instead of running our code in isolation we make a point of using the other components, classes and external resources for our tests.
+- User Interface Tests
+- Performance and Stress Tests
+- Security Tests
+- User Acceptance Tests - at some point in time you need a human being to get their eyes on the application.
+
+## Test Eventually Development
+
+- TED is write their unit tests after they’ve written the code under test.
+
+https://www.telerik.com/blogs/30-days-of-tdd-day-24-strictly-mocking
 
