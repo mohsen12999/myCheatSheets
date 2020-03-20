@@ -81,6 +81,30 @@ git log -S"Math" --after="2 months ago" --oneline --stat
 
 ### diff
 
+- use whitout argument or name show uncommit chane
+
+```sh
+git diff
+```
+
+- `cashed` show diffrence between working directory and stashed
+
+```sh
+git diff --cashed
+```
+
+- can send branch name to see diff
+
+```sh
+git diff {branch name}
+```
+
+- or can send file name
+
+```sh
+git diff origin/master README.md
+```
+
 ### reset current change
 
 ```sh
