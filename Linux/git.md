@@ -96,13 +96,21 @@ git diff --cashed
 - can send branch name to see diff
 
 ```sh
-git diff {branch name}
+git diff [branch name]
 ```
 
-- or can send file name
+- can send file name
 
 ```sh
 git diff origin/master README.md
+```
+
+### blame
+
+- who modify the file and when
+
+```sh
+git blame [file name]
 ```
 
 ### reset current change
@@ -209,6 +217,25 @@ git merge [branch name]
 git checkout -d [branch name]
 ```
 
+### rebase
+
+```sh
+git rebase [branch name]
+```
+
+- use `i` for interactive mode
+
+```sh
+git rebase -i [branch name]
+```
+
+- combine all commit to one commit -> hold first to pick and change other to squash or only s, after save and exit you can add one commit message for all of that
+- after this change must push with `f` or force flag
+
+```sh
+git push -f
+```
+
 ### conflict
 
 ```
@@ -220,6 +247,65 @@ change come from server
 ```
 
 ## other
+
+### binary search
+
+- for start
+
+```sh
+git bisect
+```
+
+- mark this commit as bad commit
+
+```sh
+git bisect bad
+```
+
+- mark the good commit
+
+```sh
+git bisect good [commit id]
+```
+
+- git start searching for bad commit, answering them:
+
+```sh
+git bisect good
+git bisect bad
+```
+
+- exit from bisect search
+
+```sh
+git bisect reset
+```
+
+### tag
+
+- add tag
+
+```sh
+git tag v1.0.0
+```
+
+- see all tag
+
+```sh
+git tag
+```
+
+- push tag to remote
+
+```sh
+git push --tags
+```
+
+- annotate comment for tag with `a`, if not use `m` it open in default editor
+
+```sh
+git tag -a v2.0.0 -m "tag message"
+```
 
 ### save password
 
@@ -259,3 +345,67 @@ clip <~/.ssh/id_rsa
 ```sh
 ssh -T git@github.com
 ```
+
+### git hook
+
+- in `.git/hooks` folder, there is some sample files, for run you must make file with out sample
+- for example in file `.git/hooks/pre-commit`, run test and lint before test
+
+```sh
+#!/bin/bash
+npm test && npm run lint
+```
+
+- after that make file executable
+
+```sh
+chmod +x .git/hooks/pre-commit
+```
+
+- if one of them failed, we can not commit
+- this setting just use locally and cant send to remote repository
+
+### Global Setting
+
+- save in `.gitconfig` file in home directory
+
+```sh
+git config --global user.name 'mohsen shabanian'
+```
+
+- config default editor
+
+```sh
+git config --global core.editor vim
+```
+
+- add alias
+
+```sh
+git config --global alias.graph 'log --graph --oneline'
+```
+
+-- see all config list
+
+```sh
+git config list
+```
+
+### ignore file
+
+- make `.gitignore` file and file name like `.DS_Store` for mac or `Tumbs.db` for windows
+- for remove tracked file that ignore but added before:
+
+```sh
+git rm --cached
+```
+
+- we can make `.gitignore_global` in home directory for ignore file in all the place and define it in `.gitconfig`
+
+```sh
+git config --global core.excludesfile ~/.gitignore_global
+```
+
+## Refrence
+
+- Egghead: practical-git-for-everyday-professional-use
