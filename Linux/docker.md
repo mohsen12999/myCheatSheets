@@ -343,6 +343,28 @@ networks:
 
 ## on Windeows
 
+- two option for using docker in windows: `Docker Toolbox` or `Docker Desktop`
+
+  - can install virtual software like 'virtual machin' or 'virtual box', deploy linux vm on it like ubuntu or debian, install docker on it - `Docker Desktop`: Oracle Virtualbox, Docker Engine, Docker Machine, Docker Compose, Kitematic GUI
+
+  - `Docker Desktop`: use Microsoft Hyper-v in windows10 - default use linux container but you can choose window container
+
+- 2 kind of container for window: windows server or Hyper-V isolation
+
+  - windows server: share one kernel
+
+  - Hyper-V isolation: seprate kernel for each
+
+- 2 kind of image: windows server core or Nano server
+
+  - windows server core: bigger image than nano server
+
+  - Nano server: headless deployment, little size image like alphin in linux
+
+- support windows server 2016, Nano server, Windows10 Professional and Enterprise (only on Hyper-V isolation container)
+
+- can use Virtualbox and Hyper-V at sametime in windows
+
 - check install `docker info`
 
 - switch betwin windows and linux containers -> right click on docker in system try -> switch to Linux containers
