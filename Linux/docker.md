@@ -174,6 +174,52 @@ CMD ["5"]
 
 - container can connect with their names
 
+## Layer Architecture
+
+- Image layer is Read only
+
+- Container Layer can read/write, change happen here, and remove after
+
+- Copy-on-write change fie only in container layer and happen after build
+
+### Volums
+
+- `docker volume create [volum_name]` to make volume folder in docker lib
+
+- `docker volume ls` , `docker volume inspect [volum_name]`
+
+- volume: `docker run -v [volum_name]:/var/lib/mysql mysql` mount the docker volume folder -> '/var/lib/docker/volumes/'
+
+- bind: for other path for volume -> `docker run -v /data/mysql:/var/lib/mysql mysql`
+
+- can use `mount` instead of `v` and data as json -> `docker run --mount type=bind,source=/data/mysql,target=/var/lib/mysql mysql`
+
+- storage driver to enable layered architecture, choose base on OS
+  - AUFS
+  - ZFS
+  - BTRFS
+  - Devise Mapper
+  - Overlay
+  - Overlay2
+
+## Docker Compose
+
+- need to set up complex application, running multiple services, better to use docer compose, in `docker-compose.yml`
+
+```yml
+services:
+  web:
+    image: "mmumshad/simple-webapp"
+  database:
+    images: "mongodb"
+  messaging:
+    image: "redis:alphine"
+  orchestration:
+    image: "ansible"
+```
+
+- use `docker-compose up`
+
 ## on Windeows
 
 - check install `docker info`
