@@ -502,6 +502,58 @@ for run
 `docker ps` -> find id
 `docker exec -it id mysql --user=root --password=my-secret-pw`
 
+## Orchestration
+
+- container orchestration support multiple docker hub
+
+- `docker service create --replicas=100 nodejs` make 100 instance of docker application
+
+- multiple sulution: Docker Swarm, Kubernetes (google), MESOS(apache)
+
+### Docker Swarm
+
+- combine multiple docker machin in single cluster
+
+- distribute services or application services into seprate docker host for high avaibility and load balancing across diffrense system and hardware
+
+- for install you need multiple host with docker install on them, and choose one host to manage other -> `docker swarm init --advertise-addr 192.168.1.12` -> copy the command and run in other docker node `docker swarm join --token <token>`
+
+- to run 3 instance of one container -> `docker service create --replicas=3 my-web-server`, must run on manager node
+
+### Kubernetes
+
+- `kubecli run --replicas=1000 my-web-server`
+
+- can scale up and down easily `kubecli scale --replicas=2000 my-web-server`
+
+- upgrade all image `kubecli rolling-update my-web-server --image=web-server:2`
+
+- roll back all image `kubecli rolling-update my-web-server --rollback`
+
+- Kubernete component: API Server, etcd, kubelet, Container Runtime, Controller, Scheduler
+
+  - API Server: use as front-end software for Kubernete: user, management devices, command line
+
+  - etcd: distributed reliable key value store, use to store data for manage cluster
+
+  - Scheduler: responsible distributed work for container across multiple node
+
+  - Controller: brain behind orchestration, responsible for noticing and responding when node, container or endpoint goes down, decition for bring up new container in this time
+
+  - Container Runtime: underlying software use to run container like docker
+
+  - kubelet: the agent run in each node in the cluster, responsible for making sure the containers are running on the node as excpected
+
+### kubecli
+
+- the cli for deploying, managing application on Kubernetes cluster, to get cluster infornmation, status of ther node and other things
+
+- `kubecli run hello-minikube` deploy an application on cluster
+
+- `kubecli cluster-info` to view the information about cluster
+
+- `kubecli get nodes` list all the node part of cluster
+
 ## Refrence
 
 - Free Code Camp: Docker Tutorial for Beginners - Run applications in containers
