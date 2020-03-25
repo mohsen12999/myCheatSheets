@@ -323,6 +323,24 @@ networks:
 
 - push image from network: `docker push 192.168.56.100:500/my-image`
 
+## Docker Engine
+
+- in linux need: `Docker CLI`, `REST API`, `Docker Deamon`
+
+- `Docker CLI` can work with remote engine `docker -H=remote-docker-engine:2375` like as `docker -H=10.123.2.1:2375 run nginx`
+
+### name space
+
+- docker use namespase to isolate workspace like: Proccess ID, Unix Timesharing, Mount, Network, InterProccess
+
+### cgroups
+
+- docker cgroup to control using of cpu by containers
+
+- `docker run --cpus=.5 ubuntu`
+
+- `docker run --memory=100m ubuntu`
+
 ## on Windeows
 
 - check install `docker info`
