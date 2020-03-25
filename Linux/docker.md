@@ -220,6 +220,109 @@ services:
 
 - use `docker-compose up`
 
+### Link
+
+- connect container: `docker run -d --name=vote -p 5000:80 --link redis:redis voting-app`, in docker compose file:
+
+```yml
+services:
+  vote:
+    image: "voting-app"
+    ports:
+      - 5000:80
+    links:
+      - redis
+```
+
+- in docker compose file: `redis:redis` = `redis`
+
+- can write build location instead of image name `image: voting-app` -> `build: ./vote`
+
+### Docker Compose versions
+
+- default version is 1 and save versions.
+
+```yml
+vote:
+  image: "voting-app"
+  ports:
+    - 5000:80
+  links:
+    - redis
+```
+
+- save links for other version and you can remove that for next versions
+
+- `depend` container run before the this container
+
+```yml
+version: 2
+services:
+  vote:
+    image: "voting-app"
+    ports:
+      - 5000:80
+    depens_on:
+      - redis
+```
+
+- can seprate the network for containers
+
+```yml
+services:
+  redis:
+    image: redis
+    networks:
+      - back-end
+  db:
+    image: postgres:9.4
+    networks:
+      - back-end
+  vote:
+    images: voting-app
+    networks:
+      - front-app
+      - back-end
+  result:
+    images: result
+    networks:
+      - front-app
+      - back-end
+networks:
+  front-end:
+  back-end:
+```
+
+## Docker Registry
+
+- image name: [User Account]/[Image Repository]
+
+- `image:nginx` -> `image: nginx/nginx`
+
+- location -> assume in docker hub ->`image:nginx` -> `image: docker.io/nginx/nginx`
+
+- google registry, a lote of kubernetes: `gcr.io/kubernetes-e2e-test-images/dnsutils`
+
+### Private Registry
+
+- cloud private registry like aws, azure, gcp
+
+- need login `docker login private-registry.io`
+
+- after that `docker run private-registry.io/apps/internal-app`
+
+### Deploy Private Registry
+
+- its application and make docker in docker
+
+- `docker run -d -p 5000:5000 --name registry registry2`
+
+- tag image: `docker image tag my-image localhost:500/my-image`
+
+- push image from localhost: `docker push localhost:500/my-image`
+
+- push image from network: `docker push 192.168.56.100:500/my-image`
+
 ## on Windeows
 
 - check install `docker info`
