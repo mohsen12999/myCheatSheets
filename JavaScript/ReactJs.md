@@ -481,6 +481,69 @@ export default React.memo(app,(prevProp,nextProp)={
 })
 ```
 
+## React Context
+
+- need Provider and Consumer
+
+### Define context
+
+- define in class
+
+```js
+const MyContext = React.createContext(default value)
+
+<MyContext.Provider value={}>
+...
+</MyContext>
+```
+
+- define as seprate class
+
+```js
+const MyContext = React.createContext();
+
+class MyContextComponent extends React.Component {
+  state = {
+    // default value
+  };
+  render() {
+    return (
+      <MyContext.Provider value={{ ...this.state }}>
+        {this.props.children}
+      </MyContext>
+    );
+  }
+}
+```
+
+- naming context to see in devtools
+
+```js
+MyContext.displayName = "MyDisplayName";
+```
+
+### use context
+
+- if you need 1 context can use contextType:
+
+```js
+class MyComponent extends React.Component {
+  static contextType = MyContext;
+  render() {
+    const { name, age } = this.context;
+    return <div> {name} </div>;
+  }
+}
+```
+
+- or use Consumer
+
+```js
+<MyContext.Consumer>
+  {myContext => <div> {myContext.name} <div>}
+</MyContext.Consumer>
+```
+
 ## React Frameworks
 
 - [Material-ui](https://material-ui.com/)
