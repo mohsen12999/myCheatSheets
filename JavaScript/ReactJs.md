@@ -524,7 +524,7 @@ MyContext.displayName = "MyDisplayName";
 
 ### use context
 
-- if you need 1 context can use contextType:
+- if you need 1 context in class component can use contextType:
 
 ```js
 class MyComponent extends React.Component {
@@ -536,12 +536,39 @@ class MyComponent extends React.Component {
 }
 ```
 
+- or in functional component use useContext
+
+```js
+const MyComponent = () => {
+  const { name, age } = React.useContext(MyContext);
+  return <div>{name}</div>;
+};
+```
+
 - or use Consumer
 
 ```js
 <MyContext.Consumer>
   {myContext => <div> {myContext.name} <div>}
 </MyContext.Consumer>
+```
+
+## use Local Storage
+
+- local storagr is a key-value storage in browser
+
+- save item to local storage
+
+```js
+const books = { id: 12, title: "fhkjdhgk" };
+localStorage.setItem("books", JSON.stringify(books));
+```
+
+- load from local storage
+
+```js
+const result = localStorage.getItem("books");
+const books = JSON.parse(result);
 ```
 
 ## React Frameworks
