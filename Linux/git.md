@@ -52,21 +52,21 @@ git status
 
 - can send argument, can send two or more
   - `oneline` for see every commit in one line
-  - `decorate` show all the refrence
-  - `graph` display aski graph for branch structure
+  - `decorate` show all the reference
+  - `graph` display ascii graph for branch structure
   - `p` patch, show the change of every commit
   - `stat` show the number of change of files
 - can send option
-  - number to show the lastnumber, 2 for last 2 commit
+  - number to show the last-number, 2 for last 2 commit
   - `after` or `since` for after certain time, after="yesterday", 30 minute ago, last tuesday, last week, 2 week ago, 3-15-16, 3/15/16
   - `before` or `until` for commit before certain time, before="yesterday"
   - `author` author name, author="mohsen" all commit with author and email contain mohsen
   - `grep` search in commit message
   - `S` search for string when add or remove in code, S"mat", better use with p arguman to see where used
-  - `G` serch with regex for change in code dont need comma,-GMath\|Random -> search for Math or Random
+  - `G` search with regex for change in code dont need comma,-GMath\|Random -> search for Math or Random
   - `i` ignore case sensitive
-  - `no-merges` see whitout merge commit
-  - `..` commit with range of refrenses [ref1]..[ref2]
+  - `no-merges` see without merge commit
+  - `..` commit with range of references [ref1]..[ref2]
   - `[file name]` the commit involve that files
 
 ```sh
@@ -76,18 +76,18 @@ git log -p -i -S"mat"
 
 git log -3 -i --author="mohsen" README.md
 
-git log -S"Math" --after="2 months ago" --oneline --stat
+git log -S"Math" --after="2 months ago" --online --stat
 ```
 
 ### diff
 
-- use whitout argument or name show uncommit chane
+- use without argument or name show un-commit change
 
 ```sh
 git diff
 ```
 
-- `cashed` show diffrence between working directory and stashed
+- `cashed` show difference between working directory and stashed
 
 ```sh
 git diff --cashed
@@ -161,7 +161,7 @@ git remote -v
 git pull
 ```
 
-- its equel to
+- its equal to
 
 ```sh
 git fetch && git merge
@@ -173,7 +173,7 @@ git fetch && git merge
 git push
 ```
 
-## Branche
+## Branch
 
 - add branch
 
@@ -211,7 +211,7 @@ git checkout -
 git merge [branch name]
 ```
 
-- delete banch
+- delete branch
 
 ```sh
 git checkout -d [branch name]
@@ -339,7 +339,7 @@ ssh-add ~/.ssh/id_rsa
 clip <~/.ssh/id_rsa
 ```
 
-- go to github -> profile -> edit profile -> ssh keys -> add ssh key -> title: like the name of the computer or machin, past the key
+- go to github -> profile -> edit profile -> ssh keys -> add ssh key -> title: like the name of the computer or machine, past the key
 - verify the key
 
 ```sh
@@ -393,7 +393,7 @@ git config list
 
 ### ignore file
 
-- make `.gitignore` file and file name like `.DS_Store` for mac or `Tumbs.db` for windows
+- make `.gitignore` file and file name like `.DS_Store` for mac or `Thumbs.db` for windows
 - for remove tracked file that ignore but added before:
 
 ```sh
@@ -406,6 +406,6 @@ git rm --cached
 git config --global core.excludesfile ~/.gitignore_global
 ```
 
-## Refrence
+## Reference
 
 - Egghead: practical-git-for-everyday-professional-use
