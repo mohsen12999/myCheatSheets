@@ -406,6 +406,56 @@ git rm --cached
 git config --global core.excludesfile ~/.gitignore_global
 ```
 
+## Git workflows
+
+### git flow
+
+- git flow is great for a release-based software workflow.
+
+- Getting Started instead of `git init`
+
+```sh
+git flow init
+```
+
+- Creating a feature branch
+
+```sh
+git flow feature start feature_branch
+```
+
+- Finishing a feature branch
+
+```sh
+git flow feature finish feature_branch
+```
+
+- Release Branches
+
+```sh
+git flow release start 0.1.0
+```
+
+- Finishing a Release Branches
+
+```sh
+git flow release finish '0.1.0'
+```
+
+- Hotfix Branches
+
+```sh
+git flow hotfix start hotfix_branch
+```
+
+- Finishing a Hotfix Branches
+
+```sh
+git flow hotfix finish hotfix_branch
+```
+
+- more info on [Gitflow Workflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)
+
 ## Reference
 
 - Egghead: practical-git-for-everyday-professional-use
