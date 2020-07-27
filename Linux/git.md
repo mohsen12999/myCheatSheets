@@ -397,7 +397,7 @@ git config list
 - for remove tracked file that ignore but added before:
 
 ```sh
-git rm --cached
+git rm --cached [filename]
 ```
 
 - we can make `.gitignore_global` in home directory for ignore file in all the place and define it in `.gitconfig`
