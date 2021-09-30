@@ -1,5 +1,11 @@
 # Design Patterns
 
+- base on `Design Patterns: Elements of Reusable Object-Oriented Software` write by GoF (Gang of four)
+- 24 design pattern in 3 category: `Creational`, `Structural`, `Behavioral`
+  - `Creational`: different way to create object
+  - `Structural`: relationship between objects
+  - `Behavioral`: interaction/commination between objects
+
 ## The Essentials
 
 - Classes
