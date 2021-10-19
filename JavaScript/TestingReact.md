@@ -29,7 +29,7 @@ test("check testing", () => {
 - first assert
 
 ```js
-expect(screen.getByRole('button',{name: /pay/i })).toBeEnabled();
+expect(screen.getByRole("button", { name: /pay/i })).toBeEnabled();
 ```
 
 - sometime, we need time to evaluate, we can use async method
@@ -37,7 +37,7 @@ expect(screen.getByRole('button',{name: /pay/i })).toBeEnabled();
 ```js
 test("pay button at initial must be disable", async () => {
   render(<ComponentName />);
-  expect(await screen.findByRole('button',{name: /pay/i })).toBeDisabled();
+  expect(await screen.findByRole("button", { name: /pay/i })).toBeDisabled();
 });
 ```
 
@@ -50,9 +50,9 @@ import userEvent from "@testing-library/user-event";
 test("pay button enable after fill form", async () => {
   render(<ComponentName />); // Arrange
 
-  userEvent.type(screen.getByPlaceholderText(/amount/i),"500"); // Act
+  userEvent.type(screen.getByPlaceholderText(/amount/i), "500"); // Act
 
-  expect(await screen.findByRole('button',{name: /pay/i })).toBeEnabled(); // Assert
+  expect(await screen.findByRole("button", { name: /pay/i })).toBeEnabled(); // Assert
 });
 ```
 
@@ -63,12 +63,12 @@ test("pay button enable after fill form", async () => {
 ```js
 test("testing btn behavior", async () => {
   render(<ComponentName />);
-  
-  expect(await screen.findByRole('button',{name: /pay/i })).toBeDisabled();
 
-  userEvent.type(screen.getByPlaceholderText(/amount/i),"500");
+  expect(await screen.findByRole("button", { name: /pay/i })).toBeDisabled();
 
-  expect(await screen.findByRole('button',{name: /pay/i })).toBeEnabled();
+  userEvent.type(screen.getByPlaceholderText(/amount/i), "500");
+
+  expect(await screen.findByRole("button", { name: /pay/i })).toBeEnabled();
 });
 ```
 
@@ -79,8 +79,29 @@ test("testing btn behavior", async () => {
 - for supporting cypress go to `cypress/support/commands.js`
 
 ```js
-import "cypress @testing-library/cypress/add-commends"
+import "cypress @testing-library/cypress/add-commends";
 ```
+
+- make test folder in cypress folders like integration folder -> payment_spec.js
+
+```js
+describe("payment", () => {
+  it("user can make payment", () => {
+    // login
+    cy.visit("/login"); // go to login page
+
+    cy.findByRole("textbox", { name: /username/i }).type("johnDou"); // type username
+    cy.findByLabelText("password").type("s3cret"); // type password
+    cy.findByRole("checkbox", { name: /remember me/i }).check(); // check remember me
+
+    cy.findByRole("button", { name: /sign in/i }).click(); // click button
+
+    // check balance  38:51
+  });
+});
+```
+
+- can use `testing playground` plugin for chrome to find query for element
 
 ## Reference
 
