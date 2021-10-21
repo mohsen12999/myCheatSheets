@@ -138,7 +138,7 @@ public class BrushTool implements Tool {
     system.out.println("Brush Icon")
   }
 
-    @override
+  @override
   void MouseDown() {
     system.out.println("Draw a line")
   }
@@ -165,6 +165,80 @@ public class Main {
     canvas.setCurrentTool(new SelectionTool());
     canvas.MouseUp(); // Selection Icon
     canvas.MouseDown(); // Draw a dashed rectangle
+  }
+}
+```
+
+## Iterator Pattern
+
+- allow to implement history in different shapes
+
+- history class only have push and pop
+- iterator class as interface for implementation
+- implementation in different shape
+
+```java
+public interface Iterator { // Iterator<T>
+  boolean hasNext();
+  String current(); // T current();
+  void next();
+}
+
+public class BrowserHistory {
+  private List<String> urls = new ArrayList();
+
+  public void push(String url) { urls.add(url); }
+
+  public String pop() {
+    var lastIndex = urls.size();
+    var latUrl = urls.get(lastIndex);
+    urls.remove(lastUrl);
+
+    return lastUrl;
+  }
+
+  public Iterator createIterator() {
+    return new ListIterator(this)
+  }
+
+  public class ListIterator implements Iterator {
+    private BrowserHistory history;
+    private int index;
+    public ListIterator(BrowserHistory history) {
+      this.history = history;
+    }
+
+    @override
+    boolean hasNext(){
+      return (index < history.urls.size());
+    }
+
+    @override
+    String current() {
+      return history.urls.get(index);
+    }
+
+    @override
+    void next() {
+      index++;
+    }
+  }
+}
+
+
+public class Main {
+  public static void main(String[] args) {
+    var history = new BrowserHistory();
+    history.push("a");
+    history.push("b");
+    history.push("c");
+
+    Iterator iterator = history.createIterator();
+    while(iterator.hasNext()) {
+      var url = iterator.current();
+      system.out.println(url);
+      iterator.next();
+    }
   }
 }
 ```
