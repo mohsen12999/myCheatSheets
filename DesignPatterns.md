@@ -225,7 +225,6 @@ public class BrowserHistory {
   }
 }
 
-
 public class Main {
   public static void main(String[] args) {
     var history = new BrowserHistory();
@@ -239,6 +238,75 @@ public class Main {
       system.out.println(url);
       iterator.next();
     }
+  }
+}
+```
+
+## Strategy Pattern
+
+- use when you need to choose different strategy with polymorphisms
+- similar to state strategy but not depend on state
+
+```java
+public interface Compressor {
+  // byte[] compressor(byte[] image);
+  void compress(String fileName);
+}
+
+public class JpegCompressor implements Compressor {
+  @override
+  void compress(String fileName) {
+    system.out.println("Compressing using JPEG")
+  }
+}
+
+public class PngCompressor implements Compressor {
+  @override
+  void compress(String fileName) {
+    system.out.println("Compressing using PNG")
+  }
+}
+
+public interface Filter {
+  void apply(String fileName);
+}
+
+public class BlackAndWhiteFilter implements Filter {
+  @override
+  void apply(String fileName) {
+    system.out.println("Applying B&W filter")
+  }
+}
+
+public class ImageStorage {
+  // first way
+  // private Compressor compressor;
+  // private Filter filter;
+
+  // public ImageStorage(Compressor compressor, Filter filter) {
+  //   this.compressor = compressor;
+  //   this.filter = filter;
+  // }
+
+  // public void store(String fileName) {
+  //   compressor.compress(fileName);
+  //   filter.apply(fileName);
+  // }
+
+  // second way
+  public void store(String fileName, Compressor compressor, Filter filter) {
+    compressor.compress(fileName);
+    filter.apply(fileName);
+  }
+}
+
+
+public class Main {
+  public static void main(String[] args) {
+    // var imageStorage = new ImageStorage(new JpegCompressor(), new BlackAndWhiteFilter());
+    // imageStorage.store("a");
+    var imageStorage = new ImageStorage();
+    imageStorage.store("a", new JpegCompressor(), new BlackAndWhiteFilter());
   }
 }
 ```
