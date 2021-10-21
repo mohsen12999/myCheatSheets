@@ -114,6 +114,61 @@ allow object behave different when state changes
 - Context
 - Concrete states - classes inherit from State class and implement handle methods differently
 
+```java
+public interface Tool {
+  void MouseUp();
+  void MouseDown();
+}
+
+public class SelectionTool implements Tool {
+  @override
+  void MouseUp() {
+    system.out.println("Selection Icon")
+  }
+
+    @override
+  void MouseDown() {
+    system.out.println("Draw a dashed rectangle")
+  }
+}
+
+public class BrushTool implements Tool {
+  @override
+  void MouseUp() {
+    system.out.println("Brush Icon")
+  }
+
+    @override
+  void MouseDown() {
+    system.out.println("Draw a line")
+  }
+}
+
+public class Canvas {
+  public Tool currentTool;
+
+  void MouseUp() {
+    currentTool.MouseUp();
+  }
+
+  void MouseDown(){
+    currentTool.MouseDown();
+  }
+
+  public Tool getCurrentTool() { return currentTool; }
+  public void setCurrentTool(Tool currentTool) { this.currentTool = currentTool; }
+}
+
+public class Main {
+  public static void main(String[] args) {
+    var canvas = Canvas();
+    canvas.setCurrentTool(new SelectionTool());
+    canvas.MouseUp(); // Selection Icon
+    canvas.MouseDown(); // Draw a dashed rectangle
+  }
+}
+```
+
 ## Reference
 
 - [Design Patterns in Plain English | Mosh Hamedani](https://www.youtube.com/watch?v=NU_1StN5Tkk&t=63s)
