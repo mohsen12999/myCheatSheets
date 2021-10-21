@@ -311,6 +311,56 @@ public class Main {
 }
 ```
 
+## Template Method Pattern
+
+- using inheritance for preventing duplication method in classes
+
+```java
+public abstract class Task {
+  public void record() {
+    system.out.println("Audit");
+  }
+}
+
+public abstract class Task {
+  private AuditTrail auditTrail;
+  
+  public Task() {
+    this.auditTrail = new AuditTrail();
+  }
+
+  public Task(AuditTrail auditTrail) {
+    this.auditTrail = auditTrail;
+  }
+  
+  public void execute() {
+    auditTrail.record();
+
+    doExecute();
+  }
+
+  protected abstract void doExecute(); // protect prevent it to use directly
+}
+
+public class TransferMoneyTask implements Task {
+  // public TransferMoneyTask(AuditTrail auditTrail) {
+  //   super(auditTrail);
+  // }
+
+  @override
+  public void doExecute() {
+    system.out.println("Transfer money")
+  }
+}
+
+public class Main {
+  public static void main(String[] args) {
+    var task = new TransferMoneyTask();
+    task.execute();
+  }
+}
+```
+
 ## Reference
 
 - [Design Patterns in Plain English | Mosh Hamedani](https://www.youtube.com/watch?v=NU_1StN5Tkk&t=63s)
