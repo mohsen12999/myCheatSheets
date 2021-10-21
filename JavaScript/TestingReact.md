@@ -85,6 +85,9 @@ import "cypress @testing-library/cypress/add-commends";
 - make test folder in cypress folders like integration folder -> payment_spec.js
 
 ```js
+const { cy } = require("data-fns/locale");
+const { v4: uuidv4 } = require("uuid");
+
 describe("payment", () => {
   it("user can make payment", () => {
     // login
@@ -96,12 +99,53 @@ describe("payment", () => {
 
     cy.findByRole("button", { name: /sign in/i }).click(); // click button
 
-    // check balance  38:51
+    // check balance
+    let oldBalance;
+    cy.get("[data-test=sidebar-user-balance]").then($balance => oldBalance=$balance.text());
+
+    // click on new button
+    cy.findByRole("button", { name: /new/i }).click();
+
+    // search for user
+    cy.findByRole("textbox").type("devon backer");
+    cy.findByText(/devon backer/);.click();
+
+    // add payment and note and click pay button
+    const paymentAmount = "5.00";
+    cy.findByPlaceholderText(/amount/i).type(paymentAmount);
+    const note = uuidv4() // make random note
+    cy.findByPlaceholderText(/add a note/i).type(note);
+    cy.findByRole("button", { name: /pay/i }).click();
+
+    // return to transaction page
+    cy.findByRole("button", { name: /return to transaction page/i }).click();
+
+    // go to personal payment
+    cy.findByRole("tab", { name: /mine/i }).click();
+
+    // click on payment
+    // cy.findByText(note);.scrollIntoView(); // for show in scroll list but sometime not work
+    // cy.findByText(note);.click(); // find base on our random note
+    cy.findByText(note);.click({force:true}); // work if the component was not visible
+
+    // verify if payment was made
+    cy.findByText("-$${paymentAmount}").should('be.visible'); //-$5.00
+    cy.findByText(note).should('be.visible'); //-$5.00
+
+    // verify if payment amount was deducted
+    cy.get("[data-test=sidebar-user-balance]").then($balance => {
+      const convertedOldBalance = parsFloat(oldBalance.replace(/\$|,/g,""));
+      const convertedNewBalance = parsFloat($balance.text().replace(/\$|,/g,""));
+
+      expect(convertedNewBalance-convertedNewBalance).to.equal(parsFloat(paymentAmount));
+    });
+
   });
 });
 ```
 
 - can use `testing playground` plugin for chrome to find query for element
+- if element is dynamic, can add `data-test` property for element to find easier
 
 ## Reference
 
