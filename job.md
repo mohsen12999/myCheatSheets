@@ -15,7 +15,7 @@
 
 - write for hr team
 - 1 page, 250 to 400 words
-- Full name, job title, email, mobile, skype, whatsapp, github
+- Full name, job title, email, mobile, skype, whats app, github
 - write hr name and title and company name.
 - Introduce yourself in first paragraph, working there and there fot these years and achievement.
 - why I'm good for you, match job requirement with your skills.
