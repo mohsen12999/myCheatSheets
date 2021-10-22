@@ -361,6 +361,210 @@ public class Main {
 }
 ```
 
+## Command Pattern
+
+- invoker: the class run the method
+- command: interface of method
+- concreteCommand: method class implement the command interface
+- receiver: class determine the job/method use concreteCommand
+
+```java
+public interface Command { // Command
+  public void execute();
+}
+
+public class Button { // invoker
+  private String label;
+  private Command command;
+
+  public Button(Command command) {
+    this.command = command;
+  }
+
+  public void click() {
+    command.execute();
+  }
+}
+
+public class CustomerService { // receiver
+  public void addCustomer() {
+    system.out.println("Add customer");
+  }
+}
+
+public class AddCustomerCommand implements Command { //concreteCommand
+  private CustomerService service;
+
+  public AddCustomerCommand(CustomerService service) {
+    this.service = service;
+  }
+
+  @override
+  public void execute() {
+    service.addCustomer();
+  }
+}
+
+public class Main {
+  public static void main(String[] args) {
+    var service = new CustomerService();
+    var command = new AddCustomerCommand(service);
+    var button = new Button(command);
+    button.click();
+  }
+}
+```
+
+### Composite Command
+
+```java
+public class CompositeCommand implements Command {
+  private List<Command> commands = new ArrayList<>();
+
+  public void add(Command command) {
+    commands.add(command);
+  }
+
+  @override
+  public void execute() {
+    for (var command:commands)
+      command.execute();
+  }
+}
+
+public class Main {
+  public static void main(String[] args) {
+    var composite = new CompositeCommand();
+    composite.add(new ResizeCommand());
+    composite.add(new BlackAndWhiteCommand());
+    composite.execute();
+  }
+}
+```
+
+### undoable command
+
+- momento pattern sometime need a lot of snap shot, undo a command just revert a command
+- undoable command is a interface that inherit from command, because some command like save can not have undo
+
+```java
+public class HtmlDocument {
+  private String content;
+
+  public void makeBold() {
+    content = "<b>"+content+"</b>";
+  }
+}
+
+public interface Command {
+  public void execute();
+}
+
+public interface UndoableCommand extends Command {
+  public void unexecute();
+}
+
+public class History {
+  private Deque<UndoableCommand> commands = new ArrayDeque<>(); // double ended que
+
+  public void push(UndoableCommand command) {
+    commands.add(command);
+  }
+
+  public UndoableCommand pop() {
+    commands.pop();
+  }
+}
+
+public class BoldCommand implements UndoableCommand {
+  private String prevContent;
+  private HtmlDocument document;
+  private History history;
+
+  public BoldCommand(HtmlDocument document, History history) {
+    this.document = document;
+    this.history = history;
+  }
+
+  @override
+  public void execute() {
+    prevContent = document.getContent();
+    document.makeBold();
+    history.push(this)
+  }
+  
+  @override
+  public void unexecute() {
+    document.setContent(prevContent);
+  }
+}
+
+public class Main {
+  public static void main(String[] args) {
+    var history = new History();
+    var document = new HtmlDocument();
+    document.setContent("Hello World!");
+
+    var boldCommand = new BoldCommand(document, history);
+    boldCommand.execute();
+    system.out.println(document.getContent()); // <b>Hello World!</b>
+
+    boldCommand.unexecute();
+    system.out.println(document.getContent()); // Hello World!
+  }
+}
+```
+
+- can define one undo method for all command
+
+```java
+
+public class History {
+  private Deque<UndoableCommand> commands = new ArrayDeque<>(); // double ended que
+
+  public void push(UndoableCommand command) {
+    commands.add(command);
+  }
+
+  public UndoableCommand pop() {
+    commands.pop();
+  }
+
+  public int size() {
+    return commands.size();
+  }
+}
+
+public class UndoCommand implements Command {
+  private History history;
+  public UndoCommand(History history) {
+    this.history = history;
+  }
+
+  @override
+  public void execute() {
+    if(history.size() > 0)
+      history.pop().unexecute();
+  }
+}
+
+public class Main {
+  public static void main(String[] args) {
+    var history = new History();
+    var document = new HtmlDocument();
+    document.setContent("Hello World!");
+
+    var boldCommand = new BoldCommand(document, history);
+    boldCommand.execute();
+    system.out.println(document.getContent()); // <b>Hello World!</b>
+
+    var undoCommand = new UndoCommand(history);
+    undoCommand.execute();
+    system.out.println(document.getContent()); // Hello World!
+  }
+}
+```
+
 ## Reference
 
 - [Design Patterns in Plain English | Mosh Hamedani](https://www.youtube.com/watch?v=NU_1StN5Tkk&t=63s)
