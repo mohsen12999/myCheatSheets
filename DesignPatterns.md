@@ -565,6 +565,236 @@ public class Main {
 }
 ```
 
+## Observer Pattern
+
+change on object value effect on other object value.
+
+```java
+public interface Observer {
+  void update();
+}
+
+public class SpreadSheet implements Observer {
+  @override
+  void update() {
+    System.out.println("SpreadSheet got Notified");
+  }
+}
+
+public class Chart implements Observer {
+  @override
+  void update() {
+    System.out.println("Chart got Updated");
+  }
+}
+
+public class Subject { // observable class
+  private List<Observer> observers = new ArrayList<>();
+
+  void addObserver(Observer observer) {
+    observers.add(observer);
+  }
+
+  void removeObserver(Observer observer) {
+    observers.remove(observer);
+  }
+
+  void notifyObserver() {
+    for(var observer : observers)
+      observer.update();
+  }
+}
+
+public class DataSource extends Subject {
+  private int value;
+
+  public int getValue() {
+    return value;
+  }
+
+  public void setValue(int value) {
+    this.value = value;
+    notifyObserver();
+  }
+}
+
+public class Main {
+  public static void main(String[] args) {
+    var dataSource = new DataSource();
+    var sheet1 = new SpreadSheet();
+    var sheet2 = new SpreadSheet();
+    var chart = new Chart();
+
+    dataSource.addObserver(sheet1);
+    dataSource.addObserver(sheet2);
+    dataSource.addObserver(chart);
+
+    dataSource.setValue(1);
+    // SpreadSheet got Notified
+    // SpreadSheet got Notified
+    // Chart got Updated
+  }
+}
+```
+
+in this way only notify of changing. for sending data we have 2 way, `pull` and `push`
+
+### Push Style
+
+send data in update method
+
+```java
+public interface Observer {
+  void update(int value);
+}
+
+public class SpreadSheet implements Observer {
+  @override
+  void update(int value) {
+    System.out.println("SpreadSheet got Notified: " + value);
+  }
+}
+
+public class Chart implements Observer {
+  @override
+  void update(int value) {
+    System.out.println("Chart got Updated" + value);
+  }
+}
+
+public class Subject { // observable class
+  private List<Observer> observers = new ArrayList<>();
+
+  void addObserver(Observer observer) {
+    observers.add(observer);
+  }
+
+  void removeObserver(Observer observer) {
+    observers.remove(observer);
+  }
+
+  void notifyObserver(int value) {
+    for(var observer : observers)
+      observer.update(value);
+  }
+}
+
+public class DataSource extends Subject {
+  private int value;
+
+  public int getValue() {
+    return value;
+  }
+
+  public void setValue(int value) {
+    this.value = value;
+    notifyObserver(value);
+  }
+}
+
+public class Main {
+  public static void main(String[] args) {
+    var dataSource = new DataSource();
+    var sheet1 = new SpreadSheet();
+    var sheet2 = new SpreadSheet();
+    var chart = new Chart();
+
+    dataSource.addObserver(sheet1);
+    dataSource.addObserver(sheet2);
+    dataSource.addObserver(chart);
+
+    dataSource.setValue(1);
+    // SpreadSheet got Notified: 1
+    // SpreadSheet got Notified: 1
+    // Chart got Updated: 1
+  }
+}
+```
+
+### Pull Style
+
+observer concrete class connect with subject concrete class
+
+```java
+public interface Observer {
+  void update();
+}
+
+public class SpreadSheet implements Observer {
+  private DataSource dataSource;
+
+  public SpreadSheet(DataSource dataSource) {
+    this.dataSource = dataSource;
+  }
+
+  @override
+  void update() {
+    System.out.println("SpreadSheet got Notified:" + dataSource.getValue());
+  }
+}
+
+public class Chart implements Observer {
+  private DataSource dataSource;
+
+  public SpreadSheet(DataSource dataSource) {
+    this.dataSource = dataSource;
+  }
+
+  @override
+  void update() {
+    System.out.println("Chart got Updated:" + dataSource.getValue());
+  }
+}
+
+public class Subject { // observable class
+  private List<Observer> observers = new ArrayList<>();
+
+  void addObserver(Observer observer) {
+    observers.add(observer);
+  }
+
+  void removeObserver(Observer observer) {
+    observers.remove(observer);
+  }
+
+  void notifyObserver() {
+    for(var observer : observers)
+      observer.update();
+  }
+}
+
+public class DataSource extends Subject {
+  private int value;
+
+  public int getValue() {
+    return value;
+  }
+
+  public void setValue(int value) {
+    this.value = value;
+    notifyObserver();
+  }
+}
+
+public class Main {
+  public static void main(String[] args) {
+    var dataSource = new DataSource();
+    var sheet1 = new SpreadSheet();
+    var sheet2 = new SpreadSheet();
+    var chart = new Chart();
+
+    dataSource.addObserver(sheet1);
+    dataSource.addObserver(sheet2);
+    dataSource.addObserver(chart);
+
+    dataSource.setValue(1);
+    // SpreadSheet got Notified: 1
+    // SpreadSheet got Notified: 1
+    // Chart got Updated: 1
+  }
+}
+```
+
 ## Reference
 
 - [Design Patterns in Plain English | Mosh Hamedani](https://www.youtube.com/watch?v=NU_1StN5Tkk&t=63s)
