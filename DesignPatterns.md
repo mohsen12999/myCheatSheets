@@ -795,6 +795,216 @@ public class Main {
 }
 ```
 
+## Mediator Pattern
+
+- Mediator: abstract class
+- Concrete Mediator: extends from Mediator
+- Colleague: interface or abstract class
+- Concrete Colleague: several extend from Colleague
+
+```java
+public abstract class DialogBox { // Mediator
+  public abstract void change(UIControl control);
+}
+
+public class UIControl { // Colleague
+  protected DialogBox owner;
+
+  public UIControl(DialogBox dialogBox) {
+    this.owner = owner;
+  }
+}
+
+public class ListBox extends UIControl { // Concrete Colleague
+  private String selection;
+
+  public ListBox(DialogBox owner) {
+    super(owner);
+  }
+
+  public String getSection() {
+    return section;
+  }
+
+  public void setSelection(String selection) {
+    this.selection = selection;
+    owner.changed(this);
+  }
+}
+
+public class TextBox extends UIControl { // Concrete Colleague
+  private String content;
+
+  public TextBox(DialogBox owner) {
+    super(owner);
+  }
+
+  public String getContent() {
+    return section;
+  }
+
+  public void setContent(String content) {
+    this.content = content;
+    owner.changed(this);
+  }
+}
+
+public class Button extends UIControl { // Concrete Colleague
+  private boolean isEnable;
+
+  public Button(DialogBox owner) {
+    super(owner);
+  }
+
+  public String getIsEnable() {
+    return section;
+  }
+
+  public void setIsEnable(boolean isEnable) {
+    this.isEnable = isEnable;
+    owner.changed(this);
+  }
+}
+
+public class ArticlesDialogBox extends DialogBox { // Concrete Mediator
+  private ListBox articleListBox = new ListBox(this);
+  private TextBox titleTextBox = new TextBox(this);
+  private Button saveButton = new Button(this);
+
+  // for testing
+  public void simulateUserInteraction() {
+    articleListBox.setSelection("Article 1");
+    system.out.println("TextBox: " + titleTextBox.getContent() + " - Button: " + saveButton.IsEnabled());
+
+    titleTextBox.setContent("");
+    system.out.println("TextBox: " + titleTextBox.getContent() + " - Button: " + saveButton.IsEnabled());
+
+    titleTextBox.setContent("New Article");
+    system.out.println("TextBox: " + titleTextBox.getContent() + " - Button: " + saveButton.IsEnabled());
+  }
+  
+  @override
+  public void changed(UIControl control) {
+    if(control == articleListBox) { // article selected
+      titleTextBox.setContent(articleListBox)
+      saveButton.setIsEnable(true);
+    } else if(control == titleTextBox) { // title changed
+      var content = titleTextBox.getContent();
+      var isEmpty = (content ==null || content.isEmpty());
+      saveButton.setIsEnable(!isEmpty);
+    }
+  }
+}
+
+public class Main {
+  public static void main(String[] args) {
+    var dialog = new ArticlesDialogBox();
+  }
+}
+```
+
+### implementation using observer pattern
+
+```java
+public interface Observer {
+  void update();
+}
+
+public abstract class UIControl { // Colleague
+  private List<Observer> observers =  new ArrayList<>();
+
+  public void attach(Observer observer) {
+    observers.add(observer);
+  }
+
+  protected void notifyObserver() {
+    for (var observer in observers)
+      observer.update();
+  }
+}
+
+public class ListBox extends UIControl { // Concrete Colleague
+  private String selection;
+
+  public String getSection() {
+    return section;
+  }
+
+  public void setSelection(String selection) {
+    this.selection = selection;
+    notifyObserver();
+  }
+}
+
+public class TextBox extends UIControl { // Concrete Colleague
+  private String content;
+
+  public String getContent() {
+    return section;
+  }
+
+  public void setContent(String content) {
+    this.content = content;
+    notifyObserver();
+  }
+}
+
+public class Button extends UIControl { // Concrete Colleague
+  private boolean isEnable;
+
+  public String getIsEnable() {
+    return section;
+  }
+
+  public void setIsEnable(boolean isEnable) {
+    this.isEnable = isEnable;
+    notifyObserver();
+  }
+}
+
+public class ArticlesDialogBox{ // Concrete Mediator
+  private ListBox articleListBox = new ListBox();
+  private TextBox titleTextBox = new TextBox();
+  private Button saveButton = new Button();
+
+  public ArticlesDialogBox() {
+    // articleListBox.attach(new observer() {
+    //   @override
+    //   public void update() {
+    //     titleTextBox.setContent(articleListBox);
+    //     saveButton.setIsEnable(true);
+    //   }
+    // })
+
+    articleListBox.attach(()->{
+        titleTextBox.setContent(articleListBox);
+        saveButton.setIsEnable(true);
+      });
+
+    titleTextBox.attach(()->{
+      var content = titleTextBox.getContent();
+      var isEmpty = (content ==null || content.isEmpty());
+      saveButton.setIsEnable(!isEmpty);
+    });
+  }
+}
+
+public class Main {
+  public static void main(String[] args) {
+    var dialog = new ArticlesDialogBox();
+  }
+}
+```
+
+## Chain of Responsibility
+
+## Visitor Pattern
+
 ## Reference
 
 - [Design Patterns in Plain English | Mosh Hamedani](https://www.youtube.com/watch?v=NU_1StN5Tkk&t=63s)
+
+## Read more
+
+- [Refactoring](https://refactoring.guru/)
+- [SourceMaking](https://sourcemaking.com/)
