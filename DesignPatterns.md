@@ -998,6 +998,89 @@ public class Main {
 
 ## Chain of Responsibility
 
+- make link list of responsibility
+
+```java
+public abstract class Handler {
+  private Handler handler;
+
+  public Handler (Handler next) {
+    this.next = next;
+  }
+
+  public void handle(HttpRequest request) {
+    if(doHandle(request))
+      return;
+
+    if(next != null)  
+      next.handle(request);
+  }
+
+  public abstract boolean doHandle(HttpRequest request);
+}
+
+public class Authenticator extends Handler {
+  public Authenticator (Handler next) {
+    super(next)
+  }
+
+  @override
+  public boolean doHandle(HttpRequest request) {
+    var isValid = (request.getUserName() == "admin" && request.getPassword() == "1234");
+
+    system.out.println("Authenticated");
+    return !isValid;
+  }
+}
+
+public class Compressor extends Handler {
+  public Compressor (Handler next) {
+    super(next)
+  }
+
+  @override
+  public boolean doHandle(HttpRequest request) {
+    system.out.println("Compress");
+    return false;
+  }
+}
+
+public class Logger extends Handler {
+  public Logger (Handler next) {
+    super(next)
+  }
+
+  @override
+  public boolean doHandle(HttpRequest request) {
+    system.out.println("Log");
+    return false;
+  }
+}
+
+public class WebServer {
+  private Handler handler;
+
+  public WebServer (Handler next) {
+    this.handler = handler;
+  }
+
+  public void handle(HttpRequest request) {
+    handler.handle(request);
+  }
+}
+
+public class Main {
+  public static void main(String[] args) {
+    // authenticate -> logger -> compressor
+    var compressor = new Compressor(null);
+    var logger = new Logger(compressor);
+    var authenticator = new Authenticator(logger);
+    var server = new WebServer(authenticator);
+    server.handle(new HttpRequest("admin","1234"));
+  }
+}
+```
+
 ## Visitor Pattern
 
 ## Reference
