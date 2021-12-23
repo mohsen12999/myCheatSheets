@@ -7,17 +7,16 @@
 [ ] - WebSockets
 [ ] - GraphQL
 [ ] - SCSS
-[ ] - SCSS
 [ ] - Vue.js
+[ ] - Redis
 [ ] - ElasticSearch
 [ ] - Python flask
 [ ] - Java Spring
 [ ] - Kafka
-[ ] - Redis
 [ ] - RabbitMQ
 [ ] - Kubernetes
 [ ] - Ansible
-[ ] - Amazon
+[ ] - AWS
 
 ## Book
 
@@ -28,3 +27,19 @@
 ## Skill
 
 [ ] - learning 10 finger typing
+
+## Travel bag
+
+- big backpack
+  - shaver
+  - 10 set of under wear
+  - little pack of tea
+  - some cookies
+
+- laptop bag
+  - tablet
+  - headphone
+  - charger for phones
+  - both phone
+
+- wear blue jacket
