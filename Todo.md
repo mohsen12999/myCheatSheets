@@ -43,3 +43,14 @@
   - both phone
 
 - wear blue jacket
+
+## tv series
+
+- mr. robot
+- sopranos
+- twin peaks
+  - season one
+  - season two
+  - Twin Peaks: Fire Walk with Me
+  - Twin Peaks: The Missing Pieces
+  - season tree -> Twin Peaks: The Return
