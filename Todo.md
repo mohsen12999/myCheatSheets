@@ -33,8 +33,10 @@
 - big backpack
   - shaver
   - 10 set of under wear
+  - 10 pair of socks
   - little pack of tea
   - some cookies
+  - shoes, suits, tie, TShirts
 
 - laptop bag
   - tablet
@@ -42,7 +44,7 @@
   - charger for phones
   - both phone
 
-- wear blue jacket
+- wear blue jacket and boots
 
 ## tv series
 
@@ -54,3 +56,4 @@
   - Twin Peaks: Fire Walk with Me
   - Twin Peaks: The Missing Pieces
   - season tree -> Twin Peaks: The Return
+- silicon valley
