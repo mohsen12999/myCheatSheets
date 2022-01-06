@@ -1224,7 +1224,7 @@ public class Main {
 
 - make class for using class in certain shape
 
-![Composite Pattern](./img/AdapterPattern.jpg)
+![Adapter Pattern](./img/AdapterPattern.jpg)
 
 ```java
 public class Image {}
@@ -1280,6 +1280,70 @@ public class Main {
     imageView.applyFilter(new VividFilter());
 
     imageView.applyFilter(new CaramelFilter(new Caramel()));
+  }
+}
+```
+
+## Decorator Pattern
+
+- like adapter pattern but here add additional behavior
+
+![Decorator Pattern](./img/DecoratorPattern.jpg)
+
+```java
+public interface Stream { // Component
+  void write(String data);
+}
+
+public class CloudStream implements Stream { // Concrete Component 
+  @override
+  void write(String data){
+    System.out.println("Storing " + data);
+  }
+}
+
+public class CompressedCloudStream implements Stream { // Decorator
+  private Stream stream;
+
+  public CompressedCloudStream(Stream stream) {
+    this.stream = stream;
+  }
+
+  @override
+  void write(String data){
+    var compressed = compress(data);
+    stream.write(compressed);
+  }
+
+  private String compress(String data) { return data.substring(0,5); }
+}
+
+public class EncryptedCloudStream implements Stream { // Decorator
+  private Stream stream;
+
+  public EncryptedCloudStream(Stream stream) {
+    this.stream = stream;
+  }
+
+  @override
+  void write(String data){
+    var encrypted = encrypt(data);
+    stream.write(encrypted);
+  }
+
+  private String encrypt(String data) { return "%$#%&^&%^%@#$6" }
+}
+
+public class Main {
+  public static void main(String[] args) {
+    storeCreditCard(new CloudStream());  // -> Storing 1234-1234-1234-1234
+    storeCreditCard(new EncryptedCloudStream(new CloudStream()));  // -> Storing %$#%&^&%^%@#$6
+    storeCreditCard(new CompressedCloudStream(new CloudStream()));  // -> Storing 1234-
+    storeCreditCard(new EncryptedCloudStream(new CompressedCloudStream(new CloudStream())));  // -> Storing %$#%&^&%^%@#$6
+  }
+
+  public static void storeCreditCard(Stream stream) {
+    stream.write("1234-1234-1234-1234");
   }
 }
 ```
