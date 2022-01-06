@@ -1200,6 +1200,88 @@ public class Group implements Component{
       component.render();
   }
 }
+
+public class Main {
+  public static void main(String[] args) {
+    var group1 = new Group();
+    group1.add(new Component());
+    group1.add(new Component());
+
+    var group2 = new Group();
+    group2.add(new Component());
+    group2.add(new Component());
+
+    var group = new Group();
+    group1.add(group1);
+    group1.add(group2);
+
+    group.render();
+  }
+}
+```
+
+## Adapter Pattern
+
+- make class for using class in certain shape
+
+![Composite Pattern](./img/AdapterPattern.jpg)
+
+```java
+public class Image {}
+
+public interface Filter {
+  void apply(Image image);
+}
+
+public class vividFilter implements Filter { // implements simple filter directly
+  @override
+  void apply(Image image) {
+    System.out.println("apply vivid filter");
+  }
+}
+
+public class Caramel { // not implement interface - need adapter
+  public void init() {}
+
+  public void render(Image image) {
+    System.out.println("apply caramel filter");
+  }
+}
+
+public class CaramelFilter implements Filter { // adapter class for caramel
+  private Caramel caramel;
+
+  public CaramelFilter(Caramel caramel) {
+    this.caramel = caramel;
+  }
+
+  @override
+  void apply(Image image) {
+    caramel.init()
+    caramel.render(image);
+  }
+}
+
+public class ImageView {
+  private Image image;
+
+  public ImageView(Image image) {
+    this.image = image;
+  }
+
+  public applyFilter(Filter filter) {
+    filter.apply();
+  }
+}
+
+public class Main {
+  public static void main(String[] args) {
+    var imageView = new ImageView(new Image());
+    imageView.applyFilter(new VividFilter());
+
+    imageView.applyFilter(new CaramelFilter(new Caramel()));
+  }
+}
 ```
 
 ## Reference
