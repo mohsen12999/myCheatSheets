@@ -17,6 +17,8 @@
 [ ] - Kubernetes
 [ ] - Ansible
 [ ] - AWS
+[ ] - github business
+[ ] - network
 
 ## Book
 
