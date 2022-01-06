@@ -1348,6 +1348,60 @@ public class Main {
 }
 ```
 
+## Facade Pattern
+
+- facade means cover or fraud
+- encapsulation all functionality to one class and use it where we need
+
+![Facade Pattern](./img/FacadePattern.jpg)
+
+```java
+public class Message {
+  private String content;
+
+  public Message(String content) {
+    this.content = content;
+  }
+}
+
+public class Connection {
+  public void disconnect();
+}
+
+public class AuthToken { }
+
+public class NotificationServer {
+  public Connection connect(String ipAddress) {
+    return new Connection();
+  }
+
+  public AuthToken authentication(String appID, String key) {
+    return new AuthToken();
+  }
+
+  public void send(AuthToken authToken, Message message, String target) {
+    System.out.println("Sending a message");
+  }
+}
+
+public class NotificationService {
+  public void send(String message, String target) {
+    var server = new NotificationServer();
+    var connection = server.connect("ip");
+    var authToken = server.authenticate("appID","key");
+    server.send(authToken, new Message(message), target);
+    connection.close();
+  }
+}
+
+public class Main {
+  public static void main(String[] args) {
+    var service = new NotificationService();
+    service.send("Hello World!","target");
+  }
+}
+```
+
 ## Reference
 
 - [Design Patterns in Plain English | Mosh Hamedani](https://www.youtube.com/watch?v=NU_1StN5Tkk&t=63s)
