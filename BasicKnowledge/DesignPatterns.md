@@ -40,7 +40,7 @@ best way for implementation undo
 - originator: main class, use momento as state class, dependency relationship
 - caretaker: list of state, with push and pop state method, composition relationship
 
-![Memento Pattern](./MementoPattern.jpg)
+![Memento Pattern](./img/MementoPattern.jpg)
 
 ```java
 public class EditorState {
@@ -116,7 +116,7 @@ allow object behave different when state changes
 - Context
 - Concrete states - classes inherit from State class and implement handle methods differently
 
-![State Pattern](./StatePattern.jpg)
+![State Pattern](./img/StatePattern.jpg)
 
 ```java
 public interface Tool {
@@ -181,7 +181,7 @@ public class Main {
 - iterator class as interface for implementation
 - implementation in different shape
 
-![Iterator Pattern](./IteratorPattern.jpg)
+![Iterator Pattern](./img/IteratorPattern.jpg)
 
 ```java
 public interface Iterator { // Iterator<T>
@@ -253,7 +253,7 @@ public class Main {
 - use when you need to choose different strategy with polymorphisms
 - similar to state strategy but not depend on state
 
-![Strategy Pattern](./StrategyPattern.jpg)
+![Strategy Pattern](./img/StrategyPattern.jpg)
 
 ```java
 public interface Compressor {
@@ -323,7 +323,7 @@ public class Main {
 
 - using inheritance for preventing duplication method in classes
 
-![Template Method Pattern](./TemplateMethodPattern.jpg)
+![Template Method Pattern](./img/TemplateMethodPattern.jpg)
 
 ```java
 public abstract class Task {
@@ -378,7 +378,7 @@ public class Main {
 - concreteCommand: method class implement the command interface
 - receiver: class determine the job/method use concreteCommand
 
-![Command Pattern](./CommandPattern.jpg)
+![Command Pattern](./img/CommandPattern.jpg)
 
 ```java
 public interface Command { // Command
@@ -581,7 +581,7 @@ public class Main {
 
 change on object value effect on other object value.
 
-![Observer Pattern](./ObserverPattern.jpg)
+![Observer Pattern](./img/ObserverPattern.jpg)
 
 ```java
 public interface Observer {
@@ -657,7 +657,7 @@ in this way only notify of changing. for sending data we have 2 way, `pull` and 
 
 send data in update method
 
-![Push Style Observer Pattern](./ObserverPattern_PushStyle.jpg)
+![Push Style Observer Pattern](./img/ObserverPattern_PushStyle.jpg)
 
 ```java
 public interface Observer {
@@ -731,7 +731,7 @@ public class Main {
 
 observer concrete class connect with subject concrete class
 
-![Pull Style Observer Pattern](./ObserverPattern_PullStyle.jpg)
+![Pull Style Observer Pattern](./img/ObserverPattern_PullStyle.jpg)
 
 ```java
 public interface Observer {
@@ -820,7 +820,7 @@ public class Main {
 - Colleague: interface or abstract class
 - Concrete Colleague: several extend from Colleague
 
-![Mediator Pattern](./MediatorPattern.jpg)
+![Mediator Pattern](./img/MediatorPattern.jpg)
 
 ```java
 public abstract class DialogBox { // Mediator
@@ -1020,7 +1020,7 @@ public class Main {
 
 - make link list of responsibility
 
-![Chain of Responsibility Pattern](./ChainOfResponsibility.jpg)
+![Chain of Responsibility Pattern](./img/ChainOfResponsibility.jpg)
 
 ```java
 public abstract class Handler {
@@ -1108,7 +1108,7 @@ public class Main {
 - use polymorphisms for use multiple form of method
 - use when object is stable and for add new operation
 
-![Visitor Pattern](./VisitorPattern.jpg)
+![Visitor Pattern](./img/VisitorPattern.jpg)
 
 ```java
 public interface Operation { // visitor interface
@@ -1173,7 +1173,7 @@ public class Main {
 
 - class has child of own - like folders
 
-![Composite Pattern](./CompositePattern.jpg)
+![Composite Pattern](./img/CompositePattern.jpg)
 
 ```java
 public interface Component {
