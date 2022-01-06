@@ -1169,6 +1169,39 @@ public class Main {
 
 - it's easy to add operation, just make class inherit of Operation interface and implement the methods
 
+## Composite Pattern
+
+- class has child of own - like folders
+
+![Composite Pattern](./CompositePattern.jpg)
+
+```java
+public interface Component {
+  void render();
+}
+
+public class Shape implements Component{
+  @override
+  public void render() {
+    System.out.println("Render Shape");
+  }
+}
+
+public class Group implements Component{
+  private List<Component> components = new ArrayList<>();
+
+  public void add(Component component) {
+    components.add(component);
+  }
+
+  @override
+  public void render() {
+    for (var component : components)
+      component.render();
+  }
+}
+```
+
 ## Reference
 
 - [Design Patterns in Plain English | Mosh Hamedani](https://www.youtube.com/watch?v=NU_1StN5Tkk&t=63s)
