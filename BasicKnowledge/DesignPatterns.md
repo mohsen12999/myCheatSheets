@@ -1402,6 +1402,94 @@ public class Main {
 }
 ```
 
+## Flyweight Pattern
+
+- when we can use object we can share
+- separate the data we need to share in flyweight class and implement the factory for cache the object
+- point and icon related together, we can use them as class and save in caches or pool of objects
+
+![Flyweight Pattern](./img/FlyweightPattern.jpg)
+
+```java
+public enum PointType {
+  HOSPITAL,
+  CAFE,
+  RESTAURANT
+}
+
+public class Point {
+  private int x;
+  private int y;
+  // private PointType type;
+  // private byte[] icon;
+  private PointIcon icon;
+
+  public Point(int x, int y, PointIcon icon) {
+    this.x = x;
+    this.y = y;
+    this.icon = icon;
+  }
+
+  public void draw() {
+    System.out.printf("%s at (%d, %d)", icon.getType(), x ,y);
+  }
+}
+
+public class PointIcon {
+  private final PointType type; // final means read only and can't have setter
+  private final byte[] icon;
+
+  public Point(PointType type, byte[] icon) {
+    this.type = type;
+    this.icon = icon;
+  }
+
+  public PointType getType() {
+    return type;
+  }
+}
+
+public class PointIconFactory {
+  // cache: key -> value
+  // PointType -> PointIcon
+  private Map<PointType, PointIcon> icons = new HashMap<>();
+
+  public PointIcon getPointIcon(PointType type) {
+    if(!icons.containsKey(type)) {
+      var icon = new PointIcon(type, null); // cafe.jpg -> byte[]
+      icons.put(type,icon);
+    }
+
+    return icons.get(type);
+  }
+}
+
+public class PointService {
+  private PointIconFactory iconFactory;
+
+  public PointService(PointIconFactory iconFactory) {
+    this.iconFactory = iconFactory
+  }
+
+  Public List<Point> getPoints() {
+    List<Point> points = new ArrayList<>();
+    var point = new Point(1, 2, iconFactory.getPOintIcon(PointType.CAFE));
+    points.add(point);
+
+    return points;
+  }
+}
+
+
+public class Main {
+  public static void main(String[] args) {
+    var service = new PointService();
+    for (var point: service.getPoint())
+      point.draw();
+  }
+}
+```
+
 ## Reference
 
 - [Design Patterns in Plain English | Mosh Hamedani](https://www.youtube.com/watch?v=NU_1StN5Tkk&t=63s)
