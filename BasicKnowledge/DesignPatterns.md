@@ -1480,12 +1480,110 @@ public class PointService {
   }
 }
 
-
 public class Main {
   public static void main(String[] args) {
     var service = new PointService();
     for (var point: service.getPoint())
       point.draw();
+  }
+}
+```
+
+## Bridge Pattern
+
+- when you need to grow class in two way
+have two septate hierarchy
+
+![Bridge Pattern](./img/BridgePattern.jpg)
+
+```java
+public interface Device {
+  void turnOn();
+  void turnOff();
+  void setChannel(int number);
+}
+
+public class SonyTV implements Device {
+  @Override
+  void turnOn() {
+    System.out.println("Sony: turnon");
+  }
+
+  @Override
+  void turnOff() {
+    System.out.println("Sony: turnoff");
+  }
+
+  @Override
+  void setChannel(int number) {
+    System.out.println("Sony: setChannel");
+  }
+}
+
+public class RemoteControl {
+  protected Device device;
+
+  public RemoteControl(Device device) {
+    this.device = device
+  }
+
+  void turnOn() {
+    device.turnOn();
+  }
+
+  void turnOff() {
+    device.turnOff();
+  }
+}
+
+public class AdvanceRemoteControl extends RemoteControl {
+  public AdvanceRemoteControl(Device device) {
+    super(device);
+  }
+
+  public void setChannel(int number) {
+    device.setChannel(number);
+  }
+}
+
+public class Main {
+  public static void main(String[] args) {
+    var remoteControl = new RemoteControl(new SonyTV());
+    remoteControl.turnOn();
+
+    var remoteControl = new AdvancedRemoteControl(new SonyTV());
+    remoteControl.setChannel(7);
+  }
+}
+```
+
+- add new tv brand
+
+```java
+public class SamsungTV implements Device {
+  @Override
+  void turnOn() {
+    System.out.println("Samsung: turnon");
+  }
+
+  @Override
+  void turnOff() {
+    System.out.println("Samsung: turnoff");
+  }
+
+  @Override
+  void setChannel(int number) {
+    System.out.println("Samsung: setChannel");
+  }
+}
+
+public class Main {
+  public static void main(String[] args) {
+    var remoteControl = new RemoteControl(new SamsungTV());
+    remoteControl.turnOn();
+
+    var remoteControl = new AdvancedRemoteControl(new SamsungTV());
+    remoteControl.setChannel(7);
   }
 }
 ```
