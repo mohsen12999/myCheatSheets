@@ -1492,7 +1492,7 @@ public class Main {
 ## Bridge Pattern
 
 - when you need to grow class in two way
-have two septate hierarchy
+- have two septate hierarchy
 
 ![Bridge Pattern](./img/BridgePattern.jpg)
 
@@ -1584,6 +1584,87 @@ public class Main {
 
     var remoteControl = new AdvancedRemoteControl(new SamsungTV());
     remoteControl.setChannel(7);
+  }
+}
+```
+
+## Proxy Pattern
+
+- between two object for logging / access control / caching
+
+![Proxy Pattern](./img/ProxyPattern.jpg)
+
+```java
+public interface Ebook {
+  void show();
+  String getFileName();
+}
+
+public class RealEbook implements Ebook {
+  private String fileName;
+
+  public RealEbook(String fileName) {
+    this.fileName = fileName;
+    load();
+  }
+
+  private void load() {
+    System.out.println("Load the ebook " + fileName);
+  }
+
+  @Override
+  public void show() {
+    System.out.println("Show the ebook " + fileName);
+  }
+
+  @Override
+  public String getFileName {
+    return fileName;
+  }
+}
+
+public class EbookProxy implements Ebook {
+  private String fileName;
+  private RealEbook ebook;
+
+  public RealEbook(String fileName) {
+    this.fileName = fileName;
+  }
+
+  @Override
+  public void show() {
+    if(ebook == null)
+      ebook = new RealEbook(fileName); // loading only when you need
+    
+    ebook.show();
+  }
+
+  @Override
+  public String getFileName {
+    return fileName;
+  }
+}
+
+public class Library {
+  private Map<String, Ebook> ebooks = new HashMap<>();
+
+  public void add(Ebook ebook) {
+    ebooks.put(ebook.getFileName(), Ebook);
+  }
+
+  public void openEbook(String fileName) {
+    ebooks.get(fileName).show();
+  }
+}
+
+public class Main {
+  public static void main(String[] args) {
+    var library = new Library();
+    String[] fileNames = {"a","b", "c"};
+    for (var fileName in fileNames)
+      library.add(new EbookProxy(fileName));
+
+    library.openEbook("a");
   }
 }
 ```
