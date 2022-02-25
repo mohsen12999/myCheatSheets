@@ -23,14 +23,6 @@
 - say thanks
 - 3 paragraph: who are you, how you can help in project, how you can help company
 
-## interview
-
-- why us: like your field of work, production, marketing strategy, technology
-- strong point: learn new skill when needed, problem solving, making prototype or MVP (Minimum viable product), working with customer, working on limited time.
-- weak point: soft skill -> try to solve it, know about other science -> psychology, Philosophy, Sociology
-- last technology: develop both front-end and back-end separately and connect with web-API making PWA (Progressive Web Application) with ReactJs, TypeScript, Redux and Dot Net core Web API
-- best achievement: Found my own company, solve problem with learning new things
-
 ## behavioral question
 
 - have energy and courage
