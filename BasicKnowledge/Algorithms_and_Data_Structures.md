@@ -42,6 +42,11 @@ any algorithm under Polynomial runtime consider efficient and likely to be use i
 - Exponential Runtime: O(X ^ n) -> brute force for password
 - Combinatorial: O(n!) -> Traveling Salesman
 
+## Space Complexity
+
+- for linear search space in O(1) -> constance space or equal to list size
+- if implement binary search with recursive model -> O(log n)
+
 ## Reference
 
 - [Algorithms and Data Structures Tutorial Full Course for Beginners](https://www.youtube.com/watch?v=8hly31xKli0)
