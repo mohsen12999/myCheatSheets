@@ -1,5 +1,10 @@
 # interview
 
+## Behavioral interview point
+
+https://www.youtube.com/watch?v=XZackwz_Shk&t=1243s
+https://www.youtube.com/watch?v=PJKYqLP6MRE
+
 ## Why Us
 
 - field of work
