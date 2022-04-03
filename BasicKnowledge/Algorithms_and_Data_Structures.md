@@ -28,7 +28,6 @@ two measure for Algorithm:
 
 `Order of magnitude of complexity`. Theoretical definition of the complexity of an algorithm as a function of the size.
 
-
 - Constant time: O(1)
 - Linear Search: O(n)
 - Binary Search: O(log n) -> known as subLinear
@@ -328,6 +327,101 @@ def merge(left, right):
   merged.head = head
 
   return merged
+```
+
+### Bogo Sort
+
+- for get data from command line `import sys` and `first_arg = sys.argv[1]`
+
+```py
+import random
+import sys
+
+def is_sorted(values):
+  for index in range(len(values) -1):
+    if values[index] > values[index+1]:
+      return false
+  return True
+
+def bogo_sort(values):
+  while not is_sorted(values):
+    random.shuffle(values)
+  return values
+```
+
+### Selection Sort
+
+- O(n^2)
+
+```py
+def selection_sort(values):
+  sorted_list = []
+  for i in range(0, len(values)):
+    index_to_move = index_of_min(values)
+    sorted_list.append(value.pop(index_to_move))
+  return sorted_list
+
+def index_of_min(values):
+  min_index = 0
+  for i in range(1, len(values)):
+    if values[i] < values[min_index]:
+      min_index = i
+  return min_index
+```
+
+### Recursion
+
+```py
+def sum(numbers):
+  if not numbers:
+    return 0
+  remain_sum = sum(number[1:])
+  return numbers[0] + remain_sum
+```
+
+### Quick Sort
+
+- best case O(n log n), worst O(n^2)
+
+```py
+def quicksort(values):
+  if len(values) <= 1:
+    return values
+  less_than_pivot = []
+  greater_than_pivot = []
+  pivot = []
+  for value in values[1:]:
+    if value <= pivot:
+      less_than_pivot.append(value)
+    else:
+      greater_than_pivot.append(value)
+  return quicksort(less_than_pivot) + [pivot] + quicksort(greater_than_pivot)
+```
+
+### Merge Sort
+
+- O(n log n)
+
+```py
+def merge_sort(values):
+  if len(values) <= 1:
+    return values
+  middle_index = len(values) // 2
+  left_values = merge_sort(values[:middle_index])
+  right_values = merge_sort(values[middle_index:])
+  sorted_values = []
+  left_index = 0
+  right_index = 0
+  while left_index < len(left_values) and right_index < len(right_values):
+    if left_values[left_index] < right_values[right_index]:
+      sorted_values.append(left_values[left_index])
+      left_index += 1
+    else:
+      sorted_values.append(right_values[right_index])
+      right_index += 1
+  sorted_values += left_values[left_index:]
+  sorted_values += right_values[right_index:]
+  return sorted_values
 ```
 
 ## Reference
