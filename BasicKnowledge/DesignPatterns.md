@@ -1669,6 +1669,40 @@ public class Main {
 }
 ```
 
+## Prototype
+
+- Create new objects by copying an existing object
+
+![Prototype Pattern](./img/PrototypePattern.jpg)
+
+```java
+public interface Component {
+  void render();
+  Component clone();
+}
+
+public class Circle implements Component {
+  private int radius; // with getter and setter
+
+  @Override
+  public void render() {}
+
+  @Override
+  public Component clone() {
+    Circle newCircle = new Circle();
+    newCircle.setRadius(radius);
+    return newCircle;
+  }
+}
+
+public class ContextMenu {
+  public void duplicate(Component component) {
+    Component newComponent = component.clone();
+    // add new component to our document
+  }
+}
+```
+
 ## Reference
 
 - [Design Patterns in Plain English | Mosh Hamedani](https://www.youtube.com/watch?v=NU_1StN5Tkk&t=63s)
