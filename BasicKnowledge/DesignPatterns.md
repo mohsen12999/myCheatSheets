@@ -1703,6 +1703,42 @@ public class ContextMenu {
 }
 ```
 
+### Singleton Pattern
+
+- to insure a class has single instance
+
+![Singleton Pattern](./img/SingletonPattern.jpg)
+
+```java
+public class ConfigManager {
+  private Map<String, Object> setting = new HashMap<>();
+  public ConfigManager instance = new ConfigManager();
+  private ConfigManager() {}
+
+  public ConfigManager getInstance() {
+    return instance;
+  }
+
+  public void set(String key, Object value) {
+    setting.set(key,value);
+  }
+
+  public Object get(String key) {
+    return setting.get(key);
+  }
+}
+
+public class Main {
+  public static void main(String[] args) {
+    public ConfigManager manager = ConfigManager.getInstance();
+    manager.set("name", "mosh");
+
+    public ConfigManager other = ConfigManager.getInstance();
+    system.out.println(other.get("name")); // mosh
+  }
+}
+```
+
 ## Reference
 
 - [Design Patterns in Plain English | Mosh Hamedani](https://www.youtube.com/watch?v=NU_1StN5Tkk&t=63s)
