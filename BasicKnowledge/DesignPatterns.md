@@ -1794,6 +1794,59 @@ public class ProductController extends Controller { // use MatchaViewEngine
 }
 ```
 
+## Abstract Factory Pattern
+
+- Provide an interface for creating families of related objects
+
+![Abstract Factory Pattern](./img/AbstractFactoryPattern.jpg)
+
+```java
+public interface Widget {
+  void render();
+}
+
+public interface WidgetFactory {
+  Button createButton();
+  TextBox createTextBox();
+}
+
+public interface Button extends Widget { }
+
+public interface TextBox extends Widget { }
+
+public class MaterialWidgetFactory implements WidgetFactory {
+  @Override
+  public Button createButton() {
+    return new MaterialButton();
+  }
+  @Override
+  public TextBox createTextBox() {
+    return new MaterialTextBox();
+  }
+}
+
+public class MaterialButton implements Button {
+  @Override
+  public void render() {
+    System.out.println("Material Button")
+  }
+}
+
+public class MaterialTextBox implements TextBox {
+  @Override
+  public void render() {
+    System.out.println("Material TextBox")
+  }
+}
+
+public class ContactForm {
+  public void render(WidgetFactory factory) {
+    factory.createButton().render();
+    factory.createTextBox().render();
+  }
+}
+```
+
 ## Reference
 
 - [Design Patterns in Plain English | Mosh Hamedani](https://www.youtube.com/watch?v=NU_1StN5Tkk&t=63s)
