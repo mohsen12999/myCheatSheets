@@ -1847,6 +1847,67 @@ public class ContactForm {
 }
 ```
 
+## Builder Pattern
+
+- To separate the construction of an object from its representation
+
+![Builder Pattern](./img/BuilderPattern.jpg)
+
+```java
+public class Slide {
+  private String text;
+
+  public Slide(String text) {
+    this.text = text;
+  }
+
+  public String getText() {
+    return text;
+  }
+}
+
+public class Presentation {
+  private List<Slide> slides =  new ArrayList<>();
+
+  public void addSlide(Slide slide) { slides.add(slide); }
+
+  public void export(PresentationBuilder builder) {
+    builder.addSlide(new Slide("Copyright"));
+    for (Slide slide:slides)
+      builder.addSlide(slide);
+  }
+}
+
+public interface PresentationBuilder {
+  void addSlide(Slide slide);
+}
+
+public class PdfDocumentBuilder implements PresentationBuilder {
+  private PdfDocument document = new PdfDocument();
+  
+  @Override
+  public void addSlide(Slide slide) {
+    document.addPage(slide.getText());
+  }
+
+  public PdfDocument getPdfDocument() {
+    return document;
+  }
+}
+
+public class Main {
+  public static void main(String[] args) {
+    var presentation = new Presentation();
+    presentation.addSlide(new Slide("slide 1"));
+    presentation.addSlide(new Slide("slide 2"));
+
+    var builder = new PdfDocumentBuilder();
+    presentation.export(builder);
+    builder.getPdfDocument();
+  }
+}
+```
+
 ## Reference
 
 - [Design Patterns in Plain English | Mosh Hamedani](https://www.youtube.com/watch?v=NU_1StN5Tkk&t=63s)
