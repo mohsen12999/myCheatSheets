@@ -1739,6 +1739,61 @@ public class Main {
 }
 ```
 
+## Factory Method Pattern
+
+- Defer the creation of an object to subclass
+
+![Factory Pattern](./img/FactoryPattern.jpg)
+
+```java
+public interface ViewEngine {
+  public String render(String viewName, Map<String, Object> context);
+}
+
+public class MatchaViewEngine implements ViewEngine {
+  @Override
+  public String render(String viewName, Map<String, Object> context) {
+    return "View render by Matcha"
+  }
+}
+
+public class SharpViewEngine implements ViewEngine {
+  @Override
+  public String render(String viewName, Map<String, Object> context) {
+    return "View render by Sharp"
+  }
+}
+
+public class Controller {
+  public void render(String viewName, Map<String, Object> context) {
+    var engine = CreateViewEngine();
+    var html = engine.render(viewName, context);
+    System.out.println(html);
+  }
+
+  protected ViewEngine CreateViewEngine() { // or use abstract
+    return new MatchaViewEngine();
+  }
+}
+
+public class SharpController extends Controller {
+  @Override
+  protected ViewEngine CreateViewEngine() { // or use abstract
+    return new SharpViewEngine();
+  }
+}
+
+public class ProductController extends Controller { // use MatchaViewEngine
+// public class ProductController extends SharpController {  // use SharpViewEngine
+  public void listProducts() {
+    // Get products from a database
+    Map<String, Object> context = new HashMap<>();
+    // context.put(products)
+    render(products.html,context);
+  }
+}
+```
+
 ## Reference
 
 - [Design Patterns in Plain English | Mosh Hamedani](https://www.youtube.com/watch?v=NU_1StN5Tkk&t=63s)
