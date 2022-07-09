@@ -67,6 +67,26 @@ log.trace('show only when in trace level');
   - `management.application.version=0.0.1`
 - show all available endpoint `management.endpoint.web.exposure.include=*`
 
-## Reference
+## MVC
 
+### Model
+
+- use JPA (java persistence package) or `javax.persistence` package for making database model.
+- `@Entity` before class name for show it is class.
+- `@Id` for show properties is primary key.
+- `@GenerateValue` making field auto generate value.
+- `@Column(name="", nullable=false, length=512)` for string fields.
+- `@Transient` field not save in database.
+- more infor in [Java Persistence](https://docs.oracle.com/javaee/7/api/javax/persistence/package-summary.html) 
+
+- most add constructor, setter and getter for all field and override toString, equel and hash code.
+- can use [`Project Lombok`](https://projectlombok.org/) to make this code for us.
+- must enable `annotation proccesing` in setting of editor.
+- `@NoArgsConstructor` to make constructor without argument.
+- `@NonNull`: field is not nullable.
+- `@Data`: A shortcut for @ToString, @EqualsAndHashCode, @Getter on all fields, and @Setter on all non-final fields, and @RequiredArgsConstructor!
+
+- repository, can choose between crud, paging and sorting and jpa repository. jpa repository extended from both crud and pagind and sorting repository.
+
+## Refrence
 - [Getting Started with Spring Boot 2](https://www.udemy.com/course/spring-boot-2/) by [Dan Vega](https://www.danvega.dev/)
