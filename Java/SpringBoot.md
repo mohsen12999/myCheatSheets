@@ -88,6 +88,49 @@ log.trace('show only when in trace level');
 
 - repository, can choose between crud, paging and sorting and jpa repository. jpa repository extended from both crud and paging and sorting repository.
 
+### Query Methods
+
+- define method for using in application mor info [query methods](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repositories.query-methods).
+
+### Relation and Mapping
+
+- [oneToMany doc](https://docs.oracle.com/javaee/7/api/javax/persistence/OneToMany.html)
+- good article [Map Associations with JPA and Hibernate – The Ultimate Guide](https://thorben-janssen.com/ultimate-guide-association-mappings-jpa-hibernate/)
+
+### Auditing
+
+- add meta data with [Auditing](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#auditing)
+
+## Database
+
+- [common properties](https://docs.spring.io/spring-boot/docs/1.1.6.RELEASE/reference/html/common-application-properties.html)
+
+- enable h2 console in `application.properties` with: `spring.h2.console.enabled=true`, after that we can see h2 properties in '/h2-console'
+
+### use MySQL
+
+- need to add `mysql` dependency
+
+```xml
+<dependency>
+  <groupId>mysql</groupId>
+  <artifactId>mysql-connector-java</artifactId>
+</dependency>
+```
+
+- `spring.jpa.hibernate.ddl-auto=create` -> drop and create table every time
+- database url: `spring.datasource.url=jdbc:mysql://localhost:3306/springit?useSSL=false`
+- database user and password: `spring.datasource.username=root`, `spring.datasource.password=`
+
+### Command line Runner
+
+- Interface used to indicate that a bean should run when it is contained within a SpringApplication.
+- if we define a class we must use `@Component` to tag class.
+- use `ApplicationRunner` when we need application args.
+- can have multiple and order them with `@Order([order-number])`
+- use `@Bean` for define command line function in application class.
+
 ## Reference
 
 - [Getting Started with Spring Boot 2](https://www.udemy.com/course/spring-boot-2/) by [Dan Vega](https://www.danvega.dev/)
+- [course doc](https://www.danvega.dev/docs/spring-boot-2-docs/)
