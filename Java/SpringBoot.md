@@ -130,6 +130,23 @@ log.trace('show only when in trace level');
 - can have multiple and order them with `@Order([order-number])`
 - use `@Bean` for define command line function in application class.
 
+## Controller
+
+- use `@Controller` for controller class.
+- use `@ResponseBody` for handle return every thing not only view.
+- can use `@RestController` is combination of `@Controller` and `@ResponseBody`.
+- `@RequestMapping("/")` for config route for each function.
+- or use like `@RequestMapping(value = "/", method = RequestMethod.GET , consumes = "application/json", produces = "application/json")`.
+- if we have our controller outside our package, we can add it in project with `@ComponentScan("package-name")` under `@SpringBootApplication` in main class.
+- can use `@GetMapping`, `@PostMapping`, `@PutMapping`, `@DeleteMapping`, `@PatchMapping`.
+- for sending data to template can use `org.springframework.ui.Model` as argument to our function and add data as a attribute to it `model.addAttribute("message","Hello World!");`.
+- for getting data `javax.servlet.ServletRequest` as argument to function.
+- use `@PathVariable` or `@RequestParam` for getting data from request.
+- for more info about requests and response see [Web on Servlet Stack -  Annotated Controllers - Handler Methods](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc-ann-arguments)
+- for using repository class in controller, define it as private field and inject it in constructor.
+- use `{param_name}` in mapping and `@PathVariable` for route variable.
+- use `@ModelAttribute` for reading model data from forms.
+
 ## Reference
 
 - [Getting Started with Spring Boot 2](https://www.udemy.com/course/spring-boot-2/) by [Dan Vega](https://www.danvega.dev/)
