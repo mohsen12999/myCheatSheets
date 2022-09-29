@@ -147,6 +147,54 @@ log.trace('show only when in trace level');
 - use `{param_name}` in mapping and `@PathVariable` for route variable.
 - use `@ModelAttribute` for reading model data from forms.
 
+## View
+
+- by default Spring Boot load static content from `/static`, `/public`, `/resources` or `/meta` directory.
+- if we haven't default home page controller, spring boot show `index.html`.
+
+- favorite template engine:
+  - FreeMarker
+  - Groovy
+  - Thymeleaf
+  - Mustache
+
+### Thymeleaf
+
+- sending data with `model` from `org.springframework.ui.Model`.
+- change text with `th:text`
+
+```java
+public String home(Model model) {
+  model.addAttribute("title","Hello Thymeleaf!");
+  return "home";
+}
+```
+
+```html
+<h1 th:title="${title}">default-title</h1>
+```
+
+- use for loop with `th:each`
+
+```html
+<table>
+  <thead>
+    <tr>
+      <th th:text="#{msgs.headers.name}">Name</th>
+      <th th:text="#{msgs.headers.price}">Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr th:each="prod: ${allProducts}">
+      <td th:text="${prod.name}">Oranges</td>
+      <td th:text="${#numbers.formatDecimal(prod.price, 1, 2)}">0.99</td>
+    </tr>
+  </tbody>
+</table>
+```
+
+- more info [Thymeleaf Documentation](https://www.thymeleaf.org/documentation.html)
+
 ## Reference
 
 - [Getting Started with Spring Boot 2](https://www.udemy.com/course/spring-boot-2/) by [Dan Vega](https://www.danvega.dev/)
