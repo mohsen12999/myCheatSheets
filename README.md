@@ -32,3 +32,4 @@ Try to save my note as a cheat sheet.
 - [Python](./Python/)
   - [Django](./Python/Django.md)
 - [Rust](./Rust/)
+- [Haskell](./Haskell/)
