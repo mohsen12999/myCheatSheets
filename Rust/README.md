@@ -1,20 +1,20 @@
 # Rust
 
-## Refrences
+## References
 
 * [A Gentle Introduction To Rust](https://stevedonovan.github.io/rust-gentle-intro/readme.html)
 
 ## install
 
 * [install rustup](https://www.rust-lang.org/tools/install)
- 
+
 ```sh
 curl https://sh.rustup.rs -sSf | sh
 rustup component add rust-docs
 ```
 
 * after install, need ad to path `$HOME/.cargo/bin` in `.bashrc`
- 
+
 * `rustup update` to upgrade
 * `rustup doc` will open the offline documentation
 * for compile and run `rustc $1.rs && ./$1`
@@ -187,7 +187,7 @@ let x = pi/2.0;
 let cosine = x.cos();
 ```
 
-```
+```rs
 fn main() {
     let x = 2.0 * std::f64::consts::PI;
     let abs_difference = (x.cos() - 1.0).abs();
@@ -220,7 +220,7 @@ fn main() {
 }
 ```
 
-*  type of an array includes its size, like [&i32; 4]
+* type of an array includes its size, like [&i32; 4]
 
 ```rs
 // read as: slice of i32
@@ -270,6 +270,7 @@ fn main() {
     println!("slice2 {:?}", slice2);
 }
 ```
+
 ## Optional Values
 
 * Slices, like arrays, can be indexed. Rust knows the size of an array at compile-time, but the size of a slice is only known at run-time. So s[i] can cause an out-of-bounds error when running and will panic. -> use `get`
@@ -466,8 +467,6 @@ fn main() {
 
 * `String` is basically a `Vec<u8>` and `&str` is `&[u8]`, but those bytes must represent valid UTF-8 text.
 
-
-
 ```rs
 fn main() {
     let mut s = String::new();
@@ -559,7 +558,7 @@ fn main() {
     // theredfoxandthelazydog
 ```
 
-* The `filter` method takes a closure, which is Rust-speak for lambdas or anonymous functions. 
+* The `filter` method takes a closure, which is Rust-speak for lambdas or anonymous functions.
 
 ## Interlude: Getting Command Line Arguments
 
@@ -657,7 +656,7 @@ fn main() {
 ```
 
 * `read_to_end` put the contents into a vector of bytes.
-* `Result` is defined by two type parameters, for the `Ok` value and the `Err` value 
+* `Result` is defined by two type parameters, for the `Ok` value and the `Err` value.
 
 ```rs
 fn good_or_bad(good: bool) -> Result<i32,String> {
@@ -958,7 +957,4 @@ fn main() {
 
 ## Lifetimes Start to Bite
 
-
-https://stevedonovan.github.io/rust-gentle-intro/2-structs-enums-lifetimes.html#lifetimes-start-to-bite
-
-
+[lifetimes-start-to-bite by Steve Donovan](https://stevedonovan.github.io/rust-gentle-intro/2-structs-enums-lifetimes.html#lifetimes-start-to-bite)
