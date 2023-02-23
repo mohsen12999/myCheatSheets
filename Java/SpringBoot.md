@@ -195,6 +195,30 @@ public String home(Model model) {
 
 - more info [Thymeleaf Documentation](https://www.thymeleaf.org/documentation.html)
 
+### Pretty time
+
+- show time to human readable format like "1 day ago".
+- more info [PrettyTime OCPSoft](https://www.ocpsoft.org/prettytime/)
+
+### use service to make object with beans
+
+```java
+@Service
+public class BeanUtil implements ApplicationContextAware {
+
+    private static ApplicationContext context;
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        context = applicationContext;
+    }
+
+    public static <T> T getBean(Class<T> beanClass) {
+        return context.getBean(beanClass);
+    }
+}
+```
+
 ## Reference
 
 - [Getting Started with Spring Boot 2](https://www.udemy.com/course/spring-boot-2/) by [Dan Vega](https://www.danvega.dev/)
