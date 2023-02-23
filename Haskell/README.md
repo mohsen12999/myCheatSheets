@@ -1,7 +1,11 @@
 # Haskell
 
+* `ghci` is an interactive mode of Huskell compiler.
+* for loading Huskell file like `myfunctions.hs` in `ghci`: `:l myfunctions` and for reloading file `:l myfunctions` or `:r`.
+
 ## References
 
+* [Learning Haskell Book](http://learnyouahaskell.com/)
 * [Haskell for Imperative Programmers by Philipp Hagenlocher](https://www.youtube.com/watch?v=Vgu82wiiZ90&list=PLe7Ei6viL6jGp1Rfu0dil1JH1SHk9bgDV)
 * [Introductory Haskell course of the University of Pennsylvania (CIS194)](https://www.seas.upenn.edu/~cis1940/spring13/lectures.html)
 
@@ -18,6 +22,8 @@
   * Declarative.
 
 ## Function
+
+* simple function: `succ 8` = 8+1, `min 9 10`, `max 100 101`.
 
 Definition: `name arg1 arg2 ... argn = <expr>`.
 
@@ -94,6 +100,15 @@ in_range min max x = ilb && iub
     where
         ilb = min <= x
         iub = max >= x
+```
+
+## If statements
+
+```hs
+doubleSmallNumber x = 
+    if x > 100  
+        then x  
+        else x*2 
 ```
 
 ## Recursion

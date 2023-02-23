@@ -22,7 +22,7 @@
 
 - for rebuild when code changing in intellij:
   - File -> Setting -> Build, Execution,Deployment -> Compiler -> check `Build project automatically`
-  - File -> Setting -> Advance Setting -> check `Allow auto-make to start even if developer application is currently running` 
+  - File -> Setting -> Advance Setting -> check `Allow auto-make to start even if developer application is currently running`.
 - more info: [Spring Boot Developer tools](https://docs.spring.io/spring-boot/docs/1.5.16.RELEASE/reference/html/using-boot-devtools.html)
 
 ### Configuration
